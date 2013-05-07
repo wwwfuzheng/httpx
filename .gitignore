@@ -12,3 +12,12 @@ logs
 results
 
 npm-debug.log
+# Mac crap
+.DS_Store
+
+*.ipr
+*.iml
+*.iws
+target/
+node_modules
+/*.iws~
