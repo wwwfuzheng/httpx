@@ -1,12 +1,25 @@
 <!DOCTYPE html>
 <html>
-<head><title>配置你的VMarket</title>
-    <link rel="stylesheet" href="/bootstrap/cosmo/bootstrap.min.css">
-    <link rel="stylesheet" href="/bootstrap/css/bootstrap-responsive.min.css">
-    <link rel="stylesheet" href="/bootstrap/cosmo/docs.css">
-    <script type="text/javascript" src="/jquery/jquery-1.8.1.min.js"></script>
+<head><title>配置你的Arrow</title>
+    <link rel="stylesheet" type="text/css" href="http://bootswatch.com/slate/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="http://bootswatch.com/default/bootstrap-responsive.min.css"/>
+    <link href="http://bootswatch.com/css/font-awesome.min.css" rel="stylesheet">
+    <link href="http://bootswatch.com/css/bootswatch.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="http://www.bootcss.com/p/icheck/skins/futurico/futurico.css" rel="stylesheet">
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="http://bootswatch.com/js/bootstrap.min.js" charset="utf-8"></script>
+    <script src="http://www.bootcss.com/p/icheck/js/jquery.icheck.min.js"></script>
+    <style type="text/css">
+        section {
+            margin-top: 0;
+            padding-top: 0;
+        }
+    </style>
 </head>
-<body>
+<body class="preview">
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="navbar-inner">
         <div class="container">
@@ -15,23 +28,19 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </a>
-            <a class="brand" href="/">Vmarket</a>
+            <a class="brand" href="/">Arrow</a>
             <div class="nav-collapse collapse">
                 <ul class="nav">
-                    <li class="active"><a href="/">首页</a></li>
-                    <li><a href="/list">应用列表</a></li>
-                    <li><a href="/proxy">Assets代理</a></li>
-                    <li><a href="https://github.com/czy88840616/avalon-node/wiki" target="_blank">文档</a></li>
+                    <li class="active"><a href="#">首页</a></li>
+                    <li><a href="https://github.com/czy88840616/arrow/wiki" target="_blank">文档</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             其他
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="http://czy88840616.github.io/avalon-node/quickstart" target="_blank">QucikStart</a></li>
-                            <li><a href="http://v.taobao.net" target="_blank">VMarket</a></li>
-                            <li><a href="https://github.com/czy88840616/avalon-node" target="_blank">查看源码</a></li>
-                            <li><a href="https://github.com/czy88840616/avalon-node/issues/new" target="_blank">向我提意见</a></li>
+                            <li><a href="https://github.com/czy88840616/arrow" target="_blank">查看源码</a></li>
+                            <li><a href="https://github.com/czy88840616/arrow/issues/new" target="_blank">向我提意见</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -40,15 +49,236 @@
     </div>
 </div>
 <div class="container">
-    <div class="page-header">
-        <h1>配置你的VMarket Client
-            {if type}
-            <a href="#" id="J_SwitchAppTypeModalTrigger" data-toggle="modal" data-target="#J_SwitchAppTypeModal" rel="tooltip" data-placement="right" data-original-title="选择应用符合的目录结构">
-                <img src="/type/{type}.jpg" alt="" style="height: 30px">
-            </a>
-            {end}
-        </h1>
-    </div>
+    <header class="jumbotron subhead" id="overview">
+        <div class="row">
+            <div class="span6">
+                <h1>Arrow</h1>
+                <p class="lead">努力做最简单的资源代理工具.</p>
+            </div>
+            <div class="span6">
+                <div class="bsa well">
+                    <div id="bsap_1277971" class="bsarocks bsap_c466df00a3cd5ee8568b5c4983b6bb19"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <section id="J_RuleList">
+        <div class="page-header">
+            <h1>List</h1>
+        </div>
+        <div class="row">
+            <div class="span12">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#A" data-toggle="tab">默认解决方案</a></li>
+                    <li><a href="#B" data-toggle="tab">解决方案2</a></li>
+                    <li><a href="#"><i class="icon-plus"></i></a></li>
+                </ul>
+                <div class="tabbable">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="A">
+                            <table class="table table-bordered table-striped table-hover">
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>#</th>
+                                    <th>被代理部分</th>
+                                    <th>代理结果部分</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" checked>
+                                        <i class="icon-globe"></i>
+                                    </td>
+                                    <td>1</td>
+                                    <td>kissy-min</td>
+                                    <td>kissy</td>
+                                    <td>
+                                        <a href="#"><i class="icon-edit"></i></a>
+                                        <a href="#"><i class="icon-copy"></i></a>
+                                        <a href="#"><i class="icon-remove"></i></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" checked>
+                                    </td>
+                                    <td>2</td>
+                                    <td>kissy-min</td>
+                                    <td>kissy</td>
+                                    <td>
+                                        <a href="#"><i class="icon-edit"></i></a>
+                                        <a href="#"><i class="icon-copy"></i></a>
+                                        <a href="#"><i class="icon-remove"></i></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" checked>
+                                    </td>
+                                    <td>3</td>
+                                    <td>kissy-min</td>
+                                    <td>kissy</td>
+                                    <td>
+                                        <a href="#"><i class="icon-edit"></i></a>
+                                        <a href="#"><i class="icon-copy"></i></a>
+                                        <a href="#"><i class="icon-remove"></i></a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane" id="B">
+                            <p>Howdy, I'm in Section B.</p>
+                        </div>
+                    </div>
+                </div> <!-- /tabbable -->
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="page-header">
+            <h1>填写规则</h1>
+        </div>
+        <div class="row">
+            <div class="span10 offset1">
+                <form class="form-horizontal well">
+                    <fieldset>
+                        <legend>Controls Bootstrap supports</legend>
+                        <div class="control-group">
+                            <label class="control-label" for="input01">名字</label>
+                            <div class="controls">
+                                <input type="text" class="input-xlarge" id="input01">
+                                <p class="help-block">只是一个好听好记的名字，展示在列表上.</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="optionsCheckbox">是否全局</label>
+                            <div class="controls">
+                                <label class="checkbox">
+                                    <input type="checkbox" id="optionsCheckbox" value="option1">
+                                    会作为全局规则存在的
+                                </label>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="select01">Select list</label>
+                            <div class="controls">
+                                <select id="select01">
+                                    <option>something</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="multiSelect">Multicon-select</label>
+                            <div class="controls">
+                                <select multiple="multiple" id="multiSelect">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="fileInput">File input</label>
+                            <div class="controls">
+                                <input class="input-file" id="fileInput" type="file">
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="textarea">Textarea</label>
+                            <div class="controls">
+                                <textarea class="input-xlarge" id="textarea" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="focusedInput">Focused input</label>
+                            <div class="controls">
+                                <input class="input-xlarge focused" id="focusedInput" type="text" value="This is focused…">
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Uneditable input</label>
+                            <div class="controls">
+                                <span class="input-xlarge uneditable-input">Some value here</span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="disabledInput">Disabled input</label>
+                            <div class="controls">
+                                <input class="input-xlarge disabled" id="disabledInput" type="text" placeholder="Disabled input here…" disabled="">
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="optionsCheckbox2">Disabled checkbox</label>
+                            <div class="controls">
+                                <label class="checkbox">
+                                    <input type="checkbox" id="optionsCheckbox2" value="option1" disabled="">
+                                    This is a disabled checkbox
+                                </label>
+                            </div>
+                        </div>
+                        <div class="control-group warning">
+                            <label class="control-label" for="inputWarning">Input with warning</label>
+                            <div class="controls">
+                                <input type="text" id="inputWarning">
+                                <span class="help-inline">Something may have gone wrong</span>
+                            </div>
+                        </div>
+                        <div class="control-group error">
+                            <label class="control-label" for="inputError">Input with error</label>
+                            <div class="controls">
+                                <input type="text" id="inputError">
+                                <span class="help-inline">Please correct the error</span>
+                            </div>
+                        </div>
+                        <div class="control-group success">
+                            <label class="control-label" for="inputSuccess">Input with success</label>
+                            <div class="controls">
+                                <input type="text" id="inputSuccess">
+                                <span class="help-inline">Woohoo!</span>
+                            </div>
+                        </div>
+                        <div class="control-group info">
+                            <label class="control-label" for="selectError">Select with info</label>
+                            <div class="controls">
+                                <select id="selectError">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </select>
+                                <span class="help-inline">Woohoo!</span>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                            <button type="reset" class="btn">Cancel</button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </section>
 </div>
+
 </body>
+<script>
+    $(document).ready(function(){
+        $('#J_RuleList input').iCheck({
+            checkboxClass: 'icheckbox_futurico',
+            radioClass: 'iradio_futurico',
+            increaseArea: '20%' // optional
+        });
+    });
+</script>
 </html>
