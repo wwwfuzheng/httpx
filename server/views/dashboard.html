@@ -154,47 +154,65 @@
         <div class="span12">
             <div class="page-header">
                 <h1>
-                    <small>快速添加规则</small>
+                    <small>快速添加</small>
                 </h1>
             </div>
-            <form class="form-horizontal well">
-                <div class="control-group">
-                    <label class="control-label" for="ruleName">给规则取个名</label>
-                    <div class="controls">
-                        <input type="text" id="ruleName" placeholder="规则名">
+            <blockquote>
+                <p>
+                    添加的规则都保存在规则池中，下次可以直接使用.
+                </p>
+            </blockquote>
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#A" data-toggle="tab">挑选规则</a></li>
+                <li><a href="#B" data-toggle="tab">快速添加规则</a></li>
+            </ul>
+            <div class="tabbable">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="A">
+                        <div class="well">111</div>
+                    </div>
+                    <div class="tab-pane" id="B">
+                        <form class="form-horizontal well">
+                            <div class="control-group">
+                                <label class="control-label" for="ruleName">给规则取个名</label>
+                                <div class="controls">
+                                    <input type="text" id="ruleName" placeholder="规则名">
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" for="rulePattern">匹配内容</label>
+                                <div class="controls">
+                                    <input type="text" id="rulePattern" placeholder="匹配的内容">
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" for="ruleTarget">替换内容</label>
+                                <div class="controls">
+                                    <input type="password" id="ruleTarget" placeholder="替换的内容">
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" for="ruleTarget">添加到方案</label>
+                                <div class="controls">
+                                    <select name="" id="">
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <div class="controls">
+                                    <button type="submit" class="btn">添加</button>
+                                    <button type="reset" class="btn">清空</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
-                <div class="control-group">
-                    <label class="control-label" for="rulePattern">匹配内容</label>
-                    <div class="controls">
-                        <input type="text" id="rulePattern" placeholder="匹配的内容">
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="ruleTarget">替换内容</label>
-                    <div class="controls">
-                        <input type="password" id="ruleTarget" placeholder="替换的内容">
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="ruleTarget">添加到方案</label>
-                    <div class="controls">
-                        <select name="" id="">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <div class="controls">
-                        <button type="submit" class="btn">添加</button>
-                        <button type="reset" class="btn">清空</button>
-                    </div>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 
