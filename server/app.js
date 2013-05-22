@@ -16,7 +16,8 @@ var express = require('express')
     , request = require('request')
     , iconv = require('iconv-lite')
     , colors = require('colors')
-    , Env = require('../lib/env');
+    , Env = require('../lib/env')
+    , proxy = require('../lib/proxy');
 
 var app = express();
 
@@ -42,6 +43,8 @@ app.configure('production', function(){
 });
 
 app.get('/', routes.index);
+
+app.get('(*??*|*.(css|js|ico|png|jpg|swf|less|gif|woff|scss))', proxy.done);
 
 http.createServer(app).listen(app.get('port'), function () {
 //    userCfg.init({
