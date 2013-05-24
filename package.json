@@ -37,12 +37,12 @@
         "underscore":"1.4.2",
         "optimist":"0.3.4",
         "nconf":"0.6.5",
-        "request":"2.11.4",
+        "request":"2.21.0",
         "walkdir":"0.0.5",
         "consolidate":"0.4.0",
         "jazz":"0.0.18",
         "combo-url-parser":"0.0.2",
         "fileutil": "1.1.0",
-        "handlebars": "1.0.10"
+        "combined-stream": "0.0.5"
     }
 }

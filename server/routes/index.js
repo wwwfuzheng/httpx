@@ -2,12 +2,21 @@
 /*
  * GET home page.
  */
-var path = require('path'),
-    fs = require('fs'),
-    _ = require('underscore'),
-    userCfg = require('../../lib/userConfig'),
+var comboParser = require('combo-url-parser'),
+    url = require('url'),
     request = require('request');
 
-exports.index = function(req, res){
-  res.render('index', {});
+exports.prepare = function(req, res, next){
+    var paths;
+    //combo
+    if(req.url.indexOf('??') != -1) {
+        var p =  url.parse(req.url.replace(/\?.*/, ''));
+        paths = comboParser(p.path);
+    } else {
+        paths = [req.url.replace(/\?.*/, '')];
+    }
+
+    req.params['paths'] = paths;
+
+    next();
 };

@@ -17,7 +17,9 @@ var express = require('express')
     , iconv = require('iconv-lite')
     , colors = require('colors')
     , Env = require('../lib/env')
-    , proxy = require('../lib/proxy');
+    , proxy = require('../lib/proxy')
+    , route = require('./routes/index')
+    , contentType = require('../lib/contentTypeLib');
 
 var app = express();
 
@@ -42,9 +44,11 @@ app.configure('production', function(){
     app.use(express.errorHandler());
 });
 
-app.get('/', routes.index);
+app.get('/', function(req, res){
+    res.render('dashboard');
+});
 
-app.get('(*??*|*.(css|js|ico|png|jpg|swf|less|gif|woff|scss))', proxy.done);
+app.get('(*??*|*.(' + contentType.contentTypeKeys('|') + '))', route.prepare, proxy.done);
 
 http.createServer(app).listen(app.get('port'), function () {
 //    userCfg.init({
