@@ -5,18 +5,13 @@
  */
 
 var request = require('request'),
-    http = require('http'),
-    StreamCache = require('stream-cache');
+    http = require('http');
 
 describe('test pipe', function() {
     it('test pipe', function(done) {
-
-        var cache = new StreamCache();
-
-        http.createServer(function (req, resp) {
-            request('http://a.tbcdn.cn/apps/alimall/app/tmsediter/base/??jq-app/CSSloading-min.js').pipe(cache);
-            cache.pipe(resp);
+        request('https://gist.github.com/czy88840616/5610198/raw/6520b959366e987ed919540ebbc94a9ba06784be/store.json', function(err, res, body){
+            console.log(body);
             done();
-        }).listen('3000');
+        });
     });
 });
