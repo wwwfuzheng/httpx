@@ -7,10 +7,14 @@
     <link href="http://bootswatch.com/css/bootswatch.css" rel="stylesheet">
     <link href="http://netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
     <link href="http://www.bootcss.com/p/icheck/skins/futurico/futurico.css" rel="stylesheet">
+    <link rel="stylesheet" href="../public/selectBoxIt/jquery.selectBoxIt.css" />
+    <link rel="stylesheet" href="../public/index.css">
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
     <script src="http://bootswatch.com/js/bootstrap.min.js" charset="utf-8"></script>
     <script src="http://www.bootcss.com/p/icheck/js/jquery.icheck.min.js"></script>
+    <script src="../public/selectBoxIt/jquery.selectBoxIt.js"></script>
 </head>
 <body class="preview">
 <div class="navbar navbar-inverse navbar-fixed-top">
@@ -42,6 +46,28 @@
     </div>
 </div>
 <div class="container">
+    <header class="jumbotron subhead" id="overview">
+        <div class="row">
+            <div class="span6">
+                <h1>Arrow</h1>
+                <p class="lead">做最简单的Assets代理.</p>
+            </div>
+            <div class="span6">
+                <div class="bsa well">
+                </div>
+            </div>
+        </div>
+        <div class="subnav">
+            <ul class="nav nav-pills">
+                <li><a href="#typography">Typography</a></li>
+                <li><a href="#navbar">Navbar</a></li>
+                <li><a href="#buttons">Buttons</a></li>
+                <li><a href="#forms">Forms</a></li>
+                <li><a href="#tables">Tables</a></li>
+                <li><a href="#miscellaneous">Miscellaneous</a></li>
+            </ul>
+        </div>
+    </header>
     <div class="row">
         <div class="span12">
             <div class="page-header">
@@ -60,7 +86,7 @@
                 </div>
                 <div class="span4">
                     <div class="input-append well">
-                        <input class="span2" id="appendedInputButton" type="text" placeholder="自定义解决方案">
+                        <input class="span2" id="appendedInputButton" type="text" placeholder="自定义解决方案名">
                         <button class="btn" type="button">添加新方案</button>
                     </div>
                 </div>
@@ -140,7 +166,7 @@
         <div class="span12">
             <div class="page-header">
                 <h1>
-                    <small>规则库</small>
+                    <small>添加规则</small>
                 </h1>
             </div>
             <blockquote>
@@ -149,51 +175,74 @@
                 </p>
             </blockquote>
         </div>
-        <div class="span7">
+        <div class="span12">
             <form class="form-horizontal well">
                 <div class="control-group">
                     <label class="control-label" for="ruleName">给规则取个名</label>
                     <div class="controls">
-                        <input type="text" id="ruleName" placeholder="规则名">
+                        <input type="text" id="ruleName" placeholder="规则名" class="input-xxlarge">
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label" for="rulePattern">匹配内容</label>
                     <div class="controls">
-                        <input type="text" id="rulePattern" placeholder="匹配的内容">
+                        <input type="text" id="rulePattern" placeholder="匹配的内容，可以为正则表达式" class="input-xxlarge">
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label" for="ruleTarget">替换类型和内容</label>
-                    <div class="controls">
-                        <div class="btn-group" data-toggle="buttons-radio">
-                            <button type="button" class="btn btn-primary">正则</button>
-                            <button type="button" class="btn btn-primary">本地路径</button>
-                            <button type="button" class="btn btn-primary">URL</button>
-                        </div>
-                        <div>
-                            <input type="password" id="ruleTarget" placeholder="替换的内容">
-                            <input type="password" id="ruleTarget" placeholder="替换的内容">
-                            <div class="input-prepend">
-                                <span class="add-on">http://{Domain}/</span>
-                                <input class="span2" id="prependedInput" type="text" placeholder="a.js">
-                            </div>
+                    <label class="control-label" for="J_RuleType">替换类型和内容</label>
+                    <div class="controls controls-row">
+                        <select name="rule-type" id="J_RuleType" class="mg-right">
+                            <option value="0">字符串</option>
+                            <option value="1">本地路径</option>
+                            <option value="2">URL</option>
+                        </select>
+                        <input type="text" id="J_StringText" placeholder="请填写替换的内容"  class="input-xlarge">
+                        <input type="text" id="J_LocalText" placeholder="请填写替换的本地路径" style="display: none"  class="input-xlarge">
+                        <div class="input-prepend" id="J_UrlText" style="display: none">
+                            <span class="add-on">http://{Domain}/</span>
+                            <input class="input-medium" id="prependedInput" type="text" placeholder="a.js">
                         </div>
                     </div>
                 </div>
                 <div class="control-group">
                     <div class="controls">
-                        <button type="submit" class="btn">添加</button>
+                        <button type="submit" class="btn btn-primary">添加</button>
                         <button type="reset" class="btn">清空</button>
                     </div>
                 </div>
             </form>
         </div>
-        <div class="span5">
-            <div class="well"></div>
+    </div>
+    <div class="row">
+        <div class="span12">
+            <div class="page-header">
+                <h1>
+                    <small>规则库</small>
+                </h1>
+            </div>
+            <div class="well clearfix">
+                <div class="span1 img-polaroid">11</div>
+                <div class="span1 img-polaroid">11</div>
+                <div class="span1 img-polaroid">11</div>
+                <div class="span1 img-polaroid">11</div>
+                <div class="span1 img-polaroid">11</div>
+                <div class="span1 img-polaroid">11</div>
+                <div class="span1 img-polaroid">11</div>
+                <div class="span1 img-polaroid">11</div>
+                <div class="span1 img-polaroid">11</div>
+                <div class="span1 img-polaroid">11</div>
+                <div class="span1 img-polaroid">11</div>
+                <div class="span1 img-polaroid">11</div>
+                <div class="span1 img-polaroid">11</div>
+                <div class="span1 img-polaroid">11</div>
+                <div class="span1 img-polaroid">11</div>
+                <div class="span1 img-polaroid">11</div>
+                <div class="span1 img-polaroid">11</div>
+                <div class="span1 img-polaroid">11</div>
+            </div>
         </div>
     </div>
-
     <hr>
     <footer id="footer">
         <p class="pull-right"><a href="#top">Back to top</a></p>
