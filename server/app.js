@@ -19,6 +19,7 @@ var express = require('express')
     , Env = require('../lib/env')
     , proxy = require('../lib/proxy')
     , route = require('./routes/index')
+    , userCfg = require('../lib/userConfig')
     , contentType = require('../lib/contentTypeLib');
 
 var app = express();
@@ -51,9 +52,9 @@ app.get('/', function(req, res){
 app.get('(*??*|*.(' + contentType.contentTypeKeys('|') + '))', route.prepare, proxy.done);
 
 http.createServer(app).listen(app.get('port'), function () {
-//    userCfg.init({
-//        cfg:argv.cfg || Env.cfg
-//    });
+    userCfg.init({
+        cfg:argv.cfg || Env.cfg
+    });
 
     console.log('Status:', 'Success'.bold.green);
     console.log("Listen Port： " + app.get('port').toString().cyan);
