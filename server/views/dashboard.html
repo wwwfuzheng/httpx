@@ -5,8 +5,7 @@
     <link rel="stylesheet" type="text/css" href="http://bootswatch.com/default/bootstrap-responsive.min.css"/>
     <link href="http://bootswatch.com/css/font-awesome.min.css" rel="stylesheet">
     <link href="http://bootswatch.com/css/bootswatch.css" rel="stylesheet">
-    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
-    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
     <link href="http://www.bootcss.com/p/icheck/skins/futurico/futurico.css" rel="stylesheet">
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -86,9 +85,8 @@
                                 <thead>
                                 <tr>
                                     <th></th>
-                                    <th>#</th>
-                                    <th>被代理部分</th>
-                                    <th>代理结果部分</th>
+                                    <th>规则顺序</th>
+                                    <th>规则概要</th>
                                     <th></th>
                                 </tr>
                                 </thead>
@@ -97,12 +95,11 @@
                                     <td>
                                         <input type="checkbox" checked>
                                     </td>
-                                    <td>1</td>
-                                    <td>kissy-min</td>
-                                    <td>kissy</td>
                                     <td>
-                                        <a href="#"><i class="icon-edit"></i></a>
-                                        <a href="#"><i class="icon-copy"></i></a>
+                                        1
+                                    </td>
+                                    <td>kissy-min处理成kissy</td>
+                                    <td>
                                         <a href="#"><i class="icon-remove"></i></a>
                                     </td>
                                 </tr>
@@ -110,25 +107,14 @@
                                     <td>
                                         <input type="checkbox" checked>
                                     </td>
-                                    <td>2</td>
-                                    <td>kissy-min</td>
-                                    <td>kissy</td>
                                     <td>
-                                        <a href="#"><i class="icon-edit"></i></a>
-                                        <a href="#"><i class="icon-copy"></i></a>
-                                        <a href="#"><i class="icon-remove"></i></a>
+                                        <select class="input-mini">
+                                            <option>1</option>
+                                            <option selected>2</option>
+                                        </select>
                                     </td>
-                                </tr>
-                                <tr>
+                                    <td>给脚本加.source</td>
                                     <td>
-                                        <input type="checkbox" checked>
-                                    </td>
-                                    <td>3</td>
-                                    <td>kissy-min</td>
-                                    <td>kissy</td>
-                                    <td>
-                                        <a href="#"><i class="icon-edit"></i></a>
-                                        <a href="#"><i class="icon-copy"></i></a>
                                         <a href="#"><i class="icon-remove"></i></a>
                                     </td>
                                 </tr>
@@ -162,57 +148,49 @@
                     添加的规则都保存在规则库中，下次可以直接使用.
                 </p>
             </blockquote>
-            <ul class="nav nav-tabs">
-                <li class="active"><a href="#A" data-toggle="tab">组合规则</a></li>
-                <li><a href="#B" data-toggle="tab">快速添加规则</a></li>
-            </ul>
-            <div class="tabbable">
-                <div class="tab-content">
-                    <div class="tab-pane active" id="A">
-                        <div class="well">111</div>
-                    </div>
-                    <div class="tab-pane" id="B">
-                        <form class="form-horizontal well">
-                            <div class="control-group">
-                                <label class="control-label" for="ruleName">给规则取个名</label>
-                                <div class="controls">
-                                    <input type="text" id="ruleName" placeholder="规则名">
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label" for="rulePattern">匹配内容</label>
-                                <div class="controls">
-                                    <input type="text" id="rulePattern" placeholder="匹配的内容">
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label" for="ruleTarget">替换内容</label>
-                                <div class="controls">
-                                    <input type="password" id="ruleTarget" placeholder="替换的内容">
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label" for="ruleTarget">添加到方案</label>
-                                <div class="controls">
-                                    <select name="" id="">
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                        <option>5</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <div class="controls">
-                                    <button type="submit" class="btn">添加</button>
-                                    <button type="reset" class="btn">清空</button>
-                                </div>
-                            </div>
-                        </form>
+        </div>
+        <div class="span7">
+            <form class="form-horizontal well">
+                <div class="control-group">
+                    <label class="control-label" for="ruleName">给规则取个名</label>
+                    <div class="controls">
+                        <input type="text" id="ruleName" placeholder="规则名">
                     </div>
                 </div>
-            </div>
+                <div class="control-group">
+                    <label class="control-label" for="rulePattern">匹配内容</label>
+                    <div class="controls">
+                        <input type="text" id="rulePattern" placeholder="匹配的内容">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="ruleTarget">替换类型和内容</label>
+                    <div class="controls">
+                        <div class="btn-group" data-toggle="buttons-radio">
+                            <button type="button" class="btn btn-primary">正则</button>
+                            <button type="button" class="btn btn-primary">本地路径</button>
+                            <button type="button" class="btn btn-primary">URL</button>
+                        </div>
+                        <div>
+                            <input type="password" id="ruleTarget" placeholder="替换的内容">
+                            <input type="password" id="ruleTarget" placeholder="替换的内容">
+                            <div class="input-prepend">
+                                <span class="add-on">http://{Domain}/</span>
+                                <input class="span2" id="prependedInput" type="text" placeholder="a.js">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="controls">
+                        <button type="submit" class="btn">添加</button>
+                        <button type="reset" class="btn">清空</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="span5">
+            <div class="well"></div>
         </div>
     </div>
 
@@ -228,14 +206,6 @@
     </footer>
 </div>
 
-<script>
-    $(document).ready(function(){
-        $('#J_SolutionList input').iCheck({
-            checkboxClass: 'icheckbox_futurico',
-            radioClass: 'iradio_futurico',
-            increaseArea: '20%' // optional
-        });
-    });
-</script>
+<script src="../public/index.js" type="text/javascript"></script>
 </body>
 </html>
