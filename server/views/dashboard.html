@@ -5,9 +5,9 @@
     <link rel="stylesheet" type="text/css" href="http://bootswatch.com/default/bootstrap-responsive.min.css"/>
     <link href="http://bootswatch.com/css/font-awesome.min.css" rel="stylesheet">
     <link href="http://bootswatch.com/css/bootswatch.css" rel="stylesheet">
-    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
-    <link href="http://www.bootcss.com/p/icheck/skins/futurico/futurico.css" rel="stylesheet">
     <link rel="stylesheet" href="../public/selectBoxIt/jquery.selectBoxIt.css" />
+    <link href="http://www.bootcss.com/p/icheck/skins/futurico/futurico.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
     <link rel="stylesheet" href="../public/index.css">
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -15,6 +15,7 @@
     <script src="http://bootswatch.com/js/bootstrap.min.js" charset="utf-8"></script>
     <script src="http://www.bootcss.com/p/icheck/js/jquery.icheck.min.js"></script>
     <script src="../public/selectBoxIt/jquery.selectBoxIt.js"></script>
+    <script src="http://bootswatch.com/js/jquery.smooth-scroll.min.js"></script>
 </head>
 <body class="preview">
 <div class="navbar navbar-inverse navbar-fixed-top">
@@ -59,16 +60,14 @@
         </div>
         <div class="subnav">
             <ul class="nav nav-pills">
-                <li><a href="#typography">Typography</a></li>
-                <li><a href="#navbar">Navbar</a></li>
-                <li><a href="#buttons">Buttons</a></li>
-                <li><a href="#forms">Forms</a></li>
-                <li><a href="#tables">Tables</a></li>
-                <li><a href="#miscellaneous">Miscellaneous</a></li>
+                <li><a href="#dashboard">Dashboard</a></li>
+                <li><a href="#J_SolutionList">方案列表</a></li>
+                <li><a href="#addrule">添加规则</a></li>
+                <li><a href="#rulePool">规则库</a></li>
             </ul>
         </div>
     </header>
-    <div class="row">
+    <div class="row" id="dashboard">
         <div class="span12">
             <div class="page-header">
                 <h1>
@@ -162,7 +161,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row" id="addrule">
         <div class="span12">
             <div class="page-header">
                 <h1>
@@ -193,53 +192,114 @@
                     <label class="control-label" for="J_RuleType">替换类型和内容</label>
                     <div class="controls controls-row">
                         <select name="rule-type" id="J_RuleType" class="mg-right">
-                            <option value="0">字符串</option>
-                            <option value="1">本地路径</option>
-                            <option value="2">URL</option>
+                            <option value="0" data-icon="icon-font">字符串</option>
+                            <option value="1" data-icon="icon-folder-open-alt">本地路径</option>
+                            <option value="2" data-icon="icon-link">URL</option>
                         </select>
                         <input type="text" id="J_StringText" placeholder="请填写替换的内容"  class="input-xlarge">
                         <input type="text" id="J_LocalText" placeholder="请填写替换的本地路径" style="display: none"  class="input-xlarge">
                         <div class="input-prepend" id="J_UrlText" style="display: none">
-                            <span class="add-on">http://{Domain}/</span>
-                            <input class="input-medium" id="prependedInput" type="text" placeholder="a.js">
+                            <span class="add-on"><strong>http://{Domain}/</strong></span>
+                            <input class="input-xlarge" id="prependedInput" type="text" placeholder="a.js">
                         </div>
                     </div>
                 </div>
                 <div class="control-group">
                     <div class="controls">
-                        <button type="submit" class="btn btn-primary">添加</button>
+                        <button type="submit" class="btn btn-primary">保存</button>
                         <button type="reset" class="btn">清空</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
-    <div class="row">
+    <div class="row" id="rulePool">
         <div class="span12">
             <div class="page-header">
                 <h1>
                     <small>规则库</small>
                 </h1>
             </div>
+            <div>
+                <div class="btn-group">
+                    <a class="btn btn-info btn-large" href="#">添加选中规则</a>
+                    <a class="btn btn-info btn-large dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">组合选中规则</a></li>
+                        <li><a href="#">取消所有选中</a></li>
+                    </ul>
+                </div>
+            </div>
             <div class="well clearfix">
-                <div class="span1 img-polaroid">11</div>
-                <div class="span1 img-polaroid">11</div>
-                <div class="span1 img-polaroid">11</div>
-                <div class="span1 img-polaroid">11</div>
-                <div class="span1 img-polaroid">11</div>
-                <div class="span1 img-polaroid">11</div>
-                <div class="span1 img-polaroid">11</div>
-                <div class="span1 img-polaroid">11</div>
-                <div class="span1 img-polaroid">11</div>
-                <div class="span1 img-polaroid">11</div>
-                <div class="span1 img-polaroid">11</div>
-                <div class="span1 img-polaroid">11</div>
-                <div class="span1 img-polaroid">11</div>
-                <div class="span1 img-polaroid">11</div>
-                <div class="span1 img-polaroid">11</div>
-                <div class="span1 img-polaroid">11</div>
-                <div class="span1 img-polaroid">11</div>
-                <div class="span1 img-polaroid">11</div>
+                <div class="rule" data-id="">
+                    <div class="hd"><i class="icon-font"></i> <strong>kissy去min...</strong></div>
+                    <div class="bd">
+                        <p>匹配到 <code>kissy-min</code></p>
+                        <p>替换为 <code>kissy</code></p>
+                    </div>
+                    <i class="icon icon-edit"></i>
+                    <i class="icon icon-trash"></i>
+                    <i class="icon icon-ok"></i>
+                </div>
+                <div class="rule">
+                    <div class="hd"><i class="icon-link"></i> <strong>url代理测试...</strong></div>
+                    <div class="bd">
+                        <p>匹配到 <code>p/s/kissy/1.2.0</code></p>
+                        <p>替换为 <code>http://a.tbcdn.cn/s/kissy/1.2.0/</code></p>
+                    </div>
+                    <i class="icon icon-edit"></i>
+                    <i class="icon icon-trash"></i>
+                    <i class="icon icon-ok"></i>
+                </div>
+                <div class="rule">
+                    <div class="hd"><i class="icon-folder-open-alt"></i> <strong>替换为本地路径...</strong></div>
+                    <div class="bd">
+                        <p>匹配到 <code>/p</code></p>
+                        <p>替换为 <code>D:\\project\\tradeface\\assets</code></p>
+                    </div>
+                    <i class="icon icon-edit"></i>
+                    <i class="icon icon-trash"></i>
+                    <i class="icon icon-ok"></i>
+                </div>
+                <div class="rule">
+                    <div class="hd"><i class="icon-font"></i> <strong>kissy去min...</strong></div>
+                    <div class="bd">
+                        <p>匹配到 <code>kissy-min</code></p>
+                        <p>替换为 <code>kissy</code></p>
+                    </div>
+                    <i class="icon icon-edit"></i>
+                    <i class="icon icon-trash"></i>
+                    <i class="icon icon-ok"></i>
+                </div>
+                <div class="rule">
+                    <div class="hd"><i class="icon-link"></i> <strong>url代理测试...</strong></div>
+                    <div class="bd">
+                        <p>匹配到 <code>p/s/kissy/1.2.0</code></p>
+                        <p>替换为 <code>http://a.tbcdn.cn/s/kissy/1.2.0/</code></p>
+                    </div>
+                    <i class="icon icon-edit"></i>
+                    <i class="icon icon-trash"></i>
+                    <i class="icon icon-ok"></i>
+                </div>
+                <div class="rule">
+                    <div class="hd"><i class="icon-folder-open-alt"></i> <strong>替换为本地路径...</strong></div>
+                    <div class="bd">
+                        <p>匹配到 <code>/p</code></p>
+                        <p>替换为 <code>D:\\project\\tradeface\\assets</code></p>
+                    </div>
+                    <i class="icon icon-edit"></i>
+                    <i class="icon icon-trash"></i>
+                    <i class="icon icon-ok"></i>
+                </div>
+                <div class="rule">
+                    <div class="hd"><i class="icon-book"></i> <strong>组合规则</strong></div>
+                    <div class="bd">
+                        <p>共包含 <strong>4</strong> 个规则</p>
+                    </div>
+                    <i class="icon icon-edit"></i>
+                    <i class="icon icon-trash"></i>
+                    <i class="icon icon-ok"></i>
+                </div>
             </div>
         </div>
     </div>

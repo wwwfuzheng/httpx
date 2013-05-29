@@ -1,3 +1,84 @@
 .mg-right {
     margin-right: 20px;
 }
+
+.rule {
+    background-color: #F2F2F2;
+    float:left;
+    min-width: 180px;
+    min-height: 100px;
+    color: #222;
+    border: 2px solid #000;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    position:relative;
+    border-radius: 5px;
+}
+
+.rule:hover {
+    border-color: #ff0042;
+    cursor: pointer;
+}
+
+.rule .hd {
+    border-bottom: 1px solid #000;
+    padding: 5px 5px 0 5px;
+}
+
+.rule .bd {
+    padding: 5px;
+}
+
+.rule .hd i {
+    color: #0092FF;
+}
+
+.rule s {
+    color: #00f;
+}
+
+.rule .target {
+    text-decoration: none;
+}
+
+.rule .icon {
+    position: absolute;
+    font-size: 20px;
+    color: #666;
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+    text-align: center;
+}
+
+.rule .icon-edit {
+    right: 28px;
+    top: 0;
+    display: none;
+}
+
+.rule .icon-trash {
+    right: 0;
+    top: 0;
+    display: none;
+}
+
+.rule:hover .icon-edit, .rule:hover .icon-trash{
+    display: block;
+}
+
+.rule .icon-ok {
+    display: none;
+    bottom: 0;
+    right: 0;
+    font-size: 32px;
+    color: #5bb75b;
+}
+
+.rule-select {
+    border-color: #bd362f;
+}
+
+.rule-select .icon-ok {
+    display: block;
+}
