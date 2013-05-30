@@ -53,7 +53,18 @@ $(function(){
 
     $('#rulePool .rule').click(function(ev){
         $(ev.currentTarget).toggleClass('rule-select');
+        $('#rulePoolOperator').hide();
 
+        if($('#rulePool .rule-select').length) {
+            var srcObj = $(ev.currentTarget).position();
 
+            $('#rulePoolOperator').css({
+                left: srcObj.left + $(ev.currentTarget).width() + 5,
+                top: srcObj.top
+            });
+            $('#rulePoolOperator').fadeIn();
+        } else {
+            $('#rulePoolOperator').hide();
+        }
     });
 });

@@ -17,7 +17,7 @@
     <script src="../public/selectBoxIt/jquery.selectBoxIt.js"></script>
     <script src="http://bootswatch.com/js/jquery.smooth-scroll.min.js"></script>
 </head>
-<body class="preview">
+<body class="preview" id="top" data-spy="scroll" data-target=".subnav" data-offset="80">
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="navbar-inner">
         <div class="container">
@@ -62,8 +62,8 @@
             <ul class="nav nav-pills">
                 <li><a href="#dashboard">Dashboard</a></li>
                 <li><a href="#J_SolutionList">方案列表</a></li>
-                <li><a href="#addrule">添加规则</a></li>
                 <li><a href="#rulePool">规则库</a></li>
+                <li><a href="#addrule">添加规则</a></li>
             </ul>
         </div>
     </header>
@@ -74,23 +74,23 @@
                     <small>Dashboard</small>
                 </h1>
             </div>
-            <div class="row">
-                <div class="span8">
-                    <p>
-                        当前使用的的代理方案为：<span class="label">全局方案</span> +  <select class=""><option>解决方案1</option></select>　
-                    </p>
-                    <p>
-                        当前规则库中共有  <span class="label">12</span> 个规则
-                    </p>
-                </div>
-                <div class="span4">
-                    <div class="input-append well">
-                        <input class="span2" id="appendedInputButton" type="text" placeholder="自定义解决方案名">
-                        <button class="btn" type="button">添加新方案</button>
-                    </div>
+        </div>
+        <span12>
+            <div class="span8">
+                <p>
+                    当前使用的的代理方案为：<span class="label">全局方案</span> +  <select class=""><option>解决方案1</option></select>　
+                </p>
+                <p>
+                    当前规则库中共有  <span class="label">12</span> 个规则
+                </p>
+            </div>
+            <div class="span4">
+                <div class="input-append well">
+                    <input class="span2" id="appendedInputButton" type="text" placeholder="自定义解决方案名">
+                    <button class="btn" type="button">添加新方案</button>
                 </div>
             </div>
-        </div>
+        </span12>
     </div>
     <div class="row" id="J_SolutionList">
         <div class="span12">
@@ -161,58 +161,6 @@
             </div>
         </div>
     </div>
-    <div class="row" id="addrule">
-        <div class="span12">
-            <div class="page-header">
-                <h1>
-                    <small>添加规则</small>
-                </h1>
-            </div>
-            <blockquote>
-                <p>
-                    添加的规则都保存在规则库中，下次可以直接使用.
-                </p>
-            </blockquote>
-        </div>
-        <div class="span12">
-            <form class="form-horizontal well">
-                <div class="control-group">
-                    <label class="control-label" for="ruleName">给规则取个名</label>
-                    <div class="controls">
-                        <input type="text" id="ruleName" placeholder="规则名" class="input-xxlarge">
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="rulePattern">匹配内容</label>
-                    <div class="controls">
-                        <input type="text" id="rulePattern" placeholder="匹配的内容，可以为正则表达式" class="input-xxlarge">
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="J_RuleType">替换类型和内容</label>
-                    <div class="controls controls-row">
-                        <select name="rule-type" id="J_RuleType" class="mg-right">
-                            <option value="0" data-icon="icon-font">字符串</option>
-                            <option value="1" data-icon="icon-folder-open-alt">本地路径</option>
-                            <option value="2" data-icon="icon-link">URL</option>
-                        </select>
-                        <input type="text" id="J_StringText" placeholder="请填写替换的内容"  class="input-xlarge">
-                        <input type="text" id="J_LocalText" placeholder="请填写替换的本地路径" style="display: none"  class="input-xlarge">
-                        <div class="input-prepend" id="J_UrlText" style="display: none">
-                            <span class="add-on"><strong>http://{Domain}/</strong></span>
-                            <input class="input-xlarge" id="prependedInput" type="text" placeholder="a.js">
-                        </div>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <div class="controls">
-                        <button type="submit" class="btn btn-primary">保存</button>
-                        <button type="reset" class="btn">清空</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
     <div class="row" id="rulePool">
         <div class="span12">
             <div class="page-header">
@@ -220,8 +168,8 @@
                     <small>规则库</small>
                 </h1>
             </div>
-            <div>
-                <div class="btn-group">
+            <div class="well clearfix" id="rulePoolDetail">
+                <div class="btn-group" id="rulePoolOperator" style="display: none">
                     <a class="btn btn-info btn-large" href="#">添加选中规则</a>
                     <a class="btn btn-info btn-large dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
                     <ul class="dropdown-menu">
@@ -229,8 +177,6 @@
                         <li><a href="#">取消所有选中</a></li>
                     </ul>
                 </div>
-            </div>
-            <div class="well clearfix">
                 <div class="rule" data-id="">
                     <div class="hd"><i class="icon-font"></i> <strong>kissy去min...</strong></div>
                     <div class="bd">
@@ -299,6 +245,102 @@
                     <i class="icon icon-edit"></i>
                     <i class="icon icon-trash"></i>
                     <i class="icon icon-ok"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="addrule">
+        <div class="span12">
+            <div class="page-header">
+                <h1>
+                    <small>添加规则</small>
+                </h1>
+            </div>
+            <blockquote>
+                <p>
+                    添加的规则都保存在规则库中，下次可以直接使用.
+                </p>
+            </blockquote>
+        </div>
+        <div class="span12">
+            <form class="form-horizontal well">
+                <div class="control-group">
+                    <label class="control-label" for="ruleName">给规则取个名</label>
+                    <div class="controls">
+                        <input type="text" id="ruleName" placeholder="规则名" class="input-xxlarge">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="rulePattern">匹配内容</label>
+                    <div class="controls">
+                        <input type="text" id="rulePattern" placeholder="匹配的内容，可以为正则表达式" class="input-xxlarge">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="J_RuleType">替换类型和内容</label>
+                    <div class="controls controls-row">
+                        <select name="rule-type" id="J_RuleType" class="mg-right">
+                            <option value="0" data-icon="icon-font">字符串</option>
+                            <option value="1" data-icon="icon-folder-open-alt">本地路径</option>
+                            <option value="2" data-icon="icon-link">URL</option>
+                        </select>
+                        <input type="text" id="J_StringText" placeholder="请填写替换的内容"  class="input-xlarge">
+                        <input type="text" id="J_LocalText" placeholder="请填写替换的本地路径" style="display: none"  class="input-xlarge">
+                        <div class="input-prepend" id="J_UrlText" style="display: none">
+                            <span class="add-on"><strong>http://{Domain}/</strong></span>
+                            <input class="input-xlarge" id="prependedInput" type="text" placeholder="a.js">
+                        </div>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="J_RuleType">快速添加到</label>
+                    <div class="controls">
+                        <select>
+                            <option value="0"></option>
+                            <option value="0">全局方案</option>
+                            <option value="1">解决方案1</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="controls">
+                        <button type="submit" class="btn btn-primary">保存</button>
+                        <button type="reset" class="btn">清空</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span12">
+            <div class="page-header">
+                <h1>
+                    <small>组合规则</small>
+                </h1>
+            </div>
+            <div class="well">
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span12">
+            <div class="page-header">
+                <h1>
+                    <small>添加规则到方案</small>
+                </h1>
+            </div>
+            <div class="well">
+                <div class="alert alert-info">
+                    <strong>通知</strong> 即将添加 <strong>4</strong> 个规则到
+                    <select>
+                        <option value="0">全局方案</option>
+                        <option value="1">解决方案1</option>
+                    </select>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-primary">确定</button>
+                    <button type="reset" class="btn">清空</button>
                 </div>
             </div>
         </div>
