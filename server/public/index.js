@@ -4,7 +4,7 @@
  *
  */
 
-$('.navbar a, .subnav a').smoothScroll();
+$('.navbar a, .subnav a, #footer a').smoothScroll();
 
 $(function(){
 
@@ -66,5 +66,33 @@ $(function(){
         } else {
             $('#rulePoolOperator').hide();
         }
+    });
+
+    $('#rulePoolDetail .J_AddSolution').click(function(ev){
+        ev.preventDefault();
+        $('#addSolution .J_SelectNum').html($('#rulePool .rule-select').length);
+        $.smoothScroll({
+            scrollTarget: '#addSolution'
+        });
+    });
+
+    $('#rulePoolDetail .J_ClearSelect').click(function(ev){
+        ev.preventDefault();
+        $('#rulePool .rule-select').toggleClass('rule-select');
+    });
+
+    $('#rulePoolDetail .J_ComboRule').click(function(ev){
+        ev.preventDefault();
+        $.smoothScroll({
+            scrollTarget: '#comboRule'
+        });
+    });
+
+    //添加到解决方案 返回按钮
+    $('#addSolution .J_Cancel').click(function(ev){
+        ev.preventDefault();
+        $.smoothScroll({
+            scrollTarget: '#rulePool'
+        });
     });
 });
