@@ -98,3 +98,16 @@ label, input, button, select, textarea, legend {
     position: absolute;
     z-index: 1;
 }
+
+.step {
+    background-color: #F2F2F2;
+    float:left;
+    width: 120px;
+    height: 120px;
+    color: #222;
+    border: 2px dashed #000;
+    margin-right: 100px;
+    margin-bottom: 10px;
+    position:relative;
+    border-radius: 5px;
+}
