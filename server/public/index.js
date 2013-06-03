@@ -95,4 +95,29 @@ $(function(){
             scrollTarget: '#rulePool'
         });
     });
+
+    //拖拽
+    $("#comboRule .rule-name").draggable({
+        cursor: "move",
+        revert: "invalid",
+//        helper: "clone",
+        opacity: 0.7,
+        containment: "#comboRule"
+    });
+
+    $("#comboRule .step").droppable({
+//        activeClass: "ui-state-hover",
+        hoverClass: "merge-active",
+        drop: function( event, ui ) {
+            $( this )
+                .addClass( "merge-active" );
+
+            $(this).droppable('disable');
+        }
+    });
+
+    $('#comboRule .J_Reset').click(function(ev){
+        ev.preventDefault();
+//        $( "#comboRule .step" ).droppable( "destroy" );
+    });
 });

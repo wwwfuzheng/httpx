@@ -99,15 +99,35 @@ label, input, button, select, textarea, legend {
     z-index: 1;
 }
 
-.step {
-    background-color: #F2F2F2;
+.step, .arr {
     float:left;
     width: 120px;
     height: 120px;
-    color: #222;
-    border: 2px dashed #000;
-    margin-right: 100px;
-    margin-bottom: 10px;
+    line-height: 140px;
+    text-align: center;
+}
+
+.step {
+    background-color: #F2F2F2;
+    color: #aaa;
+    border: 2px dashed #666;
     position:relative;
     border-radius: 5px;
+    font-size: 40px;
+    font-weight: bold;
+    line-height: 120px;
+}
+
+.merge-active {
+    border: 2px solid #ff0042;
+}
+
+.rule-name {
+    display: inline-block;
+    min-width: 80px;
+    max-width: 200px;
+    white-space:normal;
+    text-align: center;
+    cursor:move;
+    z-index: 1;
 }

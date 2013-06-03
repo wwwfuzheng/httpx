@@ -306,7 +306,7 @@
                 </div>
                 <div class="control-group">
                     <div class="controls">
-                        <button type="submit" class="btn btn-primary">保存</button>
+                        <button type="submit" class="btn btn-primary"><i class="icon-save"></i> 保存</button>
                         <button type="reset" class="btn">清空</button>
                     </div>
                 </div>
@@ -320,18 +320,33 @@
                     <small>组合规则</small>
                 </h1>
             </div>
+            <blockquote>
+                <p>
+                    用鼠标将多个规则拖放组合为一个新的规则组合，其中的每个规则都将会执行一次，无论是否匹配过。
+                </p>
+            </blockquote>
             <div class="well clearfix">
-                <div class="rule-list">
-                    <div class="rule-name">kissy-min => kissy</div>
-                    <div class="rule-name">kissy-min => kissy</div>
-                    <div class="rule-name">kissy-min => kissy</div>
+                <div class="rule-list clearfix">
+                    <span class="label label-info rule-name">kissy-min变kissy</span>
+                    <span class="label label-info rule-name">换成源码</span>
                 </div>
                 <hr style="border-top-color: #fff">
-                <div class="step">1</div>
-                <div class="step">2</div>
-                <div class="step">3</div>
-                <div class="step">4</div>
-                <div class="step">5</div>
+                <div class="steps clearfix">
+                    <div class="step ">1</div>
+                    <div class="arr"><i class="icon-double-angle-right icon-4x"></i></div>
+                    <div class="step">2</div>
+                    <div class="arr"><i class="icon-double-angle-right icon-4x"></i></div>
+                    <div class="step">3</div>
+                    <div class="arr"><i class="icon-double-angle-right icon-4x"></i></div>
+                    <div class="step">4</div>
+                    <div class="arr"><i class="icon-double-angle-right icon-4x"></i></div>
+                    <div class="step" style="margin-right: 0">5</div>
+                </div>
+                <hr style="border-top-color: #fff">
+                <div class="controls pull-right">
+                    <button type="submit" class="btn btn-primary"><i class="icon-save"></i> 保存</button>
+                    <button type="reset" class="btn J_Reset"><i class="icon-undo"></i> 重置</button>
+                </div>
             </div>
         </div>
     </div>
@@ -353,7 +368,7 @@
                         </select>
                     </p>
                     <div>
-                        <button type="submit" class="btn btn-primary">确定</button>
+                        <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> 确定</button>
                         <button class="btn J_Cancel">返回</button>
                     </div>
                 </div>
