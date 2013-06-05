@@ -306,7 +306,7 @@
                 </div>
                 <div class="control-group">
                     <div class="controls">
-                        <button type="submit" class="btn btn-primary"><i class="icon-save"></i> 保存</button>
+                        <a href="#" class="btn btn-primary"><i class="icon-save"></i> 保存</a>
                         <button type="reset" class="btn">清空</button>
                     </div>
                 </div>
@@ -322,7 +322,7 @@
             </div>
             <blockquote>
                 <p>
-                    用鼠标将多个规则拖放组合为一个新的规则组合，其中的每个规则都将会执行一次，无论是否匹配过。
+                    用鼠标将多个规则拖放组合为一个新的规则组合，其中的每个规则都将会执行一次，不论是否匹配。
                 </p>
             </blockquote>
             <div class="well clearfix">
@@ -332,7 +332,7 @@
                 </div>
                 <hr style="border-top-color: #fff">
                 <div class="steps clearfix">
-                    <div class="step ">1</div>
+                    <div class="step">1</div>
                     <div class="arr"><i class="icon-double-angle-right icon-4x"></i></div>
                     <div class="step">2</div>
                     <div class="arr"><i class="icon-double-angle-right icon-4x"></i></div>
@@ -344,8 +344,8 @@
                 </div>
                 <hr style="border-top-color: #fff">
                 <div class="controls pull-right">
-                    <button type="submit" class="btn btn-primary"><i class="icon-save"></i> 保存</button>
-                    <button type="reset" class="btn J_Reset"><i class="icon-undo"></i> 重置</button>
+                    <a href="#" class="btn btn-primary"><i class="icon-save"></i> 保存</a>
+                    <a class="btn J_Reset" href="#"><i class="icon-undo"></i> 重置</a>
                 </div>
             </div>
         </div>
@@ -357,20 +357,19 @@
                     <small>添加规则到方案</small>
                 </h1>
             </div>
-            <div class="well">
-                <div class="alert alert-info">
-                    <h3>通知</h3>
-                    <p>
-                        即将添加 <strong class="J_SelectNum">4</strong> 个规则到
-                        <select>
-                            <option value="0">全局方案</option>
-                            <option value="1">解决方案1</option>
-                        </select>
-                    </p>
-                    <div>
-                        <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> 确定</button>
-                        <button class="btn J_Cancel">返回</button>
-                    </div>
+            <div class="well clearfix">
+                <hr style="border-top-color: #fff">
+                <p>
+                    即将添加 <strong class="J_SelectNum num">4</strong> 个规则到
+                    <select>
+                        <option value="0">全局方案</option>
+                        <option value="1">解决方案1</option>
+                    </select>
+                </p>
+                <hr style="border-top-color: #fff">
+                <div class="controls pull-right">
+                    <a href="#" class="btn btn-primary"><i class="icon-ok"></i> 确定</a>
+                    <a class="btn J_Cancel" href="#">返回</a>
                 </div>
             </div>
         </div>

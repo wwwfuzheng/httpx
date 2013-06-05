@@ -119,7 +119,11 @@ label, input, button, select, textarea, legend {
 }
 
 .merge-active {
-    border: 2px solid #ff0042;
+    border: 2px solid #1cef6d;
+}
+
+.rule-list {
+    min-height: 30px;
 }
 
 .rule-name {
@@ -130,4 +134,22 @@ label, input, button, select, textarea, legend {
     text-align: center;
     cursor:move;
     z-index: 1;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.step .rule-name {
+    position: absolute;
+    left: 0;
+    top: 0;
+    max-width: 112px;
+}
+
+#addSolution p {
+    font-size: 28px;
+}
+
+#addSolution .num {
+    font-size: 40px;
+    color: #FF8F00;
 }

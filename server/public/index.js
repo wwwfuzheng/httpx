@@ -100,24 +100,50 @@ $(function(){
     $("#comboRule .rule-name").draggable({
         cursor: "move",
         revert: "invalid",
-//        helper: "clone",
+        helper: "clone",
         opacity: 0.7,
-        containment: "#comboRule"
+        stop: function(){
+            $("#comboRule .step").each(function(idx, el){
+                if($('.rule-name', el).length) {
+                    $(el).addClass( "merge-active");
+                } else {
+//                    $(el).removeClass( "merge-active");
+                }
+            });
+        }
+//        containment: "#comboRule"
     });
 
     $("#comboRule .step").droppable({
-//        activeClass: "ui-state-hover",
         hoverClass: "merge-active",
         drop: function( event, ui ) {
-            $( this )
-                .addClass( "merge-active" );
+            var self = this;
 
-            $(this).droppable('disable');
+            $( self ).addClass( "merge-active").removeClass('empty');
+
+            $(ui.draggable).fadeOut(function(){
+                $(this).appendTo(self).fadeIn();
+
+                $("#comboRule .step").each(function(idx, el){
+                    if($('.rule-name', el).length) {
+//                        $(el).addClass( "merge-active");
+                    } else {
+                        $(el).removeClass( "merge-active");
+                    }
+                });
+            });
         }
     });
 
     $('#comboRule .J_Reset').click(function(ev){
         ev.preventDefault();
-//        $( "#comboRule .step" ).droppable( "destroy" );
+
+        $( "#comboRule .rule-name").fadeOut(function(){
+            $(this).appendTo($( "#comboRule .rule-list")).fadeIn();
+        });
+
+        $('#comboRule .merge-active').removeClass('merge-active');
     });
+
+
 });
