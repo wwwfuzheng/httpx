@@ -35,7 +35,7 @@ $(function(){
         }
     }
 
-    $('#J_SolutionList input').iCheck({
+    $('#J_SolutionList .J_RuleEnable').iCheck({
         checkboxClass: 'icheckbox_futurico',
         radioClass: 'iradio_futurico',
         increaseArea: '20%' // optional

@@ -114,25 +114,31 @@
                                     <th></th>
                                     <th>规则顺序</th>
                                     <th>规则概要</th>
+                                    <th>其他</th>
                                     <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr>
                                     <td>
-                                        <input type="checkbox" checked>
+                                        <input type="checkbox" checked class="J_RuleEnable">
                                     </td>
                                     <td>
                                         1
                                     </td>
                                     <td>kissy-min处理成kissy</td>
                                     <td>
+                                        <label class="checkbox">
+                                            <input type="checkbox"> 替换资源不存在则走原URL
+                                        </label>
+                                    </td>
+                                    <td>
                                         <a href="#"><i class="icon-remove"></i></a>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <input type="checkbox" checked>
+                                        <input type="checkbox" checked class="J_RuleEnable">
                                     </td>
                                     <td>
                                         <select class="input-mini">
@@ -141,6 +147,11 @@
                                         </select>
                                     </td>
                                     <td>给脚本加.source</td>
+                                    <td>
+                                        <label class="checkbox">
+                                            <input type="checkbox"> 替换资源不存在则走原URL
+                                        </label>
+                                    </td>
                                     <td>
                                         <a href="#"><i class="icon-remove"></i></a>
                                     </td>
@@ -330,14 +341,6 @@
                             </label>
                         </div>
                     </div>
-                    <div class="control-group">
-                        <label class="control-label">其他</label>
-                        <div class="controls">
-                            <label class="checkbox">
-                                <input type="checkbox"> 替换资源不存在则走原URL
-                            </label>
-                        </div>
-                    </div>
                 </div>
                 <div class="well">
                     <div class="control-group">
@@ -352,14 +355,6 @@
                             <input type="text" placeholder="请填写替换的内容"  class="input-xlarge">
                             <label class="checkbox inline">
                                 <input type="checkbox"> 本地路径
-                            </label>
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label">其他</label>
-                        <div class="controls">
-                            <label class="checkbox">
-                                <input type="checkbox"> 替换资源不存在则走原URL
                             </label>
                         </div>
                     </div>
