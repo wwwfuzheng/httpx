@@ -45,11 +45,11 @@ app.configure('production', function(){
     app.use(express.errorHandler());
 });
 
+app.get('(*??*|*.(' + contentType.contentTypeKeys('|') + '))', route.prepare, proxy.done);
+
 app.get('/', function(req, res){
     res.render('dashboard');
 });
-
-app.get('(*??*|*.(' + contentType.contentTypeKeys('|') + '))', route.prepare, proxy.done);
 
 http.createServer(app).listen(app.get('port'), function () {
     userCfg.init({
