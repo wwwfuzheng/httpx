@@ -5,7 +5,7 @@
     <link rel="stylesheet" type="text/css" href="http://bootswatch.com/default/bootstrap-responsive.min.css"/>
     <link href="http://bootswatch.com/css/font-awesome.min.css" rel="stylesheet">
     <link href="http://bootswatch.com/css/bootswatch.css" rel="stylesheet">
-    <link rel="stylesheet" href="../public/selectBoxIt/jquery.selectBoxIt.css" />
+    <link rel="stylesheet" href="selectBoxIt/jquery.selectBoxIt.css" />
     <link href="http://www.bootcss.com/p/icheck/skins/futurico/futurico.css" rel="stylesheet">
     <link href="http://netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
     <link rel="stylesheet" href="index.css">
@@ -14,7 +14,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
     <script src="http://bootswatch.com/js/bootstrap.min.js" charset="utf-8"></script>
     <script src="http://www.bootcss.com/p/icheck/js/jquery.icheck.min.js"></script>
-    <script src="../public/selectBoxIt/jquery.selectBoxIt.js"></script>
+    <script src="selectBoxIt/jquery.selectBoxIt.js"></script>
     <script src="http://bootswatch.com/js/jquery.smooth-scroll.min.js"></script>
 </head>
 <body class="preview" id="top" data-spy="scroll" data-target=".subnav" data-offset="80">
@@ -51,7 +51,7 @@
         <div class="row">
             <div class="span6">
                 <h1>Arrow</h1>
-                <p class="lead">做最简单的Assets代理.</p>
+                <p class="lead">做最灵活的Assets代理.</p>
             </div>
             <div class="span6">
                 <div class="bsa well">
@@ -325,43 +325,29 @@
         </div>
         <div class="span12">
             <form class="form-horizontal">
-                <div class="well">
-                    <div class="control-group">
-                        <label class="control-label">匹配内容</label>
-                        <div class="controls">
-                            <input type="text" placeholder="匹配的内容，可以为正则表达式" class="input-xxlarge">
+                <div class="rule-list-wrap">
+                    <div class="well">
+                        <div class="control-group">
+                            <label class="control-label">匹配内容</label>
+                            <div class="controls">
+                                <input type="text" placeholder="匹配的内容，可以为正则表达式" class="input-xxlarge">
+                            </div>
                         </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label">替换内容</label>
-                        <div class="controls">
-                            <input type="text" placeholder="请填写替换的内容"  class="input-xlarge">
-                            <label class="checkbox inline">
-                                <input type="checkbox"> 本地路径
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="well">
-                    <div class="control-group">
-                        <label class="control-label">匹配内容</label>
-                        <div class="controls">
-                            <input type="text" placeholder="匹配的内容，可以为正则表达式" class="input-xxlarge">
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label">替换内容</label>
-                        <div class="controls">
-                            <input type="text" placeholder="请填写替换的内容"  class="input-xlarge">
-                            <label class="checkbox inline">
-                                <input type="checkbox"> 本地路径
-                            </label>
+                        <div class="control-group">
+                            <label class="control-label">替换内容</label>
+                            <div class="controls">
+                                <input type="text" placeholder="请填写替换的内容"  class="input-xlarge">
+                                <label class="checkbox inline">
+                                    <input type="checkbox"> 本地路径
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <hr>
                 <div class="control-group pull-right">
                     <div class="controls">
+                        <a href="#" class="btn J_AddRuleTpl"><i class="icon-plus"></i> 新增额外一条</a>
                         <a href="#" class="btn btn-primary"><i class="icon-save"></i> 保存</a>
                         <button type="reset" class="btn">清空</button>
                     </div>
@@ -441,7 +427,26 @@
         Made by <a href="mailto:zhangting@taobao.com">zhangting</a><br>
     </footer>
 </div>
-
+<textarea class="template" id="J_RuleTpl">
+    <div class="well">
+        <a href="#" class="close"><i class="icon-remove"></i></a>
+        <div class="control-group">
+            <label class="control-label">匹配内容</label>
+            <div class="controls">
+                <input type="text" placeholder="匹配的内容，可以为正则表达式" class="input-xxlarge">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">替换内容</label>
+            <div class="controls">
+                <input type="text" placeholder="请填写替换的内容"  class="input-xlarge">
+                <label class="checkbox inline">
+                    <input type="checkbox"> 本地路径
+                </label>
+            </div>
+        </div>
+    </div>
+</textarea>
 <script src="index.js" type="text/javascript"></script>
 </body>
 </html>

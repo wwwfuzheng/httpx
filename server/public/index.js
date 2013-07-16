@@ -145,5 +145,14 @@ $(function(){
         $('#comboRule .merge-active').removeClass('merge-active');
     });
 
+    $('#addRule .J_AddRuleTpl').click(function(ev){
+        ev.preventDefault();
 
+        $('#addRule .rule-list-wrap').append($('#J_RuleTpl').val());
+
+        $('#addRule .well:last').find('.close').bind('click', function(ev){
+            ev.preventDefault();
+            $(this).parents('.well').remove();
+        });
+    });
 });

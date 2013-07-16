@@ -5,6 +5,10 @@ label, input, button, select, textarea, legend {
     padding-top: 60px;
 }
 
+.template {
+    display: none;
+}
+
 .mg-right {
     margin-right: 20px;
 }
