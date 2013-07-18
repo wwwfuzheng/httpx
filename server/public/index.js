@@ -6,6 +6,37 @@
 
 $('.navbar a, .subnav a, #footer a').smoothScroll();
 
+var ruleTpl = [
+    '<div class="rule animated bounce" data-guid="${guid}">',
+    '<div class="hd"><i class="${ruleCls}"></i> <strong>${title}</strong></div>',
+    '<div class="bd">',
+    '{@if isCombo}',
+    '<p>共包含 <strong>${num}</strong> 个规则</p>',
+    '{@else}',
+    '<p>匹配到 <code>${pattern}</code></p>',
+    '<p>替换为 <code>${target}</code></p>',
+    '{@/if}',
+    '</div>',
+    '<i class="icon icon-edit"></i>',
+    '<i class="icon icon-trash"></i>',
+    '<i class="icon icon-ok"></i>',
+    '</div>'
+].join('');
+
+function newGuid(){
+    var guid = "";
+
+    for (var i = 1; i <= 32; i++){
+
+        var n = Math.floor(Math.random()*16.0).toString(16);
+        guid +=   n;
+        if((i==8)||(i==12)||(i==16)||(i==20))
+            guid += "-";
+    }
+
+    return guid;
+}
+
 $(function(){
 
     var $win = $(window),
@@ -35,6 +66,11 @@ $(function(){
         }
     }
 
+    //0 普通字符串和正则 1 本地路径和文件 2 http的url 10 组合规则
+    function getRuleType(s){
+        return /http(s)?:\/\//.test(s) ? 2 : 0;
+    }
+
     $('#J_SolutionList .J_RuleEnable').iCheck({
         checkboxClass: 'icheckbox_futurico',
         radioClass: 'iradio_futurico',
@@ -51,7 +87,7 @@ $(function(){
         $(ruleTypeId.split(',')[$(this).val()]).show();
     });
 
-    $('#rulePool .rule').click(function(ev){
+    $('#rulePool').on('click', '.rule', function(ev){
         $(ev.currentTarget).toggleClass('rule-select');
         $('#rulePoolOperator').hide();
 
@@ -145,14 +181,94 @@ $(function(){
         $('#comboRule .merge-active').removeClass('merge-active');
     });
 
+    //添加规则模板
     $('#addRule .J_AddRuleTpl').click(function(ev){
         ev.preventDefault();
 
-        $('#addRule .rule-list-wrap').append($('#J_RuleTpl').val());
+        $('#addRule .rule-list-wrap').append($('#J_AddRuleTpl').val());
 
         $('#addRule .well:last').find('.close').bind('click', function(ev){
             ev.preventDefault();
             $(this).parents('.well').remove();
         });
+    });
+
+    //添加规则
+    $('#addRule .J_AddRuleBtn').click(function(ev){
+        ev.preventDefault();
+
+        if($('#addRule .error').length) {
+            $.globalMessenger().post({
+                message: '内容填写不完整，无法添加',
+                type: 'error'
+            });
+            return;
+        }
+
+        var rules = [], tpl = [];
+
+        $('#addRule .rule-list-wrap').find('.well').each(function(idx, el){
+            if($(el).find('.J_Pattern').val()) {
+                rules.push({
+                    title: $(el).find('.J_Title').val(),
+                    pattern: $(el).find('.J_Pattern').val(),
+                    target: $(el).find('.J_Target').val(),
+                    type: $(el).find('.J_IsLocalPath:checked').length ? 1: getRuleType($(el).find('.J_Target').val()),
+                    guid: newGuid()
+                });
+            }
+        });
+
+        if(!rules.length) {
+            $.globalMessenger().post({
+                message: '请先填写一些规则再添加',
+                type: 'error'
+            });
+            return;
+        }
+
+        $.globalMessenger().run({
+            successMessage: '保存成功',
+            errorMessage: '保存失败',
+            progressMessage: '数据保存中...'
+        }, {
+            url: 'api/addRule',
+            type: 'POST',
+            data: {
+                rules: JSON.stringify(rules)
+            },
+            success: function(data){
+                if(data.success) {
+                    $.each(rules, function(idx, rule){
+                        tpl.push(juicer(ruleTpl, {
+                            title: rule.title,
+                            isCombo: false,
+                            pattern: rule.pattern,
+                            target: rule.target,
+                            type : rule.type,
+                            ruleCls: rule.type == 1 ? 'icon-folder-open-alt': rule.type == 2? 'icon-link': 'icon-font',
+                            guid: rule.guid
+                        }));
+                    });
+
+                    $.smoothScroll({
+                        offset: $('#rulePool .rule:last').offset().top - 200,
+                        afterScroll: function(){
+                            $('#rulePoolDetail').append(tpl.join(''));
+                        }
+                    });
+                }
+            }
+        });
+
+    });
+
+    //添加规则表单校验
+    $('#addRule').on('blur', '.J_Pattern', function(ev) {
+        if(!$(this).val()) {
+            $(this).parents('.control-group').addClass('error');
+        } else {
+            $(this).parents('.control-group').removeClass('error');
+        }
     });
 });

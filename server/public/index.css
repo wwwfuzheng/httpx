@@ -157,3 +157,11 @@ label, input, button, select, textarea, legend {
     font-size: 40px;
     color: #FF8F00;
 }
+
+#addRule .help-inline {
+    display: none;
+}
+
+#addRule .error .help-inline {
+    display: inline-block;
+}

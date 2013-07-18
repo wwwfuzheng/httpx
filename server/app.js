@@ -5,7 +5,6 @@
  */
 
 var express = require('express')
-    , routes = require('./routes')
     , http = require('http')
     , path = require('path')
     , argv = require('optimist').argv
@@ -20,6 +19,8 @@ var express = require('express')
     , proxy = require('../lib/proxy')
     , route = require('./routes/index')
     , userCfg = require('../lib/userConfig')
+    , Api = require('./routes/api')
+    , WebView = require('./routes/webView')
     , contentType = require('../lib/contentTypeLib');
 
 var app = express();
@@ -48,8 +49,10 @@ app.configure('production', function(){
 app.get('(*??*|*.(' + contentType.contentTypeKeys('|') + '))', route.prepare, proxy.done);
 
 app.get('/', function(req, res){
-    res.render('dashboard');
+    res.render('dashboard', WebView.renderDashBoard());
 });
+
+app.post('/api/:api', Api.route);
 
 http.createServer(app).listen(app.get('port'), function () {
     userCfg.init({

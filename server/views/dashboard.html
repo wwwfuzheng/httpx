@@ -9,13 +9,18 @@
     <link href="http://www.bootcss.com/p/icheck/skins/futurico/futurico.css" rel="stylesheet">
     <link href="http://netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
     <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="messager/css/messenger.css">
+    <link rel="stylesheet" href="messager/css/messenger-theme-future.css">
+    <link rel="stylesheet" href="animate-custom.css">
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
     <script src="http://bootswatch.com/js/bootstrap.min.js" charset="utf-8"></script>
     <script src="http://www.bootcss.com/p/icheck/js/jquery.icheck.min.js"></script>
-    <script src="selectBoxIt/jquery.selectBoxIt.js"></script>
+    <script src="selectBoxIt/jquery.selectBoxIt.min.js"></script>
     <script src="http://bootswatch.com/js/jquery.smooth-scroll.min.js"></script>
+    <script type="text/javascript" src="tpl/juicer-min.js"></script>
+    <script type="text/javascript" src="messager/js/messenger.min.js"></script>
 </head>
 <body class="preview" id="top" data-spy="scroll" data-target=".subnav" data-offset="80">
 <div class="navbar navbar-inverse navbar-fixed-top">
@@ -259,6 +264,22 @@
                     <i class="icon icon-trash"></i>
                     <i class="icon icon-ok"></i>
                 </div>
+                {foreach rule in ruleList}
+                <div class="rule" data-guid="{rule.key}">
+                    <div class="hd"><i class="{if rule.value.type eq 1}icon-folder-open-alt{elif rule.value.type eq 2}icon-link{elif rule.value.type eq 10}icon-book{else}icon-font{end}"></i> <strong>{rule.value.name}</strong></div>
+                    <div class="bd">
+                        {if rule.value.type eq 10}
+                        <p>共包含 <strong>{rule.value.num}</strong> 个规则</p>
+                        {else}
+                        <p>如匹配到 <code>{rule.value.pattern}</code></p>
+                        <p>则替换为 <code>{rule.value.target}</code></p>
+                        {end}
+                    </div>
+                    <i class="icon icon-edit"></i>
+                    <i class="icon icon-trash"></i>
+                    <i class="icon icon-ok"></i>
+                </div>
+                {end}
             </div>
         </div>
     </div>
@@ -275,54 +296,6 @@
                 </p>
             </blockquote>
         </div>
-        <div class="span12 hidden">
-            <form class="form-horizontal well">
-                <div class="control-group">
-                    <label class="control-label" for="ruleName">给规则取个名</label>
-                    <div class="controls">
-                        <input type="text" id="ruleName" placeholder="规则名" class="input-xxlarge">
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="rulePattern">匹配内容</label>
-                    <div class="controls">
-                        <input type="text" id="rulePattern" placeholder="匹配的内容，可以为正则表达式" class="input-xxlarge">
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="J_RuleType">替换类型和内容</label>
-                    <div class="controls controls-row">
-                        <select name="rule-type" id="J_RuleType" class="mg-right">
-                            <option value="0" data-icon="icon-font">字符串</option>
-                            <option value="1" data-icon="icon-folder-open-alt">本地路径</option>
-                            <option value="2" data-icon="icon-link">URL</option>
-                        </select>
-                        <input type="text" id="J_StringText" placeholder="请填写替换的内容"  class="input-xlarge">
-                        <input type="text" id="J_LocalText" placeholder="请填写替换的本地路径" style="display: none"  class="input-xlarge">
-                        <div class="input-prepend" id="J_UrlText" style="display: none">
-                            <span class="add-on"><strong>http://{Domain}/</strong></span>
-                            <input class="input-xlarge" id="prependedInput" type="text" placeholder="a.js">
-                        </div>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="J_RuleType">快速添加到</label>
-                    <div class="controls">
-                        <select>
-                            <option value="0"></option>
-                            <option value="0">全局方案</option>
-                            <option value="1">解决方案1</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <div class="controls">
-                        <a href="#" class="btn btn-primary"><i class="icon-save"></i> 保存</a>
-                        <button type="reset" class="btn">清空</button>
-                    </div>
-                </div>
-            </form>
-        </div>
         <div class="span12">
             <form class="form-horizontal">
                 <div class="rule-list-wrap">
@@ -330,16 +303,23 @@
                         <div class="control-group">
                             <label class="control-label">匹配内容</label>
                             <div class="controls">
-                                <input type="text" placeholder="匹配的内容，可以为正则表达式" class="input-xxlarge">
+                                <input type="text" placeholder="匹配的内容，可以为正则表达式" class="input-xxlarge J_Pattern">
+                                <span class="help-inline">匹配的内容必须填写</span>
                             </div>
                         </div>
                         <div class="control-group">
                             <label class="control-label">替换内容</label>
                             <div class="controls">
-                                <input type="text" placeholder="请填写替换的内容"  class="input-xlarge">
+                                <input type="text" placeholder="请填写替换的内容"  class="input-xlarge J_Target">
                                 <label class="checkbox inline">
-                                    <input type="checkbox"> 本地路径
+                                    <input type="checkbox" class="J_IsLocalPath"> 本地路径
                                 </label>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">规则名</label>
+                            <div class="controls">
+                                <input type="text" placeholder="随便取个名" class="input-xxlarge J_Title">
                             </div>
                         </div>
                     </div>
@@ -348,7 +328,7 @@
                 <div class="control-group pull-right">
                     <div class="controls">
                         <a href="#" class="btn J_AddRuleTpl"><i class="icon-plus"></i> 新增额外一条</a>
-                        <a href="#" class="btn btn-primary"><i class="icon-save"></i> 保存</a>
+                        <a href="#" class="btn btn-primary J_AddRuleBtn"><i class="icon-save"></i> 保存</a>
                         <button type="reset" class="btn">清空</button>
                     </div>
                 </div>
@@ -420,29 +400,35 @@
     <footer id="footer">
         <p class="pull-right"><a href="#top">Back to top</a></p>
         <div class="links">
-            <a href="https://github.com/thomaspark/bootswatch/">GitHub</a>
+            <a href="https://github.com/czy88840616/arrow">GitHub</a>
             <a href="https://github.com/thomaspark/bootswatch/">Document</a>
             <a href="https://github.com/thomaspark/bootswatch/">Guide</a>
         </div>
         Made by <a href="mailto:zhangting@taobao.com">zhangting</a><br>
     </footer>
 </div>
-<textarea class="template" id="J_RuleTpl">
+<textarea class="template" id="J_AddRuleTpl">
     <div class="well">
         <a href="#" class="close"><i class="icon-remove"></i></a>
         <div class="control-group">
             <label class="control-label">匹配内容</label>
             <div class="controls">
-                <input type="text" placeholder="匹配的内容，可以为正则表达式" class="input-xxlarge">
+                <input type="text" placeholder="匹配的内容，可以为正则表达式" class="input-xxlarge J_Pattern">
             </div>
         </div>
         <div class="control-group">
             <label class="control-label">替换内容</label>
             <div class="controls">
-                <input type="text" placeholder="请填写替换的内容"  class="input-xlarge">
+                <input type="text" placeholder="请填写替换的内容"  class="input-xlarge J_Target">
                 <label class="checkbox inline">
-                    <input type="checkbox"> 本地路径
+                    <input type="checkbox" class="J_IsLocalPath"> 本地路径
                 </label>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">规则名</label>
+            <div class="controls">
+                <input type="text" placeholder="随便取个名" class="input-xxlarge J_Title">
             </div>
         </div>
     </div>
