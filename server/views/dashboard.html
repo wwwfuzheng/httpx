@@ -69,8 +69,6 @@
                 <li><a href="#J_SolutionList">方案列表</a></li>
                 <li><a href="#rulePool">规则库</a></li>
                 <li><a href="#addRule">添加规则</a></li>
-                <li><a href="#comboRule">组合规则</a></li>
-                <li><a href="#addSolution">添加规则到方案</a></li>
             </ul>
         </div>
     </header>
@@ -330,6 +328,52 @@
                         <a href="#" class="btn J_AddRuleTpl"><i class="icon-plus"></i> 新增额外一条</a>
                         <a href="#" class="btn btn-primary J_AddRuleBtn"><i class="icon-save"></i> 保存</a>
                         <button type="reset" class="btn">清空</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row" id="editRule">
+        <div class="span12">
+            <div class="page-header">
+                <h1>
+                    <small>修改规则</small>
+                </h1>
+            </div>
+        </div>
+        <div class="span12">
+            <form class="form-horizontal">
+                <div class="rule-list-wrap">
+                    <div class="well">
+                        <div class="control-group">
+                            <label class="control-label">匹配内容</label>
+                            <div class="controls">
+                                <input type="text" placeholder="匹配的内容，可以为正则表达式" class="input-xxlarge J_Pattern">
+                                <span class="help-inline">匹配的内容必须填写</span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">替换内容</label>
+                            <div class="controls">
+                                <input type="text" placeholder="请填写替换的内容"  class="input-xlarge J_Target">
+                                <label class="checkbox inline">
+                                    <input type="checkbox" class="J_IsLocalPath"> 本地路径
+                                </label>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">规则名</label>
+                            <div class="controls">
+                                <input type="text" placeholder="随便取个名" class="input-xxlarge J_Title">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="control-group pull-right">
+                    <div class="controls">
+                        <a href="#" class="btn btn-primary J_AddRuleBtn"><i class="icon-save"></i> 保存</a>
+                        <button class="btn">撤销</button>
                     </div>
                 </div>
             </form>

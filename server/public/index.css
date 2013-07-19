@@ -158,10 +158,14 @@ label, input, button, select, textarea, legend {
     color: #FF8F00;
 }
 
-#addRule .help-inline {
+#addRule .help-inline, #editRule .help-inline {
     display: none;
 }
 
-#addRule .error .help-inline {
+#addRule .error .help-inline, #editRule .error .help-inline {
     display: inline-block;
+}
+
+#editRule, #comboRule, #addSolution {
+    display: none;
 }

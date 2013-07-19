@@ -23,6 +23,8 @@ var ruleTpl = [
     '</div>'
 ].join('');
 
+var allHideEl = '#editRule, #comboRule, #addSolution';
+
 function newGuid(){
     var guid = "";
 
@@ -87,26 +89,61 @@ $(function(){
         $(ruleTypeId.split(',')[$(this).val()]).show();
     });
 
-    $('#rulePool').on('click', '.rule', function(ev){
-        $(ev.currentTarget).toggleClass('rule-select');
-        $('#rulePoolOperator').hide();
-
-        if($('#rulePool .rule-select').length) {
-            var srcObj = $(ev.currentTarget).position();
-
-            $('#rulePoolOperator').css({
-                left: srcObj.left + $(ev.currentTarget).width() + 5,
-                top: srcObj.top
-            });
-            $('#rulePoolOperator').fadeIn();
-        } else {
+    $('#rulePool')
+        .on('click', '.rule', function(ev){
+            //规则选择
+            $(ev.currentTarget).toggleClass('rule-select');
             $('#rulePoolOperator').hide();
-        }
-    });
+
+            if($('#rulePool .rule-select').length) {
+                var srcObj = $(ev.currentTarget).position();
+
+                $('#rulePoolOperator').css({
+                    left: srcObj.left + $(ev.currentTarget).width() + 5,
+                    top: srcObj.top
+                });
+                $('#rulePoolOperator').fadeIn();
+            } else {
+                $('#rulePoolOperator').hide();
+            }
+        })
+        .on('click', '.icon-trash', function(ev){
+            //规则删除
+            ev.stopPropagation();
+            $.post('api/delRule', {
+                    guid: $(ev.target).parents('.rule').attr('data-guid')
+                },
+                function(data){
+                    if(data.success) {
+                        $.globalMessenger().post({
+                            message: "规则删除成功",
+                            type: 'success'
+                        });
+
+                        $(ev.target).parents('.rule').fadeOut(function(){
+                            $(this).remove();
+                        });
+                    } else {
+                        $.globalMessenger().post({
+                            message: "规则删除失败",
+                            type: 'error'
+                        });
+                    }
+                });
+        })
+        .on('click', '.icon-edit', function(ev){
+            ev.stopPropagation();
+            //规则编辑
+            $('#editRule').show();
+            $.smoothScroll({
+                scrollTarget: '#editRule'
+            });
+        });
 
     $('#rulePoolDetail .J_AddSolution').click(function(ev){
         ev.preventDefault();
         $('#addSolution .J_SelectNum').html($('#rulePool .rule-select').length);
+        $('#addSolution').show();
         $.smoothScroll({
             scrollTarget: '#addSolution'
         });
@@ -197,14 +234,6 @@ $(function(){
     $('#addRule .J_AddRuleBtn').click(function(ev){
         ev.preventDefault();
 
-        if($('#addRule .error').length) {
-            $.globalMessenger().post({
-                message: '内容填写不完整，无法添加',
-                type: 'error'
-            });
-            return;
-        }
-
         var rules = [], tpl = [];
 
         $('#addRule .rule-list-wrap').find('.well').each(function(idx, el){
@@ -255,6 +284,13 @@ $(function(){
                         offset: $('#rulePool .rule:last').offset().top - 200,
                         afterScroll: function(){
                             $('#rulePoolDetail').append(tpl.join(''));
+
+                            //clean form
+                            $('#addRule .form-horizontal').get(0).reset();
+
+                            $('#addRule .error').removeClass('error');
+
+                            $('#addRule .close').parents('.well').remove();
                         }
                     });
                 }
@@ -264,7 +300,7 @@ $(function(){
     });
 
     //添加规则表单校验
-    $('#addRule').on('blur', '.J_Pattern', function(ev) {
+    $('#addRule, #editRule').on('blur', '.J_Pattern', function(ev) {
         if(!$(this).val()) {
             $(this).parents('.control-group').addClass('error');
         } else {

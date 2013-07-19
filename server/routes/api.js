@@ -27,6 +27,19 @@ var API = {
         userCfg.set('rulePool', rulePool);
 
         cb(null, {success:true});
+    },
+    delRule: function(params, cb){
+        var guid = params.guid || '',
+            rulePool = userCfg.get('rulePool');
+
+        if(guid && rulePool[guid]) {
+            delete rulePool[guid];
+            userCfg.set('rulePool', rulePool);
+
+            cb(null, {success:true});
+        } else {
+            cb(null, {success:false});
+        }
     }
 };
 
