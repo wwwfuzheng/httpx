@@ -133,8 +133,16 @@ $(function(){
         })
         .on('click', '.icon-edit', function(ev){
             ev.stopPropagation();
+            var parent = $(ev.target).parents('.rule');
+
             //规则编辑
             $('#editRule').show();
+            $('#editRule').attr('data-guid', parent.attr('data-guid'));
+            $('#editRule .J_Pattern').val(parent.find('code:first').text());
+            $('#editRule .J_Target').val(parent.find('code:last').text());
+            $('#editRule .J_Title').val(parent.find('.hd strong').text());
+            $('#editRule .J_IsLocalPath').attr('checked', parent.find('.J_IsLocalPath:checked').length ? 'checked': '');
+
             $.smoothScroll({
                 scrollTarget: '#editRule'
             });
@@ -306,5 +314,57 @@ $(function(){
         } else {
             $(this).parents('.control-group').removeClass('error');
         }
+    });
+
+    //编辑保存
+    $('#editRule .J_EditRuleBtn').click(function(ev){
+        ev.preventDefault();
+        var editRule = {
+            title: $('#editRule').find('.J_Title').val(),
+            pattern: $('#editRule').find('.J_Pattern').val(),
+            target: $('#editRule').find('.J_Target').val(),
+            type: $('#editRule').find('.J_IsLocalPath:checked').length ? 1: getRuleType($(el).find('.J_Target').val()),
+            guid: $('#editRule').attr('data-guid')
+        };
+
+        $.post('api/editRule', {
+                rule: JSON.stringify(editRule)
+            },
+            function(data){
+                if(data.success) {
+                    $.globalMessenger().post({
+                        message: "规则编辑成功",
+                        type: 'success'
+                    });
+
+                    //find the guid el and replace
+                    juicer(ruleTpl, {
+                        title: rule.title,
+                        isCombo: false,
+                        pattern: rule.pattern,
+                        target: rule.target,
+                        type : rule.type,
+                        ruleCls: rule.type == 1 ? 'icon-folder-open-alt': rule.type == 2? 'icon-link': 'icon-font',
+                        guid: rule.guid
+                    })
+                } else {
+                    $.globalMessenger().post({
+                        message: "规则编辑失败",
+                        type: 'error'
+                    });
+                }
+            });
+    });
+
+    //编辑取消
+    $('#editRule .J_EditCancel').click(function(ev){
+        ev.preventDefault();
+
+        $.smoothScroll({
+            scrollTarget: '#rulePool',
+            afterScroll: function(){
+                $('#editRule').hide();
+            }
+        });
     });
 });
