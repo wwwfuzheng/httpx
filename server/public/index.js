@@ -8,7 +8,7 @@ $('.navbar a, .subnav a, #footer a').smoothScroll();
 
 var ruleTpl = [
     '<div class="rule animated bounce" data-guid="${guid}">',
-    '<div class="hd"><i class="${ruleCls}"></i> <strong>${title}</strong></div>',
+    '<div class="hd"><i class="${ruleCls}"></i> <strong title="${title}">${simpleTitle}</strong></div>',
     '<div class="bd">',
     '{@if isCombo}',
     '<p>共包含 <strong>${num}</strong> 个规则</p>',
@@ -37,6 +37,33 @@ function newGuid(){
     }
 
     return guid;
+}
+
+function subString(str, len, hasDot) {
+    if(!str) return '';
+    var newLength = 0;
+    var newStr = "";
+    var chineseRegex = /[^\x00-\xff]/g;
+    var singleChar = "";
+    var strLength = str.replace(chineseRegex, "**").length;
+    for (var i = 0; i < strLength; i++) {
+        singleChar = str.charAt(i).toString();
+        if (singleChar.match(chineseRegex) != null) {
+            newLength += 2;
+        }
+        else {
+            newLength++;
+        }
+        if (newLength > len) {
+            break;
+        }
+        newStr += singleChar;
+    }
+
+    if (hasDot && strLength > len) {
+        newStr += "...";
+    }
+    return newStr;
 }
 
 $(function(){
@@ -140,14 +167,19 @@ $(function(){
             $('#editRule').attr('data-guid', parent.attr('data-guid'));
             $('#editRule .J_Pattern').val(parent.find('code:first').text());
             $('#editRule .J_Target').val(parent.find('code:last').text());
-            $('#editRule .J_Title').val(parent.find('.hd strong').text());
-            $('#editRule .J_IsLocalPath').attr('checked', parent.find('.J_IsLocalPath:checked').length ? 'checked': '');
+            $('#editRule .J_Title').val(parent.find('.hd strong').attr('title'));
+            if(parent.find('.J_IsLocalPath:checked').length) {
+                $('#editRule .J_IsLocalPath').attr('checked', 'checked');
+            } else {
+                $('#editRule .J_IsLocalPath').removeAttr('checked');
+            }
 
             $.smoothScroll({
                 scrollTarget: '#editRule'
             });
         });
 
+    //把规则添加到解决方案
     $('#rulePoolDetail .J_AddSolution').click(function(ev){
         ev.preventDefault();
         $('#addSolution .J_SelectNum').html($('#rulePool .rule-select').length);
@@ -166,14 +198,6 @@ $(function(){
         ev.preventDefault();
         $.smoothScroll({
             scrollTarget: '#comboRule'
-        });
-    });
-
-    //添加到解决方案 返回按钮
-    $('#addSolution .J_Cancel').click(function(ev){
-        ev.preventDefault();
-        $.smoothScroll({
-            scrollTarget: '#rulePool'
         });
     });
 
@@ -284,7 +308,8 @@ $(function(){
                             target: rule.target,
                             type : rule.type,
                             ruleCls: rule.type == 1 ? 'icon-folder-open-alt': rule.type == 2? 'icon-link': 'icon-font',
-                            guid: rule.guid
+                            guid: rule.guid,
+                            simpleTitle: subString(rule.title, 16, true)
                         }));
                     });
 
@@ -323,7 +348,7 @@ $(function(){
             title: $('#editRule').find('.J_Title').val(),
             pattern: $('#editRule').find('.J_Pattern').val(),
             target: $('#editRule').find('.J_Target').val(),
-            type: $('#editRule').find('.J_IsLocalPath:checked').length ? 1: getRuleType($(el).find('.J_Target').val()),
+            type: $('#editRule').find('.J_IsLocalPath:checked').length ? 1: getRuleType($('#editRule').find('.J_Target').val()),
             guid: $('#editRule').attr('data-guid')
         };
 
@@ -337,16 +362,35 @@ $(function(){
                         type: 'success'
                     });
 
-                    //find the guid el and replace
-                    juicer(ruleTpl, {
-                        title: rule.title,
-                        isCombo: false,
-                        pattern: rule.pattern,
-                        target: rule.target,
-                        type : rule.type,
-                        ruleCls: rule.type == 1 ? 'icon-folder-open-alt': rule.type == 2? 'icon-link': 'icon-font',
-                        guid: rule.guid
-                    })
+
+                    var editTargetEl = $.grep($('#rulePool .rule'), function(el){
+                        return $(el).attr('data-guid') == editRule.guid;
+                    });
+
+                    $.smoothScroll({
+                        offset: $(editTargetEl).offset().top - 200,
+                        afterScroll: function(){
+                            //find the guid el and replace
+                            $(editTargetEl).replaceWith(juicer(ruleTpl, {
+                                title: editRule.title,
+                                isCombo: false,
+                                pattern: editRule.pattern,
+                                target: editRule.target,
+                                type : editRule.type,
+                                ruleCls: editRule.type == 1 ? 'icon-folder-open-alt': editRule.type == 2? 'icon-link': 'icon-font',
+                                guid: editRule.guid,
+                                simpleTitle: subString(editRule.title, 16, true)
+                            }));
+
+                            //clean form
+                            $('#editRule .form-horizontal').get(0).reset();
+
+                            $('#addRule .error').removeClass('error');
+
+                            $('#editRule').hide();
+                        }
+                    });
+
                 } else {
                     $.globalMessenger().post({
                         message: "规则编辑失败",
@@ -364,6 +408,76 @@ $(function(){
             scrollTarget: '#rulePool',
             afterScroll: function(){
                 $('#editRule').hide();
+            }
+        });
+    });
+
+
+    //确定添加到解决方案
+    $('#addSolution .J_Sure').click(function(ev){
+        ev.preventDefault();
+
+        //collect rule guid
+        var guids = [], id;
+        $('#rulePool .rule-select').each(function(idx, rule){
+            id = $(rule).attr('data-guid');
+            if(id) {
+                guids.push(id);
+            }
+        });
+
+        if(!guids.length) {
+            $.globalMessenger().post({
+                message: "请从规则库中选择规则后再添加",
+                type: 'error'
+            });
+
+            return;
+        }
+
+        if(!$('#J_SolutionIds option:selected').length) {
+            $.globalMessenger().post({
+                message: "请选择一个解决方案",
+                type: 'error'
+            });
+
+            return;
+        }
+
+        $.post('api/addSolution', {
+                guids: JSON.stringify(guids),
+                solutionId: $('#J_SolutionIds option:selected').val()
+            },
+            function(data){
+                if(data.success) {
+                    $.globalMessenger().post({
+                        message: data.msg,
+                        type: 'success'
+                    });
+
+                    $.smoothScroll({
+                        scrollTarget: '#J_SolutionList',
+                        afterScroll: function(){
+                            $('#addSolution').hide();
+                        }
+                    });
+
+                } else {
+                    $.globalMessenger().post({
+                        message: "规则编辑失败",
+                        type: 'error'
+                    });
+                }
+            });
+    });
+
+    //添加到解决方案 返回按钮
+    $('#addSolution .J_Cancel').click(function(ev){
+        ev.preventDefault();
+        $.smoothScroll({
+            scrollTarget: '#rulePool',
+            afterScroll: function(){
+                $('#addSolution').hide();
             }
         });
     });

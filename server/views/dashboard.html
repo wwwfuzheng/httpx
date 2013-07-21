@@ -104,6 +104,11 @@
                     <small>方案列表</small>
                 </h1>
             </div>
+            <blockquote>
+                <p>
+                    全局方案里的规则在每种方案下都会被执行。
+                </p>
+            </blockquote>
             <div class="accordion" id="accordion-228050">
                 <div class="accordion-group">
                     <div class="accordion-heading">
@@ -264,7 +269,10 @@
                 </div>
                 {foreach rule in ruleList}
                 <div class="rule" data-guid="{rule.key}">
-                    <div class="hd"><i class="{if rule.value.type eq 1}icon-folder-open-alt{elif rule.value.type eq 2}icon-link{elif rule.value.type eq 10}icon-book{else}icon-font{end}"></i> <strong>{rule.value.name}</strong></div>
+                    <div class="hd">
+                        <i class="{if rule.value.type eq 1}icon-folder-open-alt{elif rule.value.type eq 2}icon-link{elif rule.value.type eq 10}icon-book{else}icon-font{end}"></i>
+                        <strong title="{rule.value.title}">{rule.value.simpleTitle}</strong>
+                    </div>
                     <div class="bd">
                         {if rule.value.type eq 10}
                         <p>共包含 <strong>{rule.value.num}</strong> 个规则</p>
@@ -426,15 +434,17 @@
             <div class="well clearfix">
                 <hr style="border-top-color: #fff">
                 <p>
-                    即将添加 <strong class="J_SelectNum num">4</strong> 个规则到
-                    <select>
-                        <option value="0">全局方案</option>
-                        <option value="1">解决方案1</option>
+                    即将添加 <strong class="J_SelectNum num">0</strong> 个规则到
+                    <select id="J_SolutionIds">
+                        <option value="GLOBAL">全局规则</option>
+                        {foreach solution in solutions}
+                        <option value="{solution.key}">{solution.value.title}</option>
+                        {end}
                     </select>
                 </p>
                 <hr style="border-top-color: #fff">
                 <div class="controls pull-right">
-                    <a href="#" class="btn btn-primary"><i class="icon-ok"></i> 确定</a>
+                    <a href="#" class="btn btn-primary J_Sure"><i class="icon-ok"></i> 确定</a>
                     <a class="btn J_Cancel" href="#">返回</a>
                 </div>
             </div>

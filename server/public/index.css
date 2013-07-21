@@ -16,7 +16,8 @@ label, input, button, select, textarea, legend {
 .rule {
     background-color: #F2F2F2;
     float:left;
-    min-width: 180px;
+    min-width: 200px;
+    max-width: 1125px;
     min-height: 100px;
     color: #222;
     border: 2px solid #000;
@@ -24,6 +25,7 @@ label, input, button, select, textarea, legend {
     margin-bottom: 10px;
     position:relative;
     border-radius: 5px;
+    overflow: hidden;
 }
 
 .rule:hover {
