@@ -101,9 +101,9 @@ $(function(){
     }
 
     $('#J_SolutionList .J_RuleEnable').iCheck({
-        checkboxClass: 'icheckbox_futurico',
-        radioClass: 'iradio_futurico',
-        increaseArea: '20%' // optional
+        checkboxClass: 'icheckbox_polaris',
+        radioClass: 'iradio_polaris',
+        increaseArea: '-10' // optional
     });
 
     var ruleTypeId = '#J_StringText, #J_LocalText, #J_UrlText';
@@ -464,7 +464,7 @@ $(function(){
 
                 } else {
                     $.globalMessenger().post({
-                        message: "规则编辑失败",
+                        message: data.msg || "添加解决方案失败",
                         type: 'error'
                     });
                 }

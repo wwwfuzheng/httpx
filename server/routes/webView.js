@@ -17,7 +17,9 @@ module.exports = {
 
         return {
             ruleList: ruleList,
-            solutions: userConfig.get('solutions')
+            solutions: userConfig.get('solutions'),
+            ruleNum: _.keys(ruleList).length,
+            use: userConfig.get('use')
         };
     }
 };

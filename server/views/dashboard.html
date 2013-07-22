@@ -6,7 +6,7 @@
     <link href="http://bootswatch.com/css/font-awesome.min.css" rel="stylesheet">
     <link href="http://bootswatch.com/css/bootswatch.css" rel="stylesheet">
     <link rel="stylesheet" href="selectBoxIt/jquery.selectBoxIt.css" />
-    <link href="http://www.bootcss.com/p/icheck/skins/futurico/futurico.css" rel="stylesheet">
+    <link href="http://www.bootcss.com/p/icheck/skins/polaris/polaris.css" rel="stylesheet">
     <link href="http://netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
     <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="messager/css/messenger.css">
@@ -83,10 +83,17 @@
         <span12>
             <div class="span8">
                 <p>
-                    当前使用的的代理方案为：<span class="label">全局方案</span> +  <select class=""><option>解决方案1</option></select>　
+                    当前使用的的代理方案为：
+                    <select class="">
+                        {foreach solution in solutions}
+                        {if solution.key neq 'GLOBAL'}
+                        <option value="{solution.key}" {if solution.key eq use}selected{end}>{solution.value.title}</option>
+                        {end}
+                        {end}
+                    </select>　+ <span class="label">全局方案</span>
                 </p>
                 <p>
-                    当前规则库中共有  <span class="label">12</span> 个规则
+                    当前规则库中共有  <span class="label">{ruleNum}</span> 个规则
                 </p>
             </div>
             <div class="span4">
@@ -106,79 +113,47 @@
             </div>
             <blockquote>
                 <p>
-                    全局方案里的规则在每种方案下都会被执行。
+                    全局方案里的规则在每种方案下都会被执行，优先级低于自定义的规则。
                 </p>
             </blockquote>
             <div class="accordion" id="accordion-228050">
-                <div class="accordion-group">
-                    <div class="accordion-heading">
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-228050" href="#accordion-element-146230"><i class="icon-globe"></i> 全局方案</a>
-                    </div>
-                    <div id="accordion-element-146230" class="accordion-body collapse in">
-                        <div class="accordion-inner">
-                            <table class="table table-bordered table-striped table-hover">
-                                <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>规则顺序</th>
-                                    <th>规则概要</th>
-                                    <th>其他</th>
-                                    <th></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>
-                                        <input type="checkbox" checked class="J_RuleEnable">
-                                    </td>
-                                    <td>
-                                        1
-                                    </td>
-                                    <td>kissy-min处理成kissy</td>
-                                    <td>
-                                        <label class="checkbox">
-                                            <input type="checkbox"> 替换资源不存在则走原URL
-                                        </label>
-                                    </td>
-                                    <td>
-                                        <a href="#"><i class="icon-remove"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <input type="checkbox" checked class="J_RuleEnable">
-                                    </td>
-                                    <td>
-                                        <select class="input-mini">
-                                            <option>1</option>
-                                            <option selected>2</option>
-                                        </select>
-                                    </td>
-                                    <td>给脚本加.source</td>
-                                    <td>
-                                        <label class="checkbox">
-                                            <input type="checkbox"> 替换资源不存在则走原URL
-                                        </label>
-                                    </td>
-                                    <td>
-                                        <a href="#"><i class="icon-remove"></i></a>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                {foreach solution in solutions}
+                <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-228050" href="#accordion-element-146230">{if solution.key eq 'GLOBAL'}<i class="icon-globe"></i> {end}{solution.value.title}</a>
                 </div>
-                <div class="accordion-group">
-                    <div class="accordion-heading">
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-228050" href="#accordion-element-102288">解决方案1</a>
-                    </div>
-                    <div id="accordion-element-102288" class="accordion-body collapse in">
-                        <div class="accordion-inner">
-                            功能块...
-                        </div>
-                    </div>
-                </div>
+                <table class="table table-bordered table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>规则顺序</th>
+                        <th>规则概要</th>
+                        <th>其他</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {foreach rule in solution.value.rules}
+                    <tr>
+                        <td>
+                            <input type="checkbox" checked class="J_RuleEnable">
+                        </td>
+                        <td>
+                            1
+                        </td>
+                        <td>{ruleList[rule.id].title}</td>
+                        <td>
+                            <label class="checkbox">
+                                <input type="checkbox"> 替换资源不存在则走原URL
+                            </label>
+                        </td>
+                        <td>
+                            <a href="#"><i class="icon-remove"></i></a>
+                        </td>
+                    </tr>
+                    {end}
+                    </tbody>
+                </table>
+                {end}
             </div>
         </div>
     </div>
@@ -197,66 +172,6 @@
                         <li><a href="#" class="J_ComboRule">组合选中规则</a></li>
                         <li><a href="#" class="J_ClearSelect">取消所有选中</a></li>
                     </ul>
-                </div>
-                <div class="rule" data-id="">
-                    <div class="hd"><i class="icon-font"></i> <strong>kissy去min...</strong></div>
-                    <div class="bd">
-                        <p>匹配到 <code>kissy-min</code></p>
-                        <p>替换为 <code>kissy</code></p>
-                    </div>
-                    <i class="icon icon-edit"></i>
-                    <i class="icon icon-trash"></i>
-                    <i class="icon icon-ok"></i>
-                </div>
-                <div class="rule">
-                    <div class="hd"><i class="icon-link"></i> <strong>url代理测试...</strong></div>
-                    <div class="bd">
-                        <p>匹配到 <code>p/s/kissy/1.2.0</code></p>
-                        <p>替换为 <code>http://a.tbcdn.cn/s/kissy/1.2.0/</code></p>
-                    </div>
-                    <i class="icon icon-edit"></i>
-                    <i class="icon icon-trash"></i>
-                    <i class="icon icon-ok"></i>
-                </div>
-                <div class="rule">
-                    <div class="hd"><i class="icon-folder-open-alt"></i> <strong>替换为本地路径...</strong></div>
-                    <div class="bd">
-                        <p>匹配到 <code>/p</code></p>
-                        <p>替换为 <code>D:\\project\\tradeface\\assets</code></p>
-                    </div>
-                    <i class="icon icon-edit"></i>
-                    <i class="icon icon-trash"></i>
-                    <i class="icon icon-ok"></i>
-                </div>
-                <div class="rule">
-                    <div class="hd"><i class="icon-font"></i> <strong>kissy去min...</strong></div>
-                    <div class="bd">
-                        <p>匹配到 <code>kissy-min</code></p>
-                        <p>替换为 <code>kissy</code></p>
-                    </div>
-                    <i class="icon icon-edit"></i>
-                    <i class="icon icon-trash"></i>
-                    <i class="icon icon-ok"></i>
-                </div>
-                <div class="rule">
-                    <div class="hd"><i class="icon-link"></i> <strong>url代理测试...</strong></div>
-                    <div class="bd">
-                        <p>匹配到 <code>p/s/kissy/1.2.0</code></p>
-                        <p>替换为 <code>http://a.tbcdn.cn/s/kissy/1.2.0/</code></p>
-                    </div>
-                    <i class="icon icon-edit"></i>
-                    <i class="icon icon-trash"></i>
-                    <i class="icon icon-ok"></i>
-                </div>
-                <div class="rule">
-                    <div class="hd"><i class="icon-folder-open-alt"></i> <strong>替换为本地路径...</strong></div>
-                    <div class="bd">
-                        <p>匹配到 <code>/p</code></p>
-                        <p>替换为 <code>D:\\project\\tradeface\\assets</code></p>
-                    </div>
-                    <i class="icon icon-edit"></i>
-                    <i class="icon icon-trash"></i>
-                    <i class="icon icon-ok"></i>
                 </div>
                 <div class="rule">
                     <div class="hd"><i class="icon-book"></i> <strong>组合规则</strong></div>
@@ -436,9 +351,8 @@
                 <p>
                     即将添加 <strong class="J_SelectNum num">0</strong> 个规则到
                     <select id="J_SolutionIds">
-                        <option value="GLOBAL">全局规则</option>
                         {foreach solution in solutions}
-                        <option value="{solution.key}">{solution.value.title}</option>
+                        <option value="{solution.key}" {if solution.key eq use}selected{end}>{solution.value.title}</option>
                         {end}
                     </select>
                 </p>
