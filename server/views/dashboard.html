@@ -5,7 +5,6 @@
     <link rel="stylesheet" type="text/css" href="http://bootswatch.com/default/bootstrap-responsive.min.css"/>
     <link href="http://bootswatch.com/css/font-awesome.min.css" rel="stylesheet">
     <link href="http://bootswatch.com/css/bootswatch.css" rel="stylesheet">
-    <link rel="stylesheet" href="selectBoxIt/jquery.selectBoxIt.css" />
     <link href="http://www.bootcss.com/p/icheck/skins/polaris/polaris.css" rel="stylesheet">
     <link href="http://netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
     <link rel="stylesheet" href="index.css">
@@ -17,7 +16,6 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
     <script src="http://bootswatch.com/js/bootstrap.min.js" charset="utf-8"></script>
     <script src="http://www.bootcss.com/p/icheck/js/jquery.icheck.min.js"></script>
-    <script src="selectBoxIt/jquery.selectBoxIt.min.js"></script>
     <script src="http://bootswatch.com/js/jquery.smooth-scroll.min.js"></script>
     <script type="text/javascript" src="tpl/juicer-min.js"></script>
     <script type="text/javascript" src="messager/js/messenger.min.js"></script>
@@ -116,45 +114,43 @@
                     全局方案里的规则在每种方案下都会被执行，优先级低于自定义的规则。
                 </p>
             </blockquote>
-            <div class="accordion" id="accordion-228050">
-                {foreach solution in solutions}
-                <div class="accordion-heading">
-                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-228050" href="#accordion-element-146230">{if solution.key eq 'GLOBAL'}<i class="icon-globe"></i> {end}{solution.value.title}</a>
-                </div>
-                <table class="table table-bordered table-striped table-hover">
-                    <thead>
-                    <tr>
-                        <th></th>
-                        <th>规则顺序</th>
-                        <th>规则概要</th>
-                        <th>其他</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {foreach rule in solution.value.rules}
-                    <tr>
-                        <td>
-                            <input type="checkbox" checked class="J_RuleEnable">
-                        </td>
-                        <td>
-                            1
-                        </td>
-                        <td>{ruleList[rule.id].title}</td>
-                        <td>
-                            <label class="checkbox">
-                                <input type="checkbox"> 替换资源不存在则走原URL
-                            </label>
-                        </td>
-                        <td>
-                            <a href="#"><i class="icon-remove"></i></a>
-                        </td>
-                    </tr>
-                    {end}
-                    </tbody>
-                </table>
-                {end}
+            {foreach solution in solutions}
+            <div>
+                {if solution.key eq 'GLOBAL'}<i class="icon-globe"></i> {end}{solution.value.title}
             </div>
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>规则顺序</th>
+                    <th>规则概要</th>
+                    <th>其他</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {foreach rule in solution.value.rules}
+                <tr>
+                    <td>
+                        <input type="checkbox" class="J_RuleEnable" {if rule.enable}checked{end}>
+                    </td>
+                    <td>
+                        1
+                    </td>
+                    <td>{ruleList[rule.id].title}</td>
+                    <td>
+                        <label class="checkbox">
+                            <input type="checkbox"> 替换资源不存在则走原URL
+                        </label>
+                    </td>
+                    <td>
+                        <a href="#"><i class="icon-remove"></i></a>
+                    </td>
+                </tr>
+                {end}
+                </tbody>
+            </table>
+            {end}
         </div>
     </div>
     <div class="row" id="rulePool">
