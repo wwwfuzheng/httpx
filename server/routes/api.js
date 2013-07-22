@@ -24,8 +24,6 @@ var API = {
             }
         });
 
-        userCfg.set('rulePool', rulePool);
-
         cb(null, {success:true});
     },
     delRule: function(params, cb){
@@ -34,7 +32,6 @@ var API = {
 
         if(guid && rulePool[guid]) {
             delete rulePool[guid];
-            userCfg.set('rulePool', rulePool);
 
             cb(null, {success:true});
         } else {
@@ -61,8 +58,6 @@ var API = {
             };
         }
 
-        userCfg.set('rulePool', rulePool);
-
         cb(null, {success:true});
     },
     addSolution: function(params, cb){
@@ -80,13 +75,50 @@ var API = {
                 });
             });
 
-            userCfg.set('solutions', solutions);
-
             cb(null, {success:true, msg: '成功添加' + guids.length + '条规则'});
         } else {
             cb(null, {success:false, msg: '参数错误，可能是规则为空或者解决方案不存在'});
         }
+    },
+    removeRule: function(params, cb){
+        var guid = params.guid || '',
+            solutionId = params.solutionId || '';
 
+        var solutions = userCfg.get('solutions');
+
+        if(guid && solutionId && solutions[solutionId]) {
+            var rules = [];
+            _.each(solutions[solutionId].rules, function(rule){
+                if(rule.id !== guid) {
+                    rules.push(rule);
+                }
+            });
+
+            solutions[solutionId].rules = rules;
+
+            cb(null, {success:true});
+        } else {
+            cb(null, {success:false});
+        }
+    },
+    enableRule: function(params, cb){
+        var guid = params.guid || '',
+            solutionId = params.solutionId || '',
+            enable = params.enable || false;
+
+        var solutions = userCfg.get('solutions');
+
+        if(guid && solutionId && solutions[solutionId]) {
+            _.each(solutions[solutionId].rules, function(rule){
+                if(rule.id === guid) {
+                    rule.enable = enable;
+                }
+            });
+
+            cb(null, {success:true});
+        } else {
+            cb(null, {success:false});
+        }
     }
 };
 

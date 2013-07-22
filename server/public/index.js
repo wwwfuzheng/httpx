@@ -66,6 +66,14 @@ function subString(str, len, hasDot) {
     return newStr;
 }
 
+// Return a helper with preserved width of cells
+var fixHelper = function(e, ui) {
+    ui.children().each(function() {
+        $(this).width($(this).width());
+    });
+    return ui;
+};
+
 $(function(){
 
     var $win = $(window),
@@ -100,7 +108,35 @@ $(function(){
         return /http(s)?:\/\//.test(s) ? 2 : 0;
     }
 
-    $('#J_SolutionList .J_RuleEnable').iCheck({
+    $("#J_SolutionList tbody").sortable({
+        helper: fixHelper
+    }).disableSelection();
+
+    //规则启用取消
+    $('#J_SolutionList .J_RuleEnable').on('click', function(ev){
+        $.post('api/enableRule', {
+                solutionId: $(ev.target).parents('table').attr('data-guid'),
+                guid: $(ev.target).parents('tr').attr('data-guid'),
+                enable: $(ev.target).hasAttr('checked')
+            },
+            function(data){
+                if(data.success) {
+                    $.globalMessenger().post({
+                        message: "规则状态切换成功",
+                        type: 'success'
+                    });
+
+                    $(ev.target).parents('tr').fadeOut(function(){
+                        $(this).remove();
+                    });
+                } else {
+                    $.globalMessenger().post({
+                        message: "规则状态切换失败",
+                        type: 'error'
+                    });
+                }
+            });
+    }).iCheck({
         checkboxClass: 'icheckbox_polaris',
         radioClass: 'iradio_polaris',
         increaseArea: '-10' // optional
@@ -108,12 +144,31 @@ $(function(){
 
     var ruleTypeId = '#J_StringText, #J_LocalText, #J_UrlText';
 
-    var selectBox = $("#J_RuleType").selectBoxIt({
-        theme: "bootstrap",
-        copyClasses: 'container'
-    }).on('change', function(ev){
-        $(ruleTypeId).hide();
-        $(ruleTypeId.split(',')[$(this).val()]).show();
+    $('#J_SolutionList')
+        .on('click', '.J_RemoveRule', function(ev){
+            ev.preventDefault();
+
+            $.post('api/removeRule', {
+                    solutionId: $(ev.target).parents('table').attr('data-guid'),
+                    guid: $(ev.target).parents('tr').attr('data-guid')
+                },
+                function(data){
+                    if(data.success) {
+                        $.globalMessenger().post({
+                            message: "移除规则成功",
+                            type: 'success'
+                        });
+
+                        $(ev.target).parents('tr').fadeOut(function(){
+                            $(this).remove();
+                        });
+                    } else {
+                        $.globalMessenger().post({
+                            message: "移除规则失败",
+                            type: 'error'
+                        });
+                    }
+                });
     });
 
     $('#rulePool')
