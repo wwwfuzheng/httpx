@@ -5,6 +5,10 @@ label, input, button, select, textarea, legend {
     padding-top: 60px;
 }
 
+.table th, .table td {
+    border-bottom: 1px solid #1C1E22;
+}
+
 .template {
     display: none;
 }

@@ -108,26 +108,54 @@ $(function(){
         return /http(s)?:\/\//.test(s) ? 2 : 0;
     }
 
+    //拖拽排序
     $("#J_SolutionList tbody").sortable({
         helper: fixHelper
-    }).disableSelection();
+    }).disableSelection()
+        .on('sortupdate', function(ev, ui){
+        var table = $(ev.target).parent(), guids = [];
+
+        $(table).find('tr').each(function(idx, el){
+            guids.push($(el).attr('data-guid'));
+        });
+
+        $.post('/api/sortRule', {
+            rules: JSON.stringify(guids),
+            solutionId: $(table).attr('data-guid')
+        }, function(data){
+            if(data.success) {
+                $.globalMessenger().post({
+                    message: "规则重排序成功",
+                    type: 'success'
+                });
+            } else {
+                $.globalMessenger().post({
+                    message: "规则重排序失败",
+                    type: 'error'
+                });
+            }
+        });
+
+    });
 
     //规则启用取消
-    $('#J_SolutionList .J_RuleEnable').on('click', function(ev){
+    $('#J_SolutionList .J_RuleEnable').iCheck({
+        checkboxClass: 'icheckbox_polaris',
+        radioClass: 'iradio_polaris',
+        increaseArea: '-10' // optional
+    });
+
+    $('#J_SolutionList').on('click', '.J_RuleEnable', function(ev){
         $.post('api/enableRule', {
                 solutionId: $(ev.target).parents('table').attr('data-guid'),
                 guid: $(ev.target).parents('tr').attr('data-guid'),
-                enable: $(ev.target).hasAttr('checked')
+                enable: !$(ev.target).parent().hasClass('checked')
             },
             function(data){
                 if(data.success) {
                     $.globalMessenger().post({
                         message: "规则状态切换成功",
                         type: 'success'
-                    });
-
-                    $(ev.target).parents('tr').fadeOut(function(){
-                        $(this).remove();
                     });
                 } else {
                     $.globalMessenger().post({
@@ -136,10 +164,6 @@ $(function(){
                     });
                 }
             });
-    }).iCheck({
-        checkboxClass: 'icheckbox_polaris',
-        radioClass: 'iradio_polaris',
-        increaseArea: '-10' // optional
     });
 
     var ruleTypeId = '#J_StringText, #J_LocalText, #J_UrlText';
@@ -466,7 +490,6 @@ $(function(){
             }
         });
     });
-
 
     //确定添加到解决方案
     $('#addSolution .J_Sure').click(function(ev){

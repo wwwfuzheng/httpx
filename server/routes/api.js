@@ -104,7 +104,7 @@ var API = {
     enableRule: function(params, cb){
         var guid = params.guid || '',
             solutionId = params.solutionId || '',
-            enable = params.enable || false;
+            enable = params.enable === 'true' || false;
 
         var solutions = userCfg.get('solutions');
 
@@ -114,6 +114,33 @@ var API = {
                     rule.enable = enable;
                 }
             });
+
+            cb(null, {success:true});
+        } else {
+            cb(null, {success:false});
+        }
+    },
+    sortRule: function(params, cb){
+        var rules = JSON.parse(params.rules || '[]'),
+            solutionId = params.solutionId || '';
+
+        var solutions = userCfg.get('solutions'),
+            rulePool = userCfg.get('rulePool');
+
+        if(solutionId && solutions[solutionId]) {
+            var filterRules = [];
+
+            _.each(rules, function(id){
+                if(rulePool[id]) {
+                    _.each(solutions[solutionId].rules, function(rule){
+                        if(rule.id === id) {
+                            filterRules.push(rule);
+                        }
+                    });
+                }
+            });
+
+            solutions[solutionId].rules = filterRules;
 
             cb(null, {success:true});
         } else {
