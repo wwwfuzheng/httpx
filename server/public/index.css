@@ -9,6 +9,14 @@ label, input, button, select, textarea, legend {
     border-bottom: 1px solid #1C1E22;
 }
 
+table .enable {
+    width: 100px;
+}
+
+table .title {
+    width: 300px;
+}
+
 .template {
     display: none;
 }

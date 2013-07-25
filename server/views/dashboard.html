@@ -119,47 +119,54 @@
             <h4>
                 {if solution.key eq 'GLOBAL'}<i class="icon-globe"></i> {end}{solution.value.title}
             </h4>
-            <table class="table table-hover" style="background-color: #2E3236;" data-guid="{solution.key}">
-                <thead>
-                <tr>
-                    <th></th>
-                    <th>规则概要</th>
-                    <th>其他</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                {foreach rule in solution.value.rules}
-                <tr data-guid="{rule.id}">
-                    <td>
-                        <input type="checkbox" class="J_RuleEnable" {if rule.enable}checked{end}>
-                    </td>
-                    <td>{ruleList[rule.id].title}</td>
-                    <td>
-                        <form action="">
-                            <div class="controls">
-                                <label class="checkbox">
-                                    <input type="checkbox"> 替换资源不存在则走原URL
-                                </label>
-                            </div>
-                            <div class="controls">
-                                <label class="checkbox input-medium" style="display: inline-block;">
-                                    <input type="checkbox"> 输出为用户指定编码
-                                </label>
-                                <select class="input-medium">
-                                    <option value="gbk">gbk</option>
-                                    <option value="utf8">utf8</option>
-                                </select>
-                            </div>
-                        </form>
-                    </td>
-                    <td>
-                        <a href="#"><i class="icon-remove J_RemoveRule"></i></a>
-                    </td>
-                </tr>
+                {if solution.value.rules.length eq 0}
+                <div class="alert alert-info">
+                    当前方案没有规则，可以从规则库中选择一些规则添加到这里
+                </div>
+                {else}
+                <table class="table table-hover" style="background-color: #2E3236;" data-guid="{solution.key}">
+                    <thead>
+                    <tr>
+                        <th class="enable">是否启用</th>
+                        <th class="title">规则名</th>
+                        <!--<th>其他</th>-->
+                        <th>可用操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {foreach rule in solution.value.rules}
+                    <tr data-guid="{rule.id}">
+                        <td class="enable">
+                            <input type="checkbox" class="J_RuleEnable" {if rule.enable}checked{end}>
+                        </td>
+                        <td class="title">{ruleList[rule.id].title}</td>
+                        <!--<td>-->
+                        <!--<form action="">-->
+                        <!--<div class="controls">-->
+                        <!--<label class="checkbox">-->
+                        <!--<input type="checkbox"> 替换资源不存在则走原URL-->
+                        <!--</label>-->
+                        <!--</div>-->
+                        <!--<div class="controls">-->
+                        <!--<label class="checkbox input-medium" style="display: inline-block;">-->
+                        <!--<input type="checkbox"> 输出为用户指定编码-->
+                        <!--</label>-->
+                        <!--<select class="input-medium">-->
+                        <!--<option value="gbk">gbk</option>-->
+                        <!--<option value="utf8">utf8</option>-->
+                        <!--</select>-->
+                        <!--</div>-->
+                        <!--</form>-->
+                        <!--</td>-->
+                        <td>
+                            <a href="#"><i class="icon-link J_LinkTo"></i></a>
+                            <a href="#"><i class="icon-remove J_RemoveRule"></i></a>
+                        </td>
+                    </tr>
+                    {end}
+                    </tbody>
+                </table>
                 {end}
-                </tbody>
-            </table>
             </div>
             {end}
         </div>
