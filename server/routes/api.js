@@ -1,4 +1,5 @@
 var userCfg = require('../../lib/userConfig'),
+    webUtil = require('../../lib/util/util'),
     _ = require('underscore');
 
 var API = {
@@ -23,6 +24,8 @@ var API = {
                 };
             }
         });
+
+        userCfg.set('rulePool', rulePool);
 
         cb(null, {success:true});
     },
@@ -142,6 +145,34 @@ var API = {
 
             solutions[solutionId].rules = filterRules;
 
+            cb(null, {success:true});
+        } else {
+            cb(null, {success:false});
+        }
+    },
+    addSolutionTitle: function(params, cb){
+        var title = webUtil.trim(params.title) || '',
+            solutionId = webUtil.newGuid(),
+            solutions = userCfg.get('solutions');
+
+        solutions[solutionId] = {
+            title: title,
+            rules: []
+        };
+
+        userCfg.set('solutions', solutions);
+
+        cb(null, {success:true, data: {
+            title: title,
+            guid: solutionId
+        }});
+    },
+    switchSolution: function(params, cb){
+        var guid = params.guid || '',
+            solutions = userCfg.get('solutions');
+
+        if(guid && solutions[guid]) {
+            userCfg.set('use', guid);
             cb(null, {success:true});
         } else {
             cb(null, {success:false});

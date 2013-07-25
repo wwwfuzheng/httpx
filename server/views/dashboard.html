@@ -79,10 +79,10 @@
             </div>
         </div>
         <span12>
-            <div class="span8">
+            <div class="span6">
                 <p>
                     当前使用的的代理方案为：
-                    <select class="">
+                    <select id="J_SolutionSwitch">
                         {foreach solution in solutions}
                         {if solution.key neq 'GLOBAL'}
                         <option value="{solution.key}" {if solution.key eq use}selected{end}>{solution.value.title}</option>
@@ -91,13 +91,13 @@
                     </select>　+ <span class="label">全局方案</span>
                 </p>
                 <p>
-                    当前规则库中共有  <span class="label">{ruleNum}</span> 个规则
+                    当前规则库中共有  <span class="label J_RuleTotal">{ruleNum}</span> 个规则
                 </p>
             </div>
-            <div class="span4">
-                <div class="input-append well">
-                    <input class="span2" id="appendedInputButton" type="text" placeholder="自定义解决方案名">
-                    <button class="btn" type="button">添加新方案</button>
+            <div class="span6">
+                <div class="input-append well" style="float: right">
+                    <input class="span2" id="J_NewSolutionName" type="text" placeholder="给自定义解决方案取个名">
+                    <button class="btn" type="button" id="J_AddNewSolution">添加新方案</button>
                 </div>
             </div>
         </span12>
@@ -115,7 +115,7 @@
                 </p>
             </blockquote>
             {foreach solution in solutions}
-            <div class="well">
+            <div class="well" data-guid="{solution.key}">
             <h4>
                 {if solution.key eq 'GLOBAL'}<i class="icon-globe"></i> {end}{solution.value.title}
             </h4>
@@ -124,7 +124,7 @@
                     当前方案没有规则，可以从规则库中选择一些规则添加到这里
                 </div>
                 {else}
-                <table class="table table-hover" style="background-color: #2E3236;" data-guid="{solution.key}">
+                <table class="table table-hover" style="background-color: #2E3236;">
                     <thead>
                     <tr>
                         <th class="enable">是否启用</th>

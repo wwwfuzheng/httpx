@@ -23,6 +23,39 @@ var ruleTpl = [
     '</div>'
 ].join('');
 
+var solutionTpl = [
+    '<table class="table table-hover" style="background-color: #2E3236;">',
+        '<thead>',
+            '<tr>',
+                '<th class="enable">是否启用</th>',
+                '<th class="title">规则名</th>',
+                '<th>可用操作</th>',
+            '</tr>',
+        '</thead>',
+        '<tbody></tbody>',
+    '</table>'
+].join('');
+
+var solutionWrapTpl = [
+    '<div class="well animated bounce" data-guid="${guid}">',
+        '<h4>${title}</h4>',
+        '<div class="alert alert-info">当前方案没有规则，可以从规则库中选择一些规则添加到这里</div>',
+    '</div>'
+].join('');
+
+var solutionLineTpl = [
+    '<tr data-guid="${guid}" class="animated shake">',
+        '<td class="enable">',
+            '<input type="checkbox" class="J_RuleEnable" checked>',
+            '</td>',
+            '<td class="title">${simpleTitle}</td>',
+            '<td>',
+                '<a href="#"><i class="icon-link J_LinkTo"></i></a> ',
+                '<a href="#"><i class="icon-remove J_RemoveRule"></i></a>',
+            '</td>',
+        '</tr>'
+].join('');
+
 var allHideEl = '#editRule, #comboRule, #addSolution';
 
 function newGuid(){
@@ -108,29 +141,118 @@ $(function(){
         return /http(s)?:\/\//.test(s) ? 2 : 0;
     }
 
-    //拖拽排序
-    $("#J_SolutionList tbody").sortable({
-        helper: fixHelper
-    }).disableSelection()
-        .on('sortupdate', function(ev, ui){
-        var table = $(ev.target).parent(), guids = [];
+    var sortable = function(el){
+        //拖拽排序
+        $(el).sortable({
+            helper: fixHelper
+        }).disableSelection()
+            .on('sortupdate', function(ev, ui){
+                var table = $(ev.target).parent(), guids = [];
 
-        $(table).find('tr').each(function(idx, el){
-            guids.push($(el).attr('data-guid'));
-        });
+                $(table).find('tr').each(function(idx, el){
+                    guids.push($(el).attr('data-guid'));
+                });
 
-        $.post('/api/sortRule', {
-            rules: JSON.stringify(guids),
-            solutionId: $(table).attr('data-guid')
+                $.post('/api/sortRule', {
+                    t: new Date().getTime(),
+                    rules: JSON.stringify(guids),
+                    solutionId: $(table).parents('.well').attr('data-guid')
+                }, function(data){
+                    if(data.success) {
+                        $.globalMessenger().post({
+                            message: "规则重排序成功",
+                            type: 'success'
+                        });
+                    } else {
+                        $.globalMessenger().post({
+                            message: "规则重排序失败",
+                            type: 'error'
+                        });
+                    }
+                });
+            });
+    };
+
+    sortable($("#J_SolutionList tbody"));
+
+    //解决方案输入框
+    $('#J_NewSolutionName').on('focus', function(ev){
+        $(this).animate({
+            width: '356px'
+        }, 500);
+    }).on('blur', function(ev){
+        if(!$(this).val()) {
+            $(this).animate({
+                width: '156px'
+            }, 500);
+        }
+    });
+    //添加解决方案
+    $('#J_AddNewSolution').on('click', function(ev){
+        var title = $.trim($('#J_NewSolutionName').val());
+
+        if(!title) {
+            $.globalMessenger().post({
+                message: "方案的名字不能为空，随便填一下吧",
+                type: 'error'
+            });
+            return;
+        }
+
+        $.post('api/addSolutionTitle', {
+                t: new Date().getTime(),
+                title: title
+            },
+            function(data){
+                if(data.success) {
+                    $.globalMessenger().post({
+                        message: "自定义解决方案添加成功",
+                        type: 'success'
+                    });
+
+                    $.smoothScroll({
+                        offset: $('#J_SolutionList .well:last').offset().top - 200,
+                        afterScroll: function(){
+                            $('#J_SolutionList .span12').append(juicer(solutionWrapTpl, {
+                                guid: data.data.guid,
+                                title: data.data.title
+                            }));
+
+                            //添加到下拉中
+                            $('#J_SolutionSwitch, #J_SolutionIds').append(juicer('<option value="${guid}">${title}</option>', {
+                                guid: data.data.guid,
+                                title: data.data.title
+                            }));
+
+                            //clean
+                            $('#J_NewSolutionName').val('').width('156px');
+                        }
+                    });
+                } else {
+                    $.globalMessenger().post({
+                        message: "自定义解决方案添加失败",
+                        type: 'error'
+                    });
+                }
+            });
+    });
+
+    //解决方案切换
+    $('#J_SolutionSwitch').change(function(ev){
+        $.post('api/switchSolution', {
+            t: new Date().getTime(),
+            guid: $('#J_SolutionSwitch').find('option:selected').val()
         }, function(data){
             if(data.success) {
                 $.globalMessenger().post({
-                    message: "规则重排序成功",
+                    message: "当前使用的解决方案切换成功",
                     type: 'success'
                 });
+                //添加规则到解决方案这里也要改
+                $("#J_SolutionIds").get(0).selectedIndex=$('#J_SolutionSwitch').get(0).selectedIndex+1;
             } else {
                 $.globalMessenger().post({
-                    message: "规则重排序失败",
+                    message: "当前使用的解决方案切换失败",
                     type: 'error'
                 });
             }
@@ -147,7 +269,8 @@ $(function(){
 
     $('#J_SolutionList').on('click', '.J_RuleEnable', function(ev){
         $.post('api/enableRule', {
-                solutionId: $(ev.target).parents('table').attr('data-guid'),
+                t: new Date().getTime(),
+                solutionId: $(ev.target).parents('.well').attr('data-guid'),
                 guid: $(ev.target).parents('tr').attr('data-guid'),
                 enable: !$(ev.target).parent().hasClass('checked')
             },
@@ -173,7 +296,8 @@ $(function(){
             ev.preventDefault();
 
             $.post('api/removeRule', {
-                    solutionId: $(ev.target).parents('table').attr('data-guid'),
+                    t: new Date().getTime(),
+                    solutionId: $(ev.target).parents('.well').attr('data-guid'),
                     guid: $(ev.target).parents('tr').attr('data-guid')
                 },
                 function(data){
@@ -193,7 +317,30 @@ $(function(){
                         });
                     }
                 });
-    });
+        }).on('click', '.J_LinkTo', function(ev){
+            ev.preventDefault();
+
+            var ruleId = $(ev.target).parents('tr').attr('data-guid');
+
+            var rule;
+            $('#rulePool .rule').each(function(idx, el){
+                if($(el).attr('data-guid') === ruleId) {
+                    rule = el;
+                }
+            });
+
+            if(rule) {
+                $.smoothScroll({
+                    offset: $(rule).offset().top - 200,
+                    beforeScroll: function(){
+                        $(rule).removeClass('animated bounce');
+                    },
+                    afterScroll: function(){
+                        $(rule).addClass('animated bounce');
+                    }
+                });
+            }
+        });
 
     $('#rulePool')
         .on('click', '.rule', function(ev){
@@ -217,6 +364,7 @@ $(function(){
             //规则删除
             ev.stopPropagation();
             $.post('api/delRule', {
+                    t: new Date().getTime(),
                     guid: $(ev.target).parents('.rule').attr('data-guid')
                 },
                 function(data){
@@ -228,10 +376,12 @@ $(function(){
 
                         $(ev.target).parents('.rule').fadeOut(function(){
                             $(this).remove();
+                            //-1
+                            $('#dashboard .J_RuleTotal').text($('#rulePool .rule').length);
                         });
                     } else {
                         $.globalMessenger().post({
-                            message: "规则删除失败",
+                            message: "规则删除失败，可能规则已被删除",
                             type: 'error'
                         });
                     }
@@ -375,6 +525,7 @@ $(function(){
             url: 'api/addRule',
             type: 'POST',
             data: {
+                t: new Date().getTime(),
                 rules: JSON.stringify(rules)
             },
             success: function(data){
@@ -403,6 +554,8 @@ $(function(){
                             $('#addRule .error').removeClass('error');
 
                             $('#addRule .close').parents('.well').remove();
+                            //+1
+                            $('#dashboard .J_RuleTotal').text($('#rulePool .rule').length);
                         }
                     });
                 }
@@ -432,6 +585,7 @@ $(function(){
         };
 
         $.post('api/editRule', {
+                t: new Date().getTime(),
                 rule: JSON.stringify(editRule)
             },
             function(data){
@@ -496,11 +650,12 @@ $(function(){
         ev.preventDefault();
 
         //collect rule guid
-        var guids = [], id;
+        var guids = [], id, titles = {};
         $('#rulePool .rule-select').each(function(idx, rule){
             id = $(rule).attr('data-guid');
             if(id) {
                 guids.push(id);
+                titles[id] = $(rule).find('strong').attr('title');
             }
         });
 
@@ -522,9 +677,12 @@ $(function(){
             return;
         }
 
+        var solutionId = $('#J_SolutionIds option:selected').val();
+
         $.post('api/addSolution', {
+                t: new Date().getTime(),
                 guids: JSON.stringify(guids),
-                solutionId: $('#J_SolutionIds option:selected').val()
+                solutionId: solutionId
             },
             function(data){
                 if(data.success) {
@@ -533,10 +691,48 @@ $(function(){
                         type: 'success'
                     });
 
+                    var tpl = [], solutionTarget;
+
+                    $('#J_SolutionList .well').each(function(idx, el){
+                        if($(el).attr('data-guid') === solutionId) {
+                            solutionTarget = el; //.well
+                        }
+                    });
+
+                    if(!$(solutionTarget).find('table').length) {
+                        //不存在table的时候，需要创建
+                        $(solutionTarget).append(juicer(solutionTpl, {}));
+                        $(solutionTarget).find('.alert').remove();
+                        sortable($(solutionTarget).find('tbody'));
+                    }
+                    //规则选中取消
+                    $('#rulePool .rule-select').removeClass('rule-select');
+                    $('#rulePoolOperator').hide();
+
                     $.smoothScroll({
                         scrollTarget: '#J_SolutionList',
                         afterScroll: function(){
+
+                            $(guids).each(function(idx, guid) {
+                                tpl.push(juicer(solutionLineTpl, {
+                                    guid: guid,
+                                    simpleTitle: subString(titles[guid], 20, true)
+                                }));
+                            });
+
+                            //add html
+                            $(solutionTarget).find('tbody').append(tpl.join(''));
+
+                            $('#J_SolutionList .J_RuleEnable').iCheck({
+                                checkboxClass: 'icheckbox_polaris',
+                                radioClass: 'iradio_polaris',
+                                increaseArea: '-10' // optional
+                            });
+
                             $('#addSolution').hide();
+                            setTimeout(function(){
+                                $(solutionTarget).find('.animated').removeClass('animated shake');
+                            }, 2000);
                         }
                     });
 
