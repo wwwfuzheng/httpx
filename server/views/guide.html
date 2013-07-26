@@ -1,21 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head><title>配置你的Arrow</title>
-    <link rel="stylesheet" type="text/css" href="slate/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="slate/bootstrap-responsive.min.css"/>
-    <link href="slate/css/bootswatch.css" rel="stylesheet">
-    <link href="icheck/skins/polaris/polaris.css" rel="stylesheet">
-    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="http://bootswatch.com/slate/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="http://bootswatch.com/default/bootstrap-responsive.min.css"/>
+    <link href="http://bootswatch.com/css/font-awesome.min.css" rel="stylesheet">
+    <link href="http://bootswatch.com/css/bootswatch.css" rel="stylesheet">
+    <link href="http://www.bootcss.com/p/icheck/skins/polaris/polaris.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
     <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="messager/css/messenger.css">
     <link rel="stylesheet" href="messager/css/messenger-theme-future.css">
     <link rel="stylesheet" href="animate-custom.css">
 
-    <script src="jquery/jquery.min.js"></script>
-    <script src="jquery/jquery-ui.min.js"></script>
-    <script src="slate/js/bootstrap.min.js" charset="utf-8"></script>
-    <script src="icheck/js/jquery.icheck.min.js"></script>
-    <script src="jquery/jquery.smooth-scroll.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+    <script src="http://bootswatch.com/js/bootstrap.min.js" charset="utf-8"></script>
+    <script src="http://www.bootcss.com/p/icheck/js/jquery.icheck.min.js"></script>
+    <script src="http://bootswatch.com/js/jquery.smooth-scroll.min.js"></script>
     <script type="text/javascript" src="tpl/juicer-min.js"></script>
     <script type="text/javascript" src="messager/js/messenger.min.js"></script>
 </head>
@@ -49,12 +50,23 @@
     </div>
 </div>
 <div class="container">
-    <header class="jumbotron" id="overview">
+    <header class="jumbotron subhead" id="overview">
+        <div class="row">
+            <div class="span6">
+                <h1>Arrow</h1>
+                <p class="lead">做最灵活的Assets代理.</p>
+            </div>
+            <div class="span6">
+                <div class="bsa well">
+                </div>
+            </div>
+        </div>
         <div class="subnav">
             <ul class="nav nav-pills">
-                <li><a href="#dashboard">DashBoard</a></li>
-                <li><a href="#J_SolutionList">场景</a></li>
+                <li><a href="#dashboard">Dashboard</a></li>
+                <li><a href="#J_SolutionList">方案列表</a></li>
                 <li><a href="#rulePool">规则库</a></li>
+                <li><a href="#addRule">添加规则</a></li>
             </ul>
         </div>
     </header>
@@ -62,44 +74,44 @@
         <div class="span12">
             <div class="page-header">
                 <h1>
-                    <small>DashBoard</small>
+                    <small>Dashboard</small>
                 </h1>
             </div>
         </div>
-        <div class="span12">
-            <div class="span6 alert alert-success">
+        <span12>
+            <div class="span6">
                 <p>
-                    当前使用的的场景为：
+                    当前使用的的代理方案为：
                     <select id="J_SolutionSwitch">
                         {foreach solution in solutions}
                         {if solution.key neq 'GLOBAL'}
                         <option value="{solution.key}" {if solution.key eq use}selected{end}>{solution.value.title}</option>
                         {end}
                         {end}
-                    </select>　和 <span class="label">全局场景</span>
+                    </select>　+ <span class="label">全局方案</span>
                 </p>
-                <!--<p>-->
-                    <!--当前规则库中共有  <span class="label J_RuleTotal">{ruleNum}</span> 个规则-->
-                <!--</p>-->
+                <p>
+                    当前规则库中共有  <span class="label J_RuleTotal">{ruleNum}</span> 个规则
+                </p>
             </div>
-            <div class="span5">
+            <div class="span6">
                 <div class="input-append well" style="float: right">
-                    <input class="span2" id="J_NewSolutionName" type="text" placeholder="给自定义解决规则集取个名">
-                    <button class="btn" type="button" id="J_AddNewSolution">添加新规则集</button>
+                    <input class="span2" id="J_NewSolutionName" type="text" placeholder="给自定义解决方案取个名">
+                    <button class="btn" type="button" id="J_AddNewSolution">添加新方案</button>
                 </div>
             </div>
-        </div>
+        </span12>
     </div>
     <div class="row" id="J_SolutionList">
         <div class="span12">
             <div class="page-header">
                 <h1>
-                    <small>场景管理</small>
+                    <small>方案列表</small>
                 </h1>
             </div>
             <blockquote>
                 <p>
-                    全局场景里的规则在每种自定义场景下都会被执行，优先级低于自定义的场景。
+                    全局方案里的规则在每种方案下都会被执行，优先级低于自定义的规则。
                 </p>
             </blockquote>
             {foreach solution in solutions}
@@ -109,7 +121,7 @@
             </h4>
                 {if solution.value.rules.length eq 0}
                 <div class="alert alert-info">
-                    当前场景没有规则，可以从规则库中选择一些规则添加到这里
+                    当前方案没有规则，可以从规则库中选择一些规则添加到这里
                 </div>
                 {else}
                 <table class="table table-hover" style="background-color: #2E3236;">
@@ -185,7 +197,7 @@
                     <i class="icon icon-ok"></i>
                 </div>
                 {foreach rule in ruleList}
-                <div class="rule" data-guid="{rule.key}" data-type="rule.value.type">
+                <div class="rule" data-guid="{rule.key}">
                     <div class="hd">
                         <i class="{if rule.value.type eq 1}icon-folder-open-alt{elif rule.value.type eq 2}icon-link{elif rule.value.type eq 10}icon-book{else}icon-font{end}"></i>
                         <strong title="{rule.value.title}">{rule.value.simpleTitle}</strong>
@@ -337,7 +349,6 @@
                 <div class="controls pull-right">
                     <a href="#" class="btn btn-primary"><i class="icon-save"></i> 保存</a>
                     <a class="btn J_Reset" href="#"><i class="icon-undo"></i> 重置</a>
-                    <a class="btn J_ComboCancel" href="#">取消</a>
                 </div>
             </div>
         </div>
@@ -346,7 +357,7 @@
         <div class="span12">
             <div class="page-header">
                 <h1>
-                    <small>添加规则到规则集</small>
+                    <small>添加规则到方案</small>
                 </h1>
             </div>
             <div class="well clearfix">

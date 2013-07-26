@@ -7,7 +7,7 @@
 $('.navbar a, .subnav a, #footer a').smoothScroll();
 
 var ruleTpl = [
-    '<div class="rule animated bounce" data-guid="${guid}">',
+    '<div class="rule animated bounce" data-guid="${guid}" data-type="${type}">',
     '<div class="hd"><i class="${ruleCls}"></i> <strong title="${title}">${simpleTitle}</strong></div>',
     '<div class="bd">',
     '{@if isCombo}',
@@ -377,7 +377,7 @@ $(function(){
                         $(ev.target).parents('.rule').fadeOut(function(){
                             $(this).remove();
                             //-1
-                            $('#dashboard .J_RuleTotal').text($('#rulePool .rule').length);
+//                            $('#dashboard .J_RuleTotal').text($('#rulePool .rule').length);
                         });
                     } else {
                         $.globalMessenger().post({
@@ -425,6 +425,7 @@ $(function(){
 
     $('#rulePoolDetail .J_ComboRule').click(function(ev){
         ev.preventDefault();
+        $('#comboRule').show();
         $.smoothScroll({
             scrollTarget: '#comboRule'
         });
@@ -469,6 +470,7 @@ $(function(){
         }
     });
 
+    //组合规则重置
     $('#comboRule .J_Reset').click(function(ev){
         ev.preventDefault();
 
@@ -477,6 +479,18 @@ $(function(){
         });
 
         $('#comboRule .merge-active').removeClass('merge-active');
+    });
+
+    //取消组合规则
+    $('#comboRule .J_ComboCancel').click(function(ev){
+        ev.preventDefault();
+
+        $.smoothScroll({
+            scrollTarget: '#rulePool',
+            afterScroll: function() {
+                $('#comboRule').hide();
+            }
+        });
     });
 
     //添加规则模板
@@ -555,7 +569,7 @@ $(function(){
 
                             $('#addRule .close').parents('.well').remove();
                             //+1
-                            $('#dashboard .J_RuleTotal').text($('#rulePool .rule').length);
+//                            $('#dashboard .J_RuleTotal').text($('#rulePool .rule').length);
                         }
                     });
                 }
