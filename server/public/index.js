@@ -4,7 +4,7 @@
  *
  */
 
-$('.navbar a, .subnav a, #footer a').smoothScroll();
+$('#footer a').smoothScroll();
 
 var ruleTpl = [
     '<div class="rule animated bounce" data-guid="${guid}" data-type="${type}">',
@@ -44,7 +44,7 @@ var solutionWrapTpl = [
 ].join('');
 
 var solutionLineTpl = [
-    '<tr data-guid="${guid}" class="animated shake">',
+    '<tr data-guid="${guid}" class="animated flash">',
         '<td class="enable">',
             '<input type="checkbox" class="J_RuleEnable" checked>',
             '</td>',
@@ -56,7 +56,33 @@ var solutionLineTpl = [
         '</tr>'
 ].join('');
 
-var allHideEl = '#editRule, #comboRule, #addSolution';
+var PlaceHolder = {
+    start: function(el, fn){
+        el = $(el);
+        $('#J_PlaceHolder').animate({
+            height: '500px'
+        },200, function(){
+            el.show();
+            $.smoothScroll({
+                scrollTarget: el,
+                afterScroll: function() {
+                    el.spotlight({
+                        color: '#fff'
+                    });
+                    fn && fn(el);
+                }
+            });
+        });
+    },
+    reset: function(fn){
+        $('#spotlight').remove();
+        $('#J_PlaceHolder').animate({
+            height: '70px'
+        },200, fn);
+    }
+};
+
+var allHideEl = '#addRule, #editRule, #comboRule, #addSolution';
 
 function newGuid(){
     var guid = "";
@@ -108,34 +134,6 @@ var fixHelper = function(e, ui) {
 };
 
 $(function(){
-
-    var $win = $(window),
-        $body = $('body'),
-        $nav = $('.subnav'),
-        navHeight = $('.navbar').first().height(),
-        subnavHeight = $('.subnav').first().height(),
-        subnavTop = $('.subnav').length && $('.subnav').offset().top - navHeight,
-        marginTop = parseInt($body.css('margin-top'), 10),
-        isFixed = 0;
-
-    processScroll();
-
-    $win.on('scroll', processScroll);
-
-    function processScroll() {
-        var i, scrollTop = $win.scrollTop();
-
-        if (scrollTop >= subnavTop && !isFixed) {
-            isFixed = 1;
-            $nav.addClass('subnav-fixed');
-            $body.css('margin-top', marginTop + subnavHeight + 'px');
-        } else if (scrollTop <= subnavTop && isFixed) {
-            isFixed = 0;
-            $nav.removeClass('subnav-fixed');
-            $body.css('margin-top', marginTop + 'px');
-        }
-    }
-
     //0 普通字符串和正则 1 本地路径和文件 2 http的url 10 组合规则
     function getRuleType(s){
         return /http(s)?:\/\//.test(s) ? 2 : 0;
@@ -289,8 +287,6 @@ $(function(){
             });
     });
 
-    var ruleTypeId = '#J_StringText, #J_LocalText, #J_UrlText';
-
     $('#J_SolutionList')
         .on('click', '.J_RemoveRule', function(ev){
             ev.preventDefault();
@@ -392,7 +388,6 @@ $(function(){
             var parent = $(ev.target).parents('.rule');
 
             //规则编辑
-            $('#editRule').show();
             $('#editRule').attr('data-guid', parent.attr('data-guid'));
             $('#editRule .J_Pattern').val(parent.find('code:first').text());
             $('#editRule .J_Target').val(parent.find('code:last').text());
@@ -403,19 +398,14 @@ $(function(){
                 $('#editRule .J_IsLocalPath').removeAttr('checked');
             }
 
-            $.smoothScroll({
-                scrollTarget: '#editRule'
-            });
+            PlaceHolder.start('#editRule');
         });
 
     //把规则添加到解决方案
     $('#rulePoolDetail .J_AddSolution').click(function(ev){
         ev.preventDefault();
         $('#addSolution .J_SelectNum').html($('#rulePool .rule-select').length);
-        $('#addSolution').show();
-        $.smoothScroll({
-            scrollTarget: '#addSolution'
-        });
+        PlaceHolder.start('#addSolution');
     });
 
     $('#rulePoolDetail .J_ClearSelect').click(function(ev){
@@ -425,10 +415,8 @@ $(function(){
 
     $('#rulePoolDetail .J_ComboRule').click(function(ev){
         ev.preventDefault();
-        $('#comboRule').show();
-        $.smoothScroll({
-            scrollTarget: '#comboRule'
-        });
+
+        PlaceHolder.start('#comboRule');
     });
 
     //拖拽
@@ -482,13 +470,17 @@ $(function(){
     });
 
     //取消组合规则
-    $('#comboRule .J_ComboCancel').click(function(ev){
+    $('#comboRule .J_Cancel').click(function(ev){
         ev.preventDefault();
 
         $.smoothScroll({
             scrollTarget: '#rulePool',
             afterScroll: function() {
-                $('#comboRule').hide();
+                $('#comboRule').css({
+                    zIndex: 0,
+                    position: 'static'
+                }).hide();
+                PlaceHolder.reset();
             }
         });
     });
@@ -502,6 +494,28 @@ $(function(){
         $('#addRule .well:last').find('.close').bind('click', function(ev){
             ev.preventDefault();
             $(this).parents('.well').remove();
+        });
+    });
+
+    //show add rule area
+    $('#J_ShowAddRuleArea').click(function(ev){
+        ev.preventDefault();
+
+        PlaceHolder.start('#addRule');
+    });
+
+    $('#addRule .J_Cancel').click(function(ev){
+        ev.preventDefault();
+
+        $.smoothScroll({
+            scrollTarget: '#rulePool',
+            afterScroll: function(){
+                $('#addRule').css({
+                    zIndex: 0,
+                    position: 'static'
+                }).hide().find('form').get(0).reset();
+                PlaceHolder.reset();
+            }
         });
     });
 
@@ -648,13 +662,17 @@ $(function(){
     });
 
     //编辑取消
-    $('#editRule .J_EditCancel').click(function(ev){
+    $('#editRule .J_Cancel').click(function(ev){
         ev.preventDefault();
 
         $.smoothScroll({
             scrollTarget: '#rulePool',
             afterScroll: function(){
-                $('#editRule').hide();
+                $('#editRule').css({
+                    zIndex: 0,
+                    position: 'static'
+                }).hide();
+                PlaceHolder.reset();
             }
         });
     });
@@ -745,7 +763,7 @@ $(function(){
 
                             $('#addSolution').hide();
                             setTimeout(function(){
-                                $(solutionTarget).find('.animated').removeClass('animated shake');
+                                $(solutionTarget).find('.animated').removeClass('animated flash');
                             }, 2000);
                         }
                     });
@@ -765,7 +783,11 @@ $(function(){
         $.smoothScroll({
             scrollTarget: '#rulePool',
             afterScroll: function(){
-                $('#addSolution').hide();
+                $('#addSolution').css({
+                    zIndex: 0,
+                    position: 'static'
+                }).hide();
+                PlaceHolder.reset();
             }
         });
     });

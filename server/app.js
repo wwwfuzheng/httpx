@@ -49,7 +49,12 @@ app.configure('production', function(){
 app.get('(*??*|*.(' + contentType.contentTypeKeys('|') + '))', route.prepare, proxy.done);
 
 app.get('/', function(req, res){
-    res.render('dashboard', WebView.renderDashBoard());
+    var remoteIp = req.connection.remoteAddress;
+    if(remoteIp == '127.0.0.1' || remoteIp == 'localhost') {
+        res.render('dashboard', WebView.renderDashBoard());
+    } else {
+        res.render('guest', WebView.renderGuest());
+    }
 });
 
 app.post('/api/:api', Api.route);

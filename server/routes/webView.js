@@ -21,5 +21,11 @@ module.exports = {
             ruleNum: _.keys(ruleList).length,
             use: userConfig.get('use')
         };
+    },
+    renderGuest: function(){
+        return {
+            solutions: userConfig.get('solutions'),
+            use: userConfig.get('use')
+        };
     }
 };

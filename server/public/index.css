@@ -180,6 +180,11 @@ table .title {
     display: inline-block;
 }
 
-#editRule, #comboRule, #addSolution {
+#editRule, #comboRule, #addSolution, #addRule {
     display: none;
+}
+
+.row {
+    background-color: #272b30;
+    margin-right: -30px;
 }
