@@ -8,7 +8,7 @@ $('#footer a').smoothScroll();
 
 var ruleTpl = [
     '<div class="rule animated bounce" data-guid="${guid}" data-type="${type}">',
-    '<div class="hd"><i class="${ruleCls}"></i> <strong title="${title}">${simpleTitle}</strong></div>',
+    '<div class="hd"><i class="{@if type==1}icon-folder-open-alt{@else if type==2}icon-link{@else if type==10}icon-list-ol{@else}icon-font{@/if}"></i> <strong title="${title}">${simpleTitle}</strong></div>',
     '<div class="bd">',
     '{@if isCombo}',
     '<p>共包含 <strong>${num}</strong> 个规则</p>',
@@ -172,6 +172,16 @@ $(function(){
     };
 
     sortable($("#J_SolutionList tbody"));
+
+    //合并规则排序
+    $('#comboRule tbody').sortable({
+        helper: fixHelper
+    }).disableSelection()
+        .on('sortupdate', function(ev, ui){
+            $('#comboRule .seq').each(function(idx, el){
+                $(el).text(idx+1);
+            });
+        });
 
     //解决方案输入框
     $('#J_NewSolutionName').on('focus', function(ev){
@@ -413,60 +423,34 @@ $(function(){
         $('#rulePool .rule-select').toggleClass('rule-select');
     });
 
+    $('#comboRule .J_ComboRuleName').on('focus', function(){
+        $(this).animate({
+            width: '356px'
+        }, 500);
+    }).on('blur', function(){
+        if(!$(this).val()) {
+            $(this).animate({
+                width: '156px'
+            }, 500);
+        }
+    });
+
     $('#rulePoolDetail .J_ComboRule').click(function(ev){
         ev.preventDefault();
 
-        PlaceHolder.start('#comboRule');
-    });
-
-    //拖拽
-    $("#comboRule .rule-name").draggable({
-        cursor: "move",
-        revert: "invalid",
-        helper: "clone",
-        opacity: 0.7,
-        stop: function(){
-            $("#comboRule .step").each(function(idx, el){
-                if($('.rule-name', el).length) {
-                    $(el).addClass( "merge-active");
-                } else {
-//                    $(el).removeClass( "merge-active");
-                }
-            });
-        }
-//        containment: "#comboRule"
-    });
-
-    $("#comboRule .step").droppable({
-        hoverClass: "merge-active",
-        drop: function( event, ui ) {
-            var self = this;
-
-            $( self ).addClass( "merge-active").removeClass('empty');
-
-            $(ui.draggable).fadeOut(function(){
-                $(this).appendTo(self).fadeIn();
-
-                $("#comboRule .step").each(function(idx, el){
-                    if($('.rule-name', el).length) {
-//                        $(el).addClass( "merge-active");
-                    } else {
-                        $(el).removeClass( "merge-active");
-                    }
-                });
-            });
-        }
-    });
-
-    //组合规则重置
-    $('#comboRule .J_Reset').click(function(ev){
-        ev.preventDefault();
-
-        $( "#comboRule .rule-name").fadeOut(function(){
-            $(this).appendTo($( "#comboRule .rule-list")).fadeIn();
+        var tpl = [];
+        $('#rulePool .rule-select').filter(function(idx, el) {
+            return $(el).attr('data-type') != 10;
+        }).each(function(idx, el){
+            tpl.push(juicer('<tr data-guid="${guid}"><td class="seq">${idx}</td><td>${title}</td></tr>', {
+                idx: idx+1,
+                guid: $(el).attr('data-guid'),
+                title: $(el).find('strong').attr('title')
+            }));
         });
+        $('#comboRule tbody').html(tpl.join(''));
 
-        $('#comboRule .merge-active').removeClass('merge-active');
+        PlaceHolder.start('#comboRule');
     });
 
     //取消组合规则
@@ -483,6 +467,75 @@ $(function(){
                 PlaceHolder.reset();
             }
         });
+    });
+
+    $('#comboRule .J_Save').click(function(ev){
+        ev.preventDefault();
+
+        var groups = [];
+        $('#comboRule tbody tr').each(function(idx, el){
+            groups.push($(el).attr('data-guid'));
+        });
+
+        if(!groups.length) {
+            $.globalMessenger().post({
+                message: "请添加一些规则再尝试组合",
+                type: 'error'
+            });
+            return;
+        }
+
+        var rules = [{
+            title: $.trim($('#comboRule .J_ComboRuleName').val()),
+            groups: groups,
+            type: 10,
+            guid: newGuid()
+        }];
+
+        $.post('api/addRule', {
+                t: new Date().getTime(),
+                rules: JSON.stringify(rules)
+            },
+            function(data){
+                if(data.success) {
+                    var tpl = [];
+                    $.each(rules, function(idx, rule){
+                        tpl.push(juicer(ruleTpl, {
+                            title: rule.title,
+                            isCombo: true,
+                            type : 10,
+                            guid: rule.guid,
+                            simpleTitle: subString(rule.title, 16, true),
+                            num: rule.groups.length
+                        }));
+                    });
+
+                    $.smoothScroll({
+                        offset: $('#rulePool .rule:last').offset().top - 200,
+                        afterScroll: function(){
+                            $('#rulePoolDetail').append(tpl.join(''));
+
+                            //clean form
+                            $('#comboRule .J_ComboRuleName').val('');
+                            PlaceHolder.reset();
+                            //规则选中取消
+                            $('#rulePool .rule-select').removeClass('rule-select');
+                            $('#rulePoolOperator').hide();
+
+                            $.globalMessenger().post({
+                                message: "组合规则添加成功",
+                                type: 'success'
+                            });
+                        }
+                    });
+                } else {
+                    $.globalMessenger().post({
+                        message: "组合规则添加失败",
+                        type: 'error'
+                    });
+                }
+            });
+
     });
 
     //添加规则模板
@@ -565,7 +618,6 @@ $(function(){
                             pattern: rule.pattern,
                             target: rule.target,
                             type : rule.type,
-                            ruleCls: rule.type == 1 ? 'icon-folder-open-alt': rule.type == 2? 'icon-link': 'icon-font',
                             guid: rule.guid,
                             simpleTitle: subString(rule.title, 16, true)
                         }));
@@ -582,8 +634,7 @@ $(function(){
                             $('#addRule .error').removeClass('error');
 
                             $('#addRule .close').parents('.well').remove();
-                            //+1
-//                            $('#dashboard .J_RuleTotal').text($('#rulePool .rule').length);
+                            PlaceHolder.reset();
                         }
                     });
                 }
@@ -638,7 +689,6 @@ $(function(){
                                 pattern: editRule.pattern,
                                 target: editRule.target,
                                 type : editRule.type,
-                                ruleCls: editRule.type == 1 ? 'icon-folder-open-alt': editRule.type == 2? 'icon-link': 'icon-font',
                                 guid: editRule.guid,
                                 simpleTitle: subString(editRule.title, 16, true)
                             }));
@@ -649,6 +699,7 @@ $(function(){
                             $('#addRule .error').removeClass('error');
 
                             $('#editRule').hide();
+                            PlaceHolder.reset();
                         }
                     });
 

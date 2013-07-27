@@ -11,13 +11,13 @@ var API = {
             if(rule.type == 10) {
                 //组合规则
                 rulePool[rule.guid] = {
-                    title: rule.title,
+                    title: webUtil.trim(rule.title),
                     type: rule.type,
-                    rule: rule.rule
+                    groups: rule.groups
                 };
             } else {
                 rulePool[rule.guid] = {
-                    title: rule.title,
+                    title: webUtil.trim(rule.title),
                     pattern: rule.pattern,
                     target: rule.target,
                     type: rule.type
@@ -35,6 +35,7 @@ var API = {
 
         if(guid && rulePool[guid]) {
             delete rulePool[guid];
+            userCfg.set('rulePool', rulePool);
 
             cb(null, {success:true});
         } else {
@@ -48,13 +49,13 @@ var API = {
         if(rule.type == 10) {
             //组合规则
             rulePool[rule.guid] = {
-                title: rule.title,
+                title: webUtil.trim(rule.title),
                 type: rule.type,
-                rule: rule.rule
+                groups: rule.groups
             };
         } else {
             rulePool[rule.guid] = {
-                title: rule.title,
+                title: webUtil.trim(rule.title),
                 pattern: rule.pattern,
                 target: rule.target,
                 type: rule.type
@@ -169,6 +170,7 @@ var API = {
     },
     switchSolution: function(params, cb){
         var guid = params.guid || '',
+            removeIp = params.removeIp,
             solutions = userCfg.get('solutions');
 
         if(guid && solutions[guid]) {
@@ -184,6 +186,8 @@ exports.route = function(req, res){
     var api = req.params.api;
 
     var params = req.method == 'GET' ? req.query : req.body;
+
+    params.removeIp = req.connection.remoteAddress;
 
     API[api](params, function(err, result) {
         if(err) {

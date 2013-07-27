@@ -117,50 +117,12 @@ table .title {
     z-index: 1;
 }
 
-.step, .arr {
-    float:left;
-    width: 120px;
-    height: 120px;
-    line-height: 140px;
-    text-align: center;
-}
-
-.step {
-    background-color: #F2F2F2;
-    color: #aaa;
-    border: 2px dashed #666;
-    position:relative;
-    border-radius: 5px;
-    font-size: 40px;
-    font-weight: bold;
-    line-height: 120px;
-}
-
-.merge-active {
-    border: 2px solid #1cef6d;
-}
-
-.rule-list {
-    min-height: 30px;
-}
-
-.rule-name {
-    display: inline-block;
-    min-width: 80px;
-    max-width: 200px;
-    white-space:normal;
-    text-align: center;
-    cursor:move;
-    z-index: 1;
-    margin-right: 10px;
-    margin-bottom: 10px;
-}
-
-.step .rule-name {
-    position: absolute;
-    left: 0;
-    top: 0;
-    max-width: 112px;
+#comboRule .rule-list .seq {
+    font-weight: 700;
+    font-size: 22px;
+    font-style: italic;
+    font-family: Constantia, Georgia;
+    width: 150px;
 }
 
 #addSolution p {

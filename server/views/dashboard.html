@@ -171,24 +171,15 @@
                         <li><a href="#" class="J_ClearSelect">取消所有选中</a></li>
                     </ul>
                 </div>
-                <div class="rule">
-                    <div class="hd"><i class="icon-book"></i> <strong>组合规则</strong></div>
-                    <div class="bd">
-                        <p>共包含 <strong>4</strong> 个规则</p>
-                    </div>
-                    <i class="icon icon-edit"></i>
-                    <i class="icon icon-trash"></i>
-                    <i class="icon icon-ok"></i>
-                </div>
                 {foreach rule in ruleList}
-                <div class="rule" data-guid="{rule.key}" data-type="rule.value.type">
+                <div class="rule" data-guid="{rule.key}" data-type="{rule.value.type}">
                     <div class="hd">
-                        <i class="{if rule.value.type eq 1}icon-folder-open-alt{elif rule.value.type eq 2}icon-link{elif rule.value.type eq 10}icon-book{else}icon-font{end}"></i>
+                        <i class="{if rule.value.type eq 1}icon-folder-open-alt{elif rule.value.type eq 2}icon-link{elif rule.value.type eq 10}icon-list-ol{else}icon-font{end}"></i>
                         <strong title="{rule.value.title}">{rule.value.simpleTitle}</strong>
                     </div>
                     <div class="bd">
                         {if rule.value.type eq 10}
-                        <p>共包含 <strong>{rule.value.num}</strong> 个规则</p>
+                        <p>共包含 <strong>{rule.value.groups.length}</strong> 个规则</p>
                         {else}
                         <p>如匹配到 <code>{rule.value.pattern}</code></p>
                         <p>则替换为 <code>{rule.value.target}</code></p>
@@ -291,7 +282,7 @@
                         <div class="control-group">
                             <label class="control-label">规则名</label>
                             <div class="controls">
-                                <input type="text" placeholder="随便取个名" class="input-xxlarge J_Title">
+                                <input type="text" placeholder="随便取个名，比如代理到项目目录" class="input-xxlarge J_Title">
                             </div>
                         </div>
                     </div>
@@ -315,31 +306,27 @@
             </div>
             <blockquote>
                 <p>
-                    用鼠标将多个规则拖放组合为一个新的规则组合，其中的每个规则都将会执行一次，不论是否匹配。
+                    用鼠标将多个规则拖拽排序合为一新的规则组合，其中的每个规则都将会执行一次，不论是否匹配。组合规则不能再次组合.
                 </p>
             </blockquote>
             <div class="well clearfix">
-                <div class="rule-list clearfix">
-                    <span class="label label-info rule-name">kissy-min变kissy</span>
-                    <span class="label label-info rule-name">换成源码</span>
-                </div>
+                <table class="table table-hover" style="background-color: #2E3236;">
+                    <thead>
+                    <tr>
+                        <th>规则合并顺序</th>
+                        <th>规则名</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
                 <hr style="border-top-color: #fff">
-                <div class="steps clearfix">
-                    <div class="step">1</div>
-                    <div class="arr"><i class="icon-double-angle-right icon-4x"></i></div>
-                    <div class="step">2</div>
-                    <div class="arr"><i class="icon-double-angle-right icon-4x"></i></div>
-                    <div class="step">3</div>
-                    <div class="arr"><i class="icon-double-angle-right icon-4x"></i></div>
-                    <div class="step">4</div>
-                    <div class="arr"><i class="icon-double-angle-right icon-4x"></i></div>
-                    <div class="step" style="margin-right: 0">5</div>
-                </div>
-                <hr style="border-top-color: #fff">
-                <div class="controls pull-right">
-                    <a href="#" class="btn btn-primary"><i class="icon-save"></i> 保存组合规则</a>
-                    <a class="btn J_Reset" href="#"><i class="icon-undo"></i> 重置</a>
-                    <a class="btn J_Cancel" href="#">取消</a>
+                <a class="btn J_Cancel pull-right" href="#">取消</a>
+                <div class="controls pull-right" style="margin-right: 10px;">
+                    <div class="input-append">
+                        <input class="span2 J_ComboRuleName" type="text" placeholder="可以取个名哦">
+                        <a href="#" class="btn J_Save"><i class="icon-save"></i> 保存组合规则</a>
+                    </div>
                 </div>
             </div>
         </div>

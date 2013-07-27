@@ -12,20 +12,20 @@ module.exports = {
         var ruleList = userConfig.get('rulePool');
 
         _.each(ruleList, function(rule){
-            rule.simpleTitle = webUtil.subString(rule.title, 16, true);
+            rule.simpleTitle = webUtil.subString(rule.title || '', 16, true);
         });
 
         return {
             ruleList: ruleList,
             solutions: userConfig.get('solutions'),
             ruleNum: _.keys(ruleList).length,
-            use: userConfig.get('use')
+            use: userConfig.get('use')['127.0.0.1']
         };
     },
-    renderGuest: function(){
+    renderGuest: function(remoteIp){
         return {
             solutions: userConfig.get('solutions'),
-            use: userConfig.get('use')
+            use: userConfig.get('use')[remoteIp]
         };
     }
 };

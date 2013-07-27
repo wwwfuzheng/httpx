@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @fileoverview
  * @author Harry Chen <zhangting@taobao.com>
  *
@@ -46,18 +46,25 @@ app.configure('production', function(){
     app.use(express.errorHandler());
 });
 
-app.get('(*??*|*.(' + contentType.contentTypeKeys('|') + '))', route.prepare, proxy.done);
-
-app.get('/', function(req, res){
-    var remoteIp = req.connection.remoteAddress;
-    if(remoteIp == '127.0.0.1' || remoteIp == 'localhost') {
-        res.render('dashboard', WebView.renderDashBoard());
-    } else {
-        res.render('guest', WebView.renderGuest());
-    }
-});
+//app.get('(*??*|*.(' + contentType.contentTypeKeys('|') + '))', route.prepare, proxy.done);
 
 app.post('/api/:api', Api.route);
+
+app.get('/*', function(req, res, next){
+    var remoteIp = req.connection.remoteAddress;
+
+    if(req.url == '/') {
+
+        res.render('dashboard', WebView.renderDashBoard());
+//        if(remoteIp == '127.0.0.1') {
+//            res.render('dashboard', WebView.renderDashBoard());
+//        } else {
+//            res.render('guest', WebView.renderGuest(remoteIp));
+//        }
+    } else {
+        next();
+    }
+}, route.prepare, proxy.done);
 
 http.createServer(app).listen(app.get('port'), function () {
     userCfg.init({
@@ -65,12 +72,12 @@ http.createServer(app).listen(app.get('port'), function () {
     });
 
     console.log('Status:', 'Success'.bold.green);
-    console.log("Listen Port： " + app.get('port').toString().cyan);
-    console.log("Help：" + "(sudo) vm help".cyan);
-    console.log('请使用 '+ 'Control+C'.bold +  ' 来关闭控制台，配置页:http://127.0.0.1' + (app.get('port').toString() === '80' ? '' : ':' + app.get('port')));
+    console.log("Listen Port" + app.get('port').toString().cyan);
+    console.log("Help" + "(sudo) vm help".cyan);
+    console.log('请使用'+ 'Control+C'.bold +  ' 来关闭控制台，配置页:http://127.0.0.1' + (app.get('port').toString() === '80' ? '' : ':' + app.get('port')));
 
 }).on('error', function(err){
     console.log('Status:', 'Fail'.bold.red);
     console.log('Error:', err.message.toString().bold.red, '可能是端口被占用或者权限不足');
-    console.log('请使用 '+ 'Control+C'.bold +  ' 来关闭控制台');
+    console.log('请使用'+ 'Control+C'.bold +  ' 来关闭控制台');
 });

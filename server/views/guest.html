@@ -5,15 +5,22 @@
     <link rel="stylesheet" type="text/css" href="http://bootswatch.com/default/bootstrap-responsive.min.css"/>
     <link href="http://bootswatch.com/css/font-awesome.min.css" rel="stylesheet">
     <link href="http://bootswatch.com/css/bootswatch.css" rel="stylesheet">
-    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
-    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
-    <link href="http://www.bootcss.com/p/icheck/skins/futurico/futurico.css" rel="stylesheet">
+    <link href="http://www.bootcss.com/p/icheck/skins/polaris/polaris.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="messager/css/messenger.css">
+    <link rel="stylesheet" href="messager/css/messenger-theme-future.css">
+    <link rel="stylesheet" href="animate-custom.css">
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
     <script src="http://bootswatch.com/js/bootstrap.min.js" charset="utf-8"></script>
     <script src="http://www.bootcss.com/p/icheck/js/jquery.icheck.min.js"></script>
+    <script src="http://bootswatch.com/js/jquery.smooth-scroll.min.js"></script>
+    <script type="text/javascript" src="tpl/juicer-min.js"></script>
+    <script type="text/javascript" src="messager/js/messenger.min.js"></script>
 </head>
-<body class="preview">
+<body class="preview" id="top" data-spy="scroll" data-target=".subnav" data-offset="80">
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="navbar-inner">
         <div class="container">
@@ -43,20 +50,42 @@
     </div>
 </div>
 <div class="container">
-    <header class="jumbotron subhead" id="overview">
-        <div class="row">
-            <div class="span6">
-                <h1>Arrow</h1>
-                <p class="lead">努力做最简单的资源代理工具.</p>
-            </div>
-            <div class="span6">
-                <div class="bsa well">
-                    <div id="bsap_1277971" class="bsarocks bsap_c466df00a3cd5ee8568b5c4983b6bb19"></div>
-                </div>
+    <div class="row" id="dashboard">
+        <div class="span12">
+            <div class="page-header">
+                <h1>
+                    <small>Dashboard</small>
+                </h1>
             </div>
         </div>
-    </header>
+        <div class="span6">
+            <p>
+                当前使用的的代理方案为：
+                <select id="J_SolutionSwitch">
+                    {foreach solution in solutions}
+                    {if solution.key neq 'GLOBAL'}
+                    <option value="{solution.key}" {if solution.key eq use}selected{end}>{solution.value.title}</option>
+                    {end}
+                    {end}
+                </select>
+            </p>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <hr>
+    <footer id="footer">
+        <div class="links">
+            <a href="https://github.com/czy88840616/arrow">GitHub</a>
+            <a href="https://github.com/thomaspark/bootswatch/">Document</a>
+            <a href="https://github.com/thomaspark/bootswatch/">Guide</a>
+        </div>
+        Made by <a href="mailto:zhangting@taobao.com">zhangting</a><br>
+    </footer>
 </div>
-
 </body>
 </html>
