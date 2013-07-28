@@ -61,6 +61,8 @@ app.get('/*', function(req, res, next){
 //        } else {
 //            res.render('guest', WebView.renderGuest(remoteIp));
 //        }
+    } else if(req.url == '/settings' || req.url == '/settings') {
+        res.render('settings', WebView.renderDashBoard());
     } else {
         next();
     }
@@ -73,7 +75,7 @@ http.createServer(app).listen(app.get('port'), function () {
 
     console.log('Status:', 'Success'.bold.green);
     console.log("Listen Port" + app.get('port').toString().cyan);
-    console.log("Help" + "(sudo) vm help".cyan);
+    console.log("Help" + "(sudo) av help".cyan);
     console.log('请使用'+ 'Control+C'.bold +  ' 来关闭控制台，配置页:http://127.0.0.1' + (app.get('port').toString() === '80' ? '' : ':' + app.get('port')));
 
 }).on('error', function(err){

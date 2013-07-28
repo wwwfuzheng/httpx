@@ -17,7 +17,9 @@ var ruleTpl = [
     '<p>替换为 <code>${target}</code></p>',
     '{@/if}',
     '</div>',
+    '{@if !isCombo}',
     '<i class="icon icon-edit"></i>',
+    '{@/if}',
     '<i class="icon icon-trash"></i>',
     '<i class="icon icon-ok"></i>',
     '</div>'
@@ -81,8 +83,6 @@ var PlaceHolder = {
         },200, fn);
     }
 };
-
-var allHideEl = '#addRule, #editRule, #comboRule, #addSolution';
 
 function newGuid(){
     var guid = "";
@@ -346,6 +346,32 @@ $(function(){
                     }
                 });
             }
+        }).on('click', '.J_DelSolution', function(ev){
+            ev.preventDefault();
+
+            if(confirm('确定要删除场景么？')) {
+                $.post('api/delSolution', {
+                        t: new Date().getTime(),
+                        solutionId: $(ev.target).parents('.well').attr('data-guid')
+                    },
+                    function(data){
+                        if(data.success) {
+                            $.globalMessenger().post({
+                                message: "删除场景成功",
+                                type: 'success'
+                            });
+
+                            $(ev.target).parents('.well').fadeOut(function(){
+                                $(this).remove();
+                            });
+                        } else {
+                            $.globalMessenger().post({
+                                message: "删除场景失败",
+                                type: 'error'
+                            });
+                        }
+                    });
+            }
         });
 
     $('#rulePool')
@@ -355,12 +381,18 @@ $(function(){
             $('#rulePoolOperator').hide();
 
             if($('#rulePool .rule-select').length) {
-                var srcObj = $(ev.currentTarget).position();
+                var srcObj;
+                if($(ev.currentTarget).hasClass('rule-select')) {
+                    srcObj = $(ev.currentTarget);
+                } else {
+                    srcObj = $('#rulePool .rule-select:last');
+                }
 
                 $('#rulePoolOperator').css({
-                    left: srcObj.left + $(ev.currentTarget).width() + 5,
-                    top: srcObj.top
+                    left: srcObj.position().left + srcObj.width() +  5,
+                    top: srcObj.position().top
                 });
+
                 $('#rulePoolOperator').fadeIn();
             } else {
                 $('#rulePoolOperator').hide();
@@ -397,18 +429,47 @@ $(function(){
             ev.stopPropagation();
             var parent = $(ev.target).parents('.rule');
 
-            //规则编辑
-            $('#editRule').attr('data-guid', parent.attr('data-guid'));
-            $('#editRule .J_Pattern').val(parent.find('code:first').text());
-            $('#editRule .J_Target').val(parent.find('code:last').text());
-            $('#editRule .J_Title').val(parent.find('.hd strong').attr('title'));
-            if(parent.find('.J_IsLocalPath:checked').length) {
-                $('#editRule .J_IsLocalPath').attr('checked', 'checked');
-            } else {
-                $('#editRule .J_IsLocalPath').removeAttr('checked');
-            }
+            if(parent.attr('data-type') === '10') {
+                $.post('api/getComboRules', {
+                    t: new Date().getTime(),
+                    guid: parent.attr('data-guid')
+                }, function(data){
+                    if(data.success) {
+                        var tpl = [];
+                        $.each(data.data.comboRule.groups, function(idx, guid){
+                            tpl.push(juicer('<tr data-guid="${guid}"><td class="seq">${idx}</td><td>${title}</td></tr>', {
+                                idx: idx+1,
+                                guid: guid,
+                                title: data.data.rules[guid].title
+                            }));
+                        });
+                        $('#comboRule tbody').html(tpl.join(''));
+                        $('#comboRule table').attr('data-guid', parent.attr('data-guid'));
 
-            PlaceHolder.start('#editRule');
+                        //set value
+                        $('#comboRule .J_ComboRuleName').val(data.data.comboRule.title);
+                        PlaceHolder.start('#comboRule');
+                    } else {
+                        $.globalMessenger().post({
+                            message: "获取组合规则信息失败",
+                            type: 'error'
+                        });
+                    }
+                });
+
+            } else {
+                //规则编辑
+                $('#editRule').attr('data-guid', parent.attr('data-guid'));
+                $('#editRule .J_Pattern').val(parent.find('code:first').text());
+                $('#editRule .J_Target').val(parent.find('code:last').text());
+                $('#editRule .J_Title').val(parent.find('.hd strong').attr('title'));
+                if(parent.find('.J_IsLocalPath:checked').length) {
+                    $('#editRule .J_IsLocalPath').attr('checked', 'checked');
+                } else {
+                    $('#editRule .J_IsLocalPath').removeAttr('checked');
+                }
+                PlaceHolder.start('#editRule');
+            }
         });
 
     //把规则添加到解决方案
@@ -460,6 +521,7 @@ $(function(){
         $.smoothScroll({
             scrollTarget: '#rulePool',
             afterScroll: function() {
+                $('#comboRule table').removeAttr('data-guid');
                 $('#comboRule').css({
                     zIndex: 0,
                     position: 'static'
@@ -514,7 +576,7 @@ $(function(){
                         offset: $('#rulePool .rule:last').offset().top - 200,
                         afterScroll: function(){
                             $('#rulePoolDetail').append(tpl.join(''));
-
+                            $('#comboRule table').removeAttr('data-guid');
                             //clean form
                             $('#comboRule .J_ComboRuleName').val('');
                             PlaceHolder.reset();
@@ -634,6 +696,7 @@ $(function(){
                             $('#addRule .error').removeClass('error');
 
                             $('#addRule .close').parents('.well').remove();
+                            $('#addRule').hide();
                             PlaceHolder.reset();
                         }
                     });
@@ -795,8 +858,8 @@ $(function(){
                     $.smoothScroll({
                         scrollTarget: '#J_SolutionList',
                         afterScroll: function(){
-
-                            $(guids).each(function(idx, guid) {
+                            PlaceHolder.reset();
+                            $.each(data.data.guids, function(idx, guid) {
                                 tpl.push(juicer(solutionLineTpl, {
                                     guid: guid,
                                     simpleTitle: subString(titles[guid], 20, true)
@@ -813,6 +876,7 @@ $(function(){
                             });
 
                             $('#addSolution').hide();
+
                             setTimeout(function(){
                                 $(solutionTarget).find('.animated').removeClass('animated flash');
                             }, 2000);
@@ -841,5 +905,15 @@ $(function(){
                 PlaceHolder.reset();
             }
         });
+    });
+
+    $('.J_QS').click(function(ev){
+        ev.preventDefault();
+
+        if(window.guideStart) {
+            window.guideStart();
+        } else {
+            $.getScript('guide.js');
+        }
     });
 });

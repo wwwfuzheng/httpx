@@ -71,15 +71,29 @@ var API = {
         var solutions = userCfg.get('solutions');
 
         if(guids.length && solutionId && solutions[solutionId]) {
-            var solution = solutions[solutionId];
+            var solution = solutions[solutionId],
+                successCount = 0,
+                duplicateCount = 0,
+                successGuids = [];
             _.each(guids, function(guid){
-                solution.rules.push({
-                    id: guid,
-                    enable:true
+                var exist = _.some(solution.rules, function(rule){
+                    return rule.id === guid;
                 });
+                if(exist) {
+                    duplicateCount++;
+                } else {
+                    solution.rules.push({
+                        id: guid,
+                        enable:true
+                    });
+                    successGuids.push(guid);
+                    successCount++;
+                }
             });
 
-            cb(null, {success:true, msg: '成功添加' + guids.length + '条规则'});
+            cb(null, {success:true, msg: '成功添加' + successCount + '条规则，有' + duplicateCount + '条重复规则被忽略', data: {
+                guids: successGuids
+            }});
         } else {
             cb(null, {success:false, msg: '参数错误，可能是规则为空或者解决方案不存在'});
         }
@@ -170,15 +184,64 @@ var API = {
     },
     switchSolution: function(params, cb){
         var guid = params.guid || '',
-            removeIp = params.removeIp,
-            solutions = userCfg.get('solutions');
+            remoteIp = params.remoteIp,
+            solutions = userCfg.get('solutions'),
+            use = userCfg.get('use');
 
         if(guid && solutions[guid]) {
-            userCfg.set('use', guid);
+            use[remoteIp] = guid;
             cb(null, {success:true});
         } else {
             cb(null, {success:false});
         }
+    },
+    delSolution: function(params, cb){
+        var solutionId = params.solutionId || '',
+            remoteIp = params.remoteIp,
+            solutions = userCfg.get('solutions'),
+            use = userCfg.get('use');
+
+        if(solutionId && solutions[solutionId]) {
+            var firstSolution = _.find(solutions, function(solution, id){
+                return id != 'GLOBAL' && id != solutionId;
+            });
+
+            use[remoteIp] = firstSolution || '';
+            delete solutions[solutionId];
+            userCfg.set('solutions', solutions);
+
+            cb(null, {success:true});
+        } else {
+            cb(null, {success:false});
+        }
+    },
+    getComboRules: function(params, cb){
+        var guid = params.guid || '',
+            rulePool = userCfg.get('rulePool'),
+            comboRule = rulePool[guid];
+
+        if(guid && comboRule) {
+            var rules = {};
+            _.each(comboRule.groups, function(ruleId){
+                if(rulePool[ruleId]) {
+                    rules[ruleId] = rulePool[ruleId];
+                }
+            });
+
+            cb(null, {success:true, data: {
+                rules: rules,
+                comboRule: comboRule
+            }});
+        } else {
+            cb(null, {success:false});
+        }
+    },
+    setHelpStatus: function(params, cb){
+        var settings = userCfg.get('settings');
+        settings.needHelp = false;
+        userCfg.set('settings', settings);
+
+        cb(null, {success:true});
     }
 };
 
@@ -187,7 +250,7 @@ exports.route = function(req, res){
 
     var params = req.method == 'GET' ? req.query : req.body;
 
-    params.removeIp = req.connection.remoteAddress;
+    params.remoteIp = req.connection.remoteAddress;
 
     API[api](params, function(err, result) {
         if(err) {

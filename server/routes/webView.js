@@ -19,7 +19,8 @@ module.exports = {
             ruleList: ruleList,
             solutions: userConfig.get('solutions'),
             ruleNum: _.keys(ruleList).length,
-            use: userConfig.get('use')['127.0.0.1']
+            use: userConfig.get('use')['127.0.0.1'],
+            settings: userConfig.get('settings')
         };
     },
     renderGuest: function(remoteIp){

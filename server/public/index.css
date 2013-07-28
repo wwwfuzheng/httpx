@@ -26,12 +26,11 @@ table .title {
 }
 
 .rule {
-    background-color: #F2F2F2;
+    background-color: #3a3f44;
     float:left;
     min-width: 200px;
     max-width: 1125px;
     min-height: 100px;
-    color: #222;
     border: 2px solid #000;
     margin-right: 10px;
     margin-bottom: 10px;
@@ -41,7 +40,7 @@ table .title {
 }
 
 .rule:hover {
-    border-color: #ff0042;
+    border-color: #BEA75B;
     cursor: pointer;
 }
 
@@ -101,7 +100,7 @@ table .title {
 }
 
 .rule-select {
-    border-color: #bd362f;
+    border-color: #BEA75B;
 }
 
 .rule-select .icon-ok {
@@ -117,7 +116,7 @@ table .title {
     z-index: 1;
 }
 
-#comboRule .rule-list .seq {
+#comboRule .seq {
     font-weight: 700;
     font-size: 22px;
     font-style: italic;
@@ -149,4 +148,8 @@ table .title {
 .row {
     background-color: #272b30;
     margin-right: -30px;
+}
+
+.bootstro-backdrop {
+    background-color: #fff;
 }
