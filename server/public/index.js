@@ -463,7 +463,7 @@ $(function(){
                 $('#editRule .J_Pattern').val(parent.find('code:first').text());
                 $('#editRule .J_Target').val(parent.find('code:last').text());
                 $('#editRule .J_Title').val(parent.find('.hd strong').attr('title'));
-                if(parent.find('.J_IsLocalPath:checked').length) {
+                if(parent.attr('data-type') === '1') {
                     $('#editRule .J_IsLocalPath').attr('checked', 'checked');
                 } else {
                     $('#editRule .J_IsLocalPath').removeAttr('checked');

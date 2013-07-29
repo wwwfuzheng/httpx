@@ -185,7 +185,7 @@
                         <p>共包含 <strong>{rule.value.groups.length}</strong> 个规则</p>
                         {else}
                         <p>如匹配到 <code>{rule.value.pattern}</code></p>
-                        <p>则替换为 <code>{rule.value.target}</code></p>
+                        <p>则替换为 <code>{if rule.value.target}{rule.value.target}{else}""{end}</code></p>
                         {end}
                     </div>
                     {if rule.value.type neq 10}

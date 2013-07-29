@@ -26,8 +26,13 @@ var API = {
         });
 
         userCfg.set('rulePool', rulePool);
-
-        cb(null, {success:true});
+        userCfg.save(function(err){
+            if(err) {
+                cb(null, {success:false});
+            } else {
+                cb(null, {success:true});
+            }
+        });
     },
     delRule: function(params, cb){
         var guid = params.guid || '',
@@ -37,7 +42,13 @@ var API = {
             delete rulePool[guid];
             userCfg.set('rulePool', rulePool);
 
-            cb(null, {success:true});
+            userCfg.save(function(err){
+                if(err) {
+                    cb(null, {success:false});
+                } else {
+                    cb(null, {success:true});
+                }
+            });
         } else {
             cb(null, {success:false});
         }
@@ -61,8 +72,15 @@ var API = {
                 type: rule.type
             };
         }
+        userCfg.set('rulePool', rulePool);
 
-        cb(null, {success:true});
+        userCfg.save(function(err){
+            if(err) {
+                cb(null, {success:false});
+            } else {
+                cb(null, {success:true});
+            }
+        });
     },
     addSolution: function(params, cb){
         var guids = JSON.parse(params.guids || '[]'),
@@ -91,9 +109,17 @@ var API = {
                 }
             });
 
-            cb(null, {success:true, msg: '成功添加' + successCount + '条规则，有' + duplicateCount + '条重复规则被忽略', data: {
-                guids: successGuids
-            }});
+            userCfg.set('solutions', solutions);
+
+            userCfg.save(function(err){
+                if(err) {
+                    cb(null, {success:false});
+                } else {
+                    cb(null, {success:true, msg: '成功添加' + successCount + '条规则，有' + duplicateCount + '条重复规则被忽略', data: {
+                        guids: successGuids
+                    }});
+                }
+            });
         } else {
             cb(null, {success:false, msg: '参数错误，可能是规则为空或者解决方案不存在'});
         }
@@ -114,7 +140,15 @@ var API = {
 
             solutions[solutionId].rules = rules;
 
-            cb(null, {success:true});
+            userCfg.set('solutions', solutions);
+
+            userCfg.save(function(err){
+                if(err) {
+                    cb(null, {success:false});
+                } else {
+                    cb(null, {success:true});
+                }
+            });
         } else {
             cb(null, {success:false});
         }
@@ -133,7 +167,15 @@ var API = {
                 }
             });
 
-            cb(null, {success:true});
+            userCfg.set('solutions', solutions);
+
+            userCfg.save(function(err){
+                if(err) {
+                    cb(null, {success:false});
+                } else {
+                    cb(null, {success:true});
+                }
+            });
         } else {
             cb(null, {success:false});
         }
@@ -160,7 +202,15 @@ var API = {
 
             solutions[solutionId].rules = filterRules;
 
-            cb(null, {success:true});
+            userCfg.set('solutions', solutions);
+
+            userCfg.save(function(err){
+                if(err) {
+                    cb(null, {success:false});
+                } else {
+                    cb(null, {success:true});
+                }
+            });
         } else {
             cb(null, {success:false});
         }
@@ -177,10 +227,16 @@ var API = {
 
         userCfg.set('solutions', solutions);
 
-        cb(null, {success:true, data: {
-            title: title,
-            guid: solutionId
-        }});
+        userCfg.save(function(err){
+            if(err) {
+                cb(null, {success:false});
+            } else {
+                cb(null, {success:true, data: {
+                    title: title,
+                    guid: solutionId
+                }});
+            }
+        });
     },
     switchSolution: function(params, cb){
         var guid = params.guid || '',
@@ -190,7 +246,14 @@ var API = {
 
         if(guid && solutions[guid]) {
             use[remoteIp] = guid;
-            cb(null, {success:true});
+            userCfg.set('use', use);
+            userCfg.save(function(err){
+                if(err) {
+                    cb(null, {success:false});
+                } else {
+                    cb(null, {success:true});
+                }
+            });
         } else {
             cb(null, {success:false});
         }
@@ -210,7 +273,13 @@ var API = {
             delete solutions[solutionId];
             userCfg.set('solutions', solutions);
 
-            cb(null, {success:true});
+            userCfg.save(function(err){
+                if(err) {
+                    cb(null, {success:false});
+                } else {
+                    cb(null, {success:true});
+                }
+            });
         } else {
             cb(null, {success:false});
         }
@@ -238,10 +307,20 @@ var API = {
     },
     setHelpStatus: function(params, cb){
         var settings = userCfg.get('settings');
-        settings.needHelp = false;
-        userCfg.set('settings', settings);
+        if(settings.needHelp) {
+            settings.needHelp = false;
+            userCfg.set('settings', settings);
 
-        cb(null, {success:true});
+            userCfg.save(function(err){
+                if(err) {
+                    cb(null, {success:false});
+                } else {
+                    cb(null, {success:true});
+                }
+            });
+        } else {
+            cb(null, {success:true});
+        }
     }
 };
 
