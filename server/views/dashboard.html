@@ -175,7 +175,7 @@
                     </ul>
                 </div>
                 {foreach rule in ruleList}
-                <div class="rule" data-guid="{rule.key}" data-type="{rule.value.type}">
+                <div class="rule" data-guid="{rule.key}" data-type="{rule.value.type}" {if rule.value.type eq 10}data-groups="{rule.value.groups}" {end}>
                     <div class="hd">
                         <i class="{if rule.value.type eq 1}icon-folder-open-alt{elif rule.value.type eq 2}icon-link{elif rule.value.type eq 10}icon-list-ol{else}icon-font{end}"></i>
                         <strong title="{rule.value.title}">{rule.value.simpleTitle}</strong>

@@ -82,7 +82,7 @@ $(document).ready(function(){
     });
 
     $('#J_SolutionList .J_RemoveRule:first').addClass('bootstro').attr({
-        'data-bootstro-content':"点击这里可以方便的从场景移除规则，放心，规则库中的这条规则不会被删除。",
+        'data-bootstro-content':"点击这里可以方便的从场景移除规则，放心，规则库中的这条规则不会被删除，类似于\"快捷方式\"。",
         'data-bootstro-placement':"top",
         'data-bootstro-step':"8"
     });

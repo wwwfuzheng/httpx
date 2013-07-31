@@ -107,6 +107,10 @@ table .title {
     display: block;
 }
 
+.related-rule {
+    border-color: #f00;
+}
+
 #rulePoolDetail {
     position: relative;
 }

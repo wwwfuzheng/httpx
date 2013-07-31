@@ -470,6 +470,24 @@ $(function(){
                 }
                 PlaceHolder.start('#editRule');
             }
+        })
+        .on('mouseenter', '.rule',  function(ev){
+            //组合规则匹配关联规则高亮
+            var parent = $(ev.currentTarget);
+            if(parent.attr('data-type') == '10') {
+                var groups = parent.attr('data-groups').split(',');
+                $('#rulePool .rule').each(function(idx, ruleEl){
+                    if($.inArray($(ruleEl).attr('data-guid'), groups) != -1) {
+                        $(ruleEl).addClass('related-rule');
+                    }
+                });
+            }
+        })
+        .on('mouseleave', '.rule', function(ev){
+            var parent = $(ev.currentTarget);
+            if(parent.attr('data-type') == '10') {
+                $('#rulePool .rule').removeClass('related-rule');
+            }
         });
 
     //把规则添加到解决方案
