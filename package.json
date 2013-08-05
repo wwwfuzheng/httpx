@@ -1,9 +1,9 @@
 {
     "author":"Harry <czy88840616@gmail.com>",
-    "name":"arrow",
+    "name":"egg",
     "description":"A resources proxy tools for engineer",
     "main": "./lib/cmd",
-    "version":"0.0.1",
+    "version":"1.0.0",
     "keywords":[
         "proxy",
         "assets"
@@ -17,9 +17,6 @@
     },
     "bin":{
         "av":"./bin/av"
-    },
-    "scripts":{
-
     },
     "engines":{
         "node":">=0.8.0"
