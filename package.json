@@ -2,6 +2,7 @@
     "author":"Harry <czy88840616@gmail.com>",
     "name":"arrow",
     "description":"A resources proxy tools for engineer",
+    "main": "./lib/cmd",
     "version":"0.0.1",
     "keywords":[
         "proxy",
