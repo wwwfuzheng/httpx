@@ -6,6 +6,8 @@
 
 $('#footer a').smoothScroll();
 
+$('.tips').popover();
+
 var ruleTpl = [
     '<div class="rule animated bounce" data-guid="${guid}" data-type="${type}">',
     '<div class="hd"><i class="{@if type==1}icon-folder-open-alt{@else if type==2}icon-link{@else if type==10}icon-list-ol{@else}icon-font{@/if}"></i> <strong title="${title}">${simpleTitle}</strong></div>',
@@ -179,7 +181,11 @@ $(function(){
     }).disableSelection()
         .on('sortupdate', function(ev, ui){
             $('#comboRule .seq').each(function(idx, el){
-                $(el).text(idx+1);
+                if(idx == 0) {
+                    $(el).html(idx+1 + ' <i class="icon-key" title="主规则"></i>');
+                } else {
+                    $(el).text(idx+1);
+                }
             });
         });
 
@@ -437,7 +443,7 @@ $(function(){
                     if(data.success) {
                         var tpl = [];
                         $.each(data.data.comboRule.groups, function(idx, guid){
-                            tpl.push(juicer('<tr data-guid="${guid}"><td class="seq">${idx}</td><td>${title}</td></tr>', {
+                            tpl.push(juicer('<tr data-guid="${guid}"><td class="seq">${idx}  {@if idx == 1}<i class="icon-key" title="主规则"></i>{@/if}</td><td>${title}</td></tr>', {
                                 idx: idx+1,
                                 guid: guid,
                                 title: data.data.rules[guid].title
@@ -521,7 +527,7 @@ $(function(){
         $('#rulePool .rule-select').filter(function(idx, el) {
             return $(el).attr('data-type') != 10;
         }).each(function(idx, el){
-            tpl.push(juicer('<tr data-guid="${guid}"><td class="seq">${idx}</td><td>${title}</td></tr>', {
+            tpl.push(juicer('<tr data-guid="${guid}"><td class="seq">${idx} {@if idx == 1}<i class="icon-key" title="主规则"></i>{@/if}</td><td>${title}</td></tr>', {
                 idx: idx+1,
                 guid: $(el).attr('data-guid'),
                 title: $(el).find('strong').attr('title')
@@ -566,7 +572,7 @@ $(function(){
         }
 
         var rules = [{
-            title: $.trim($('#comboRule .J_ComboRuleName').val()),
+            title: $.trim($('#comboRule .J_ComboRuleName').val() || '我的自定义组合规则'),
             groups: groups,
             type: 10,
             guid: newGuid()
@@ -661,7 +667,7 @@ $(function(){
         $('#addRule .rule-list-wrap').find('.well').each(function(idx, el){
             if($(el).find('.J_Pattern').val()) {
                 rules.push({
-                    title: $(el).find('.J_Title').val(),
+                    title: $.trim($(el).find('.J_Title').val() || '我的自定义规则'),
                     pattern: $(el).find('.J_Pattern').val(),
                     target: $(el).find('.J_Target').val(),
                     type: $(el).find('.J_IsLocalPath:checked').length ? 1: getRuleType($(el).find('.J_Target').val()),
@@ -737,7 +743,7 @@ $(function(){
     $('#editRule .J_EditRuleBtn').click(function(ev){
         ev.preventDefault();
         var editRule = {
-            title: $('#editRule').find('.J_Title').val(),
+            title: $.trim($('#editRule').find('.J_Title').val() || '我的自定义规则'),
             pattern: $('#editRule').find('.J_Pattern').val(),
             target: $('#editRule').find('.J_Target').val(),
             type: $('#editRule').find('.J_IsLocalPath:checked').length ? 1: getRuleType($('#editRule').find('.J_Target').val()),

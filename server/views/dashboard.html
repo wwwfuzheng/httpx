@@ -11,16 +11,6 @@
     <link rel="stylesheet" href="animate-custom.css">
     <link rel="stylesheet" href="bootstro/bootstro.min.css">
     <link rel="stylesheet" href="index.css">
-
-    <script src="jquery/jquery.min.js"></script>
-    <script src="jquery/jquery-ui.min.js"></script>
-    <script src="slate/js/bootstrap.min.js" charset="utf-8"></script>
-    <script src="icheck/js/jquery.icheck.min.js"></script>
-    <script src="jquery/jquery.smooth-scroll.min.js"></script>
-    <script type="text/javascript" src="tpl/juicer-min.js"></script>
-    <script type="text/javascript" src="messager/js/messenger.min.js"></script>
-    <script type="text/javascript" src="jquery/jquery.spotlight.js"></script>
-    <script type="text/javascript" src="bootstro/bootstro.min.js"></script>
 </head>
 <body id="top">
 <div class="navbar navbar-inverse navbar-fixed-top">
@@ -311,7 +301,7 @@
             </div>
             <blockquote>
                 <p>
-                    用鼠标将多个规则拖拽排序合为一新的规则组合，其中的每个规则都将会执行一次，不论是否匹配。组合规则不能再次组合.
+                    多个规则拖拽排序合并成一个新的规则组合，只要第一条（主规则）被匹配到，里面的每个规则都将按顺序依次执行。组合规则不能被再次组合.
                 </p>
             </blockquote>
             <div class="well clearfix">
@@ -326,6 +316,7 @@
                     </tbody>
                 </table>
                 <hr style="border-top-color: #fff">
+                <a href="#" class="tips pull-left" data-trigger="hover" data-html="true" data-content="<img src='http://img01.taobaocdn.com/tps/i1/T1zCN8FXdfXXcHuwEq-425-168.gif'>"> <i class="icon-facetime-video"></i></a>
                 <a class="btn J_Cancel pull-right" href="#">取消</a>
                 <div class="controls pull-right" style="margin-right: 10px;">
                     <div class="input-append">
@@ -397,6 +388,15 @@
         </div>
     </div>
 </textarea>
+<script src="jquery/jquery.min.js"></script>
+<script src="jquery/jquery-ui.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js" charset="utf-8"></script>
+<script src="icheck/js/jquery.icheck.min.js"></script>
+<script src="jquery/jquery.smooth-scroll.min.js"></script>
+<script type="text/javascript" src="tpl/juicer-min.js"></script>
+<script type="text/javascript" src="messager/js/messenger.min.js"></script>
+<script type="text/javascript" src="jquery/jquery.spotlight.js"></script>
+<script type="text/javascript" src="bootstro/bootstro.min.js"></script>
 <script src="index.js" type="text/javascript"></script>
 {if settings.needHelp}
 <script type="text/javascript" src="guide.js"></script>
