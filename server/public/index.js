@@ -355,7 +355,7 @@ $(function(){
         }).on('click', '.J_DelSolution', function(ev){
             ev.preventDefault();
 
-            if(confirm('确定要删除场景么？')) {
+            if(confirm('确定要删除场景么，场景被删除后规则依旧会被保留在规则库，等待后续添加使用？')) {
                 $.post('api/delSolution', {
                         t: new Date().getTime(),
                         solutionId: $(ev.target).parents('.well').attr('data-guid')
@@ -414,7 +414,7 @@ $(function(){
                 function(data){
                     if(data.success) {
                         $.globalMessenger().post({
-                            message: "规则删除成功",
+                            message: "规则删除成功，包含此规则的场景里的副本将一并移除",
                             type: 'success'
                         });
 
