@@ -3,7 +3,7 @@
     "name":"egg",
     "description":"A resources proxy tools for engineer",
     "main": "./lib/cmd",
-    "version":"1.0.0",
+    "version":"0.0.1",
     "keywords":[
         "proxy",
         "assets"
