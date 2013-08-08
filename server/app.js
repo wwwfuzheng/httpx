@@ -73,6 +73,8 @@ http.createServer(app).listen(app.get('port'), function () {
         cfg:argv.cfg || Env.cfg
     });
 
+    userCfg.check();
+
     console.log('Status:', 'Success'.bold.green);
     console.log("Listen Port" + app.get('port').toString().cyan);
     console.log("Help" + "(sudo) av help".cyan);
