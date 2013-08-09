@@ -607,6 +607,7 @@ $(function(){
                             //规则选中取消
                             $('#rulePool .rule-select').removeClass('rule-select');
                             $('#rulePoolOperator').hide();
+                            $('#comboRule').hide();
 
                             $.globalMessenger().post({
                                 message: "组合规则添加成功",
