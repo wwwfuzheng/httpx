@@ -11,17 +11,13 @@ var express = require('express')
     , cons = require('consolidate')
     , _ = require('underscore')
     , url = require('url')
-    , fs = require('fs')
-    , request = require('request')
-    , iconv = require('iconv-lite')
     , colors = require('colors')
     , Env = require('../lib/env')
     , proxy = require('../lib/proxy')
     , route = require('./routes/index')
     , userCfg = require('../lib/userConfig')
     , Api = require('./routes/api')
-    , WebView = require('./routes/webView')
-    , contentType = require('../lib/contentTypeLib');
+    , WebView = require('./routes/webView');
 
 var app = express();
 
@@ -45,8 +41,6 @@ app.configure('development', function () {
 app.configure('production', function(){
     app.use(express.errorHandler());
 });
-
-//app.get('(*??*|*.(' + contentType.contentTypeKeys('|') + '))', route.prepare, proxy.done);
 
 app.post('/api/:api', Api.route);
 

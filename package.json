@@ -1,6 +1,6 @@
 {
     "author":"Harry <czy88840616@gmail.com>",
-    "name":"egg",
+    "name":"magic-cube",
     "description":"A resources proxy tools for engineer",
     "main": "./lib/cmd",
     "version":"0.0.1",
@@ -16,7 +16,7 @@
         "url":"git://github.com/czy88840616/arrow.git"
     },
     "bin":{
-        "av":"./bin/av"
+        "mc":"./bin/mc"
     },
     "engines":{
         "node":">=0.8.0"

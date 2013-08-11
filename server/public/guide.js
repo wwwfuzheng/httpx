@@ -31,8 +31,8 @@ function guideStart(){
 }
 $(document).ready(function(){
     $('.brand').addClass('bootstro').attr({
-        'data-bootstro-title':"我叫Arrow",
-        'data-bootstro-content':"Arrow作为一个新版的assets代理工具，有着许多功能，这里介绍了基本的使用方法。",
+        'data-bootstro-title':"我叫魔方(Magic Cube)",
+        'data-bootstro-content':"作为一个新版的assets代理工具，有着许多功能，这里介绍了基本的使用方法。",
         'data-bootstro-placement':"bottom",
         'data-bootstro-step':"0"
     });
