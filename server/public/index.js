@@ -8,6 +8,10 @@ $('#footer a').smoothScroll();
 
 $('.tips').popover();
 
+$._messengerDefaults = {
+    'maxMessages': 3
+};
+
 var ruleTpl = [
     '<div class="rule animated bounce" data-guid="${guid}" data-type="${type}">',
     '<div class="hd"><i class="{@if type==1}icon-folder-open-alt{@else if type==2}icon-link{@else if type==10}icon-list-ol{@else}icon-font{@/if}"></i> <strong title="${title}">${simpleTitle}</strong></div>',
