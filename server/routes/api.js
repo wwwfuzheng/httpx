@@ -36,9 +36,28 @@ var API = {
     },
     delRule: function(params, cb){
         var guid = params.guid || '',
-            rulePool = userCfg.get('rulePool');
+            rulePool = userCfg.get('rulePool'),
+            solutions = userCfg.get('solutions');
 
         if(guid && rulePool[guid]) {
+            //依赖的场景里的副本都删除
+            _.each(solutions, function(solution){
+                if(solution.rules.length) {
+                    var waitForDel = [];
+                    _.each(solution.rules, function(rule){
+                        if(rule.id == guid) {
+                            waitForDel.push(rule);
+                        }
+                    });
+
+                    if(waitForDel.length) {
+                        solution.rules = _.difference(solution.rules, waitForDel);
+                    }
+                }
+            });
+
+            userCfg.set('solutions', solutions);
+
             delete rulePool[guid];
             userCfg.set('rulePool', rulePool);
 

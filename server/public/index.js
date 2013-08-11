@@ -407,9 +407,16 @@ $(function(){
         .on('click', '.icon-trash', function(ev){
             //规则删除
             ev.stopPropagation();
+
+            if(!confirm('如果规则删除，包含此规则的场景里的副本会一起删除哦，确定吗？')) {
+                return;
+            }
+
+            var guid = $(ev.target).parents('.rule').attr('data-guid');
+
             $.post('api/delRule', {
                     t: new Date().getTime(),
-                    guid: $(ev.target).parents('.rule').attr('data-guid')
+                    guid: guid
                 },
                 function(data){
                     if(data.success) {
@@ -420,9 +427,14 @@ $(function(){
 
                         $(ev.target).parents('.rule').fadeOut(function(){
                             $(this).remove();
-                            //-1
-//                            $('#dashboard .J_RuleTotal').text($('#rulePool .rule').length);
                         });
+
+                        $('#J_SolutionList tr').filter(function(idx){
+                            return $(this).attr('data-guid') === guid;
+                        }).fadeOut(function(){
+                            $(this).remove();
+                        });
+
                     } else {
                         $.globalMessenger().post({
                             message: "规则删除失败，可能规则已被删除",
