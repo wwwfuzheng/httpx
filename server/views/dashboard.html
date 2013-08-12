@@ -173,6 +173,7 @@
                     <div class="bd">
                         {if rule.value.type eq 10}
                         <p>共包含 <strong>{rule.value.groups.length}</strong> 个规则</p>
+                        <p>{if rule.value.groups[0]}主规则为 <code>{ruleList[rule.value.groups[0]].title} </code>{end}</p>
                         {else}
                         <p>如匹配到 <code>{rule.value.pattern}</code></p>
                         <p>则替换为 <code>{if rule.value.target}{rule.value.target}{else}""{end}</code></p>
