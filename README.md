@@ -6,11 +6,11 @@
 
 windows:
 ```
-npm install -g magic-cube
+npm install -g httpx
 ```
 linux/mac:
 ```bash
-$ sudo npm install -g magic-cube
+$ sudo npm install -g httpx
 ```
 
 ## 使用
@@ -24,7 +24,7 @@ $ sudo npm install -g magic-cube
  * -v 当前版本
 
 ##详细文档
-https://github.com/czy88840616/magic-cube/wiki
+https://github.com/czy88840616/httpx/wiki
 
 ## License
-Avalon-node 遵守 "MIT"：https://github.com/czy88840616/magic-cube/blob/master/LICENSE.md 协议
+Avalon-node 遵守 "MIT"：https://github.com/czy88840616/httpx/blob/master/LICENSE.md 协议
