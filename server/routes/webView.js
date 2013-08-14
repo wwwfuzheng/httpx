@@ -9,7 +9,7 @@ var userConfig = require('../../lib/userConfig'),
 
 module.exports = {
     renderDashBoard: function(){
-        var ruleList = userConfig.get('rulePool');
+        var ruleList = JSON.parse(JSON.stringify(userConfig.get('rulePool')));
 
         _.each(ruleList, function(rule){
             rule.simpleTitle = webUtil.subString(rule.title || '', 16, true);
