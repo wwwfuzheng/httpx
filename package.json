@@ -3,7 +3,7 @@
     "name":"httpx",
     "description":"A resources proxy tools for engineer",
     "main": "./lib/cmd",
-    "version":"0.0.1",
+    "version":"0.0.2",
     "keywords":[
         "proxy",
         "assets"
