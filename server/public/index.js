@@ -685,8 +685,8 @@ $(function(){
             if($(el).find('.J_Pattern').val()) {
                 rules.push({
                     title: $.trim($(el).find('.J_Title').val() || '我的自定义规则'),
-                    pattern: $(el).find('.J_Pattern').val(),
-                    target: $(el).find('.J_Target').val(),
+                    pattern: $.trim($(el).find('.J_Pattern').val()),
+                    target: $.trim($(el).find('.J_Target').val()),
                     type: $(el).find('.J_IsLocalPath:checked').length ? 1: getRuleType($(el).find('.J_Target').val()),
                     guid: newGuid()
                 });
