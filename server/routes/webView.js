@@ -8,6 +8,12 @@ var userConfig = require('../../lib/userConfig'),
     _ = require('underscore');
 
 module.exports = {
+    renderGuest: function(remoteIp){
+        return {
+            solutions: userConfig.get('solutions'),
+            use: userConfig.get('use')[remoteIp]
+        };
+    },
     renderDashBoard: function(){
         var ruleList = JSON.parse(JSON.stringify(userConfig.get('rulePool')));
 
@@ -21,12 +27,6 @@ module.exports = {
             ruleNum: _.keys(ruleList).length,
             use: userConfig.get('use')['127.0.0.1'],
             settings: userConfig.get('settings')
-        };
-    },
-    renderGuest: function(remoteIp){
-        return {
-            solutions: userConfig.get('solutions'),
-            use: userConfig.get('use')[remoteIp]
         };
     }
 };
