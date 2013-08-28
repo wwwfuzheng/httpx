@@ -20,7 +20,7 @@ var ruleTpl = [
     '<p>共包含 <strong>${num}</strong> 个规则</p>',
     '{@else}',
     '<p>匹配到 <code>${pattern}</code></p>',
-    '<p>替换为 <code>${target}</code></p>',
+    '<p>替换为 <code>{@if target}${target}{@else}""{@/if}</code></p>',
     '{@/if}',
     '</div>',
     '{@if !isCombo}',
