@@ -12,12 +12,13 @@ var express = require('express')
     , _ = require('underscore')
     , url = require('url')
     , colors = require('colors')
-    , Env = require('../lib/env')
+    , Env = require('../lib/runtime/env')
     , proxy = require('../lib/proxy')
     , route = require('./routes/index')
     , userCfg = require('../lib/userConfig')
     , Api = require('./routes/api')
-    , WebView = require('./routes/webView');
+    , WebView = require('./routes/webView')
+    , ctx = require('../lib/runtime/context');
 
 var app = express();
 
@@ -55,7 +56,7 @@ app.get('/*', function(req, res, next){
 //        } else {
 //            res.render('guest', WebView.renderGuest(remoteIp));
 //        }
-    } else if(req.url == '/settings' || req.url == '/settings') {
+    } else if(req.url == '/settings' || req.url == '/setting') {
         res.render('settings', WebView.renderDashBoard());
     } else {
         next();
@@ -68,6 +69,8 @@ http.createServer(app).listen(app.get('port'), function () {
     });
 
     userCfg.check();
+
+    ctx.init(argv);
 
     console.log('Status:', 'Success'.bold.green);
     console.log("Listen Port" + app.get('port').toString().cyan);

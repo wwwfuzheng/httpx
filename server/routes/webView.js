@@ -5,6 +5,7 @@
  */
 var userConfig = require('../../lib/userConfig'),
     webUtil = require('../../lib/util/util'),
+    ctx = require('../../lib/runtime/context'),
     _ = require('underscore');
 
 module.exports = {
@@ -26,7 +27,10 @@ module.exports = {
             solutions: userConfig.get('solutions'),
             ruleNum: _.keys(ruleList).length,
             use: userConfig.get('use')['127.0.0.1'],
-            settings: userConfig.get('settings')
+            settings: userConfig.get('settings'),
+            context: {
+                from: ctx.get('from')
+            }
         };
     }
 };
