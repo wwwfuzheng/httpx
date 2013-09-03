@@ -49,13 +49,11 @@ app.get('/*', function(req, res, next){
     var remoteIp = req.connection.remoteAddress;
 
     if(req.url == '/') {
-
-        res.render('dashboard', WebView.renderDashBoard());
-//        if(remoteIp == '127.0.0.1') {
-//            res.render('dashboard', WebView.renderDashBoard());
-//        } else {
-//            res.render('guest', WebView.renderGuest(remoteIp));
-//        }
+        if(remoteIp == '127.0.0.1' || remoteIp == Env.localIp) {
+            res.render('dashboard', WebView.renderDashBoard());
+        } else {
+            res.render('guest', WebView.renderGuest(remoteIp));
+        }
     } else if(req.url == '/settings' || req.url == '/setting') {
         res.render('settings', WebView.renderDashBoard());
     } else {
