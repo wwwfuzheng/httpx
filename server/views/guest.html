@@ -1,26 +1,18 @@
 <!DOCTYPE html>
 <html>
-<head><title>配置你的Cube</title>
-    <link rel="stylesheet" type="text/css" href="http://bootswatch.com/slate/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="http://bootswatch.com/default/bootstrap-responsive.min.css"/>
-    <link href="http://bootswatch.com/css/font-awesome.min.css" rel="stylesheet">
-    <link href="http://bootswatch.com/css/bootswatch.css" rel="stylesheet">
-    <link href="http://www.bootcss.com/p/icheck/skins/polaris/polaris.css" rel="stylesheet">
-    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
-    <link rel="stylesheet" href="index.css">
+<head><title>配置你的Httpx</title>
+    <link rel="stylesheet" type="text/css" href="slate/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="slate/bootstrap-responsive.min.css"/>
+    <link href="slate/css/bootswatch.css" rel="stylesheet">
+    <link href="icheck/skins/polaris/polaris.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="messager/css/messenger.css">
     <link rel="stylesheet" href="messager/css/messenger-theme-future.css">
     <link rel="stylesheet" href="animate-custom.css">
-
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
-    <script src="http://bootswatch.com/js/bootstrap.min.js" charset="utf-8"></script>
-    <script src="http://www.bootcss.com/p/icheck/js/jquery.icheck.min.js"></script>
-    <script src="http://bootswatch.com/js/jquery.smooth-scroll.min.js"></script>
-    <script type="text/javascript" src="tpl/juicer-min.js"></script>
-    <script type="text/javascript" src="messager/js/messenger.min.js"></script>
+    <link rel="stylesheet" href="bootstro/bootstro.min.css">
+    <link rel="stylesheet" href="index.css">
 </head>
-<body class="preview" id="top" data-spy="scroll" data-target=".subnav" data-offset="80">
+<body id="top">
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="navbar-inner">
         <div class="container">
@@ -29,7 +21,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </a>
-            <a class="brand" href="/">Magic Cube</a>
+            <a class="brand" href="/">Httpx</a>
             <div class="nav-collapse collapse">
                 <ul class="nav">
                     <li class="active"><a href="#">首页</a></li>
@@ -40,6 +32,7 @@
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
+                            <li><a href="#" class="J_QS">Quick Start</a></li>
                             <li><a href="https://github.com/czy88840616/httpx" target="_blank">查看源码</a></li>
                             <li><a href="https://github.com/czy88840616/httpx/issues/new" target="_blank">向我提意见</a></li>
                         </ul>
@@ -58,9 +51,9 @@
                 </h1>
             </div>
         </div>
-        <div class="span6">
+        <div class="span8 alert alert-info">
             <p>
-                当前使用的的代理方案为：
+                你好，ip为{remoteIp}的访客，当前使用的的代理方案为：
                 <select id="J_SolutionSwitch">
                     {foreach solution in solutions}
                     {if solution.key neq 'GLOBAL'}
@@ -86,5 +79,14 @@
         Made by <a href="mailto:zhangting@taobao.com">zhangting</a><br>
     </footer>
 </div>
+<script src="jquery/jquery.min.js"></script>
+<script src="jquery/jquery-ui.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js" charset="utf-8"></script>
+<script src="icheck/js/jquery.icheck.min.js"></script>
+<script src="jquery/jquery.smooth-scroll.min.js"></script>
+<script type="text/javascript" src="tpl/juicer-min.js"></script>
+<script type="text/javascript" src="messager/js/messenger.min.js"></script>
+<script type="text/javascript" src="jquery/jquery.spotlight.js"></script>
+<script type="text/javascript" src="bootstro/bootstro.min.js"></script>
 </body>
 </html>

@@ -12,6 +12,7 @@ module.exports = {
     renderGuest: function(remoteIp){
         return {
             solutions: userConfig.get('solutions'),
+            remoteIp: remoteIp,
             use: userConfig.get('use')[remoteIp]
         };
     },
