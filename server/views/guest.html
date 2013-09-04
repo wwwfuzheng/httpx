@@ -8,8 +8,6 @@
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="messager/css/messenger.css">
     <link rel="stylesheet" href="messager/css/messenger-theme-future.css">
-    <link rel="stylesheet" href="animate-custom.css">
-    <link rel="stylesheet" href="bootstro/bootstro.min.css">
     <link rel="stylesheet" href="index.css">
 </head>
 <body id="top">
@@ -55,6 +53,7 @@
             <p>
                 你好，ip为{remoteIp}的访客，当前使用的的代理方案为：
                 <select id="J_SolutionSwitch">
+                    <option value="-1">不使用场景</option>
                     {foreach solution in solutions}
                     {if solution.key neq 'GLOBAL'}
                     <option value="{solution.key}" {if solution.key eq use}selected{end}>{solution.value.title}</option>
@@ -80,13 +79,8 @@
     </footer>
 </div>
 <script src="jquery/jquery.min.js"></script>
-<script src="jquery/jquery-ui.min.js"></script>
 <script src="bootstrap/js/bootstrap.min.js" charset="utf-8"></script>
-<script src="icheck/js/jquery.icheck.min.js"></script>
-<script src="jquery/jquery.smooth-scroll.min.js"></script>
-<script type="text/javascript" src="tpl/juicer-min.js"></script>
 <script type="text/javascript" src="messager/js/messenger.min.js"></script>
-<script type="text/javascript" src="jquery/jquery.spotlight.js"></script>
-<script type="text/javascript" src="bootstro/bootstro.min.js"></script>
+<script type="text/javascript" src="guest.js"></script>
 </body>
 </html>

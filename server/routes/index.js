@@ -7,13 +7,13 @@ var comboParser = require('combo-url-parser'),
     request = require('request');
 
 exports.prepare = function(req, res, next){
-    var paths;
+    var paths,
+        p =  url.parse(req.url);
     //combo
     if(req.url.indexOf('??') != -1) {
-        var p =  url.parse(req.url);
         paths = comboParser(p.path);
     } else {
-        paths = [req.url.replace(/\?.*/, '')];
+        paths = [p.path.replace(/\?.*/, '')];
     }
 
     req.params['paths'] = paths;

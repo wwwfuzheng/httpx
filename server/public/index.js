@@ -371,8 +371,14 @@ $(function(){
                                 type: 'success'
                             });
 
+                            var guid = $(ev.target).parents('.well').attr('data-guid');
+
+
                             $(ev.target).parents('.well').fadeOut(function(){
                                 $(this).remove();
+
+                                $("#J_SolutionSwitch option[value='" + guid+"']").remove();
+                                $("#J_SolutionIds option[value='" + guid+"']").remove();
                             });
                         } else {
                             $.globalMessenger().post({

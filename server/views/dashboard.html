@@ -56,6 +56,7 @@
             <p>
                 当前使用的的场景为：
                 <select id="J_SolutionSwitch">
+                    <option value="-1">不使用场景（包括全局场景）</option>
                     {foreach solution in solutions}
                     {if solution.key neq 'GLOBAL'}
                     <option value="{solution.key}" {if solution.key eq use}selected{end}>{solution.value.title}</option>

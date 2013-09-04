@@ -263,7 +263,7 @@ var API = {
             solutions = userCfg.get('solutions'),
             use = userCfg.get('use');
 
-        if(guid && solutions[guid]) {
+        if(guid == -1 || (guid && solutions[guid])) {
             use[remoteIp] = guid;
             userCfg.set('use', use);
             userCfg.save(function(err){
@@ -284,11 +284,7 @@ var API = {
             use = userCfg.get('use');
 
         if(solutionId && solutions[solutionId]) {
-            var firstSolution = _.find(solutions, function(solution, id){
-                return id != 'GLOBAL' && id != solutionId;
-            });
-
-            use[remoteIp] = firstSolution || '';
+            use[remoteIp] = '-1';
             delete solutions[solutionId];
             userCfg.set('solutions', solutions);
 
