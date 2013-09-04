@@ -336,6 +336,10 @@ var API = {
         } else {
             cb(null, {success:true});
         }
+    },
+    debugRule: function(){
+        var url = params.url;
+
     }
 };
 

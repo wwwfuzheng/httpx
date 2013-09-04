@@ -57,6 +57,8 @@ app.get('/*', function(req, res, next){
         }
     } else if(req.url == '/guest') {
         res.render('guest', WebView.renderGuest(remoteIp));
+    } else if(req.url == '/debug') {
+        res.render('debug');
     } else if(req.url == '/settings' || req.url == '/setting') {
         res.render('settings', WebView.renderDashBoard());
     } else {
