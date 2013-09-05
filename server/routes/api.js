@@ -1,5 +1,7 @@
 var userCfg = require('../../lib/userConfig'),
     webUtil = require('../../lib/util/util'),
+    proxy = require('../../lib/proxy'),
+    url = require('url'),
     _ = require('underscore');
 
 var API = {
@@ -337,9 +339,12 @@ var API = {
             cb(null, {success:true});
         }
     },
-    debugRule: function(){
+    debugUrl: function(params, cb){
         var url = params.url;
 
+        proxy.debugUrl(url, function(text){
+            cb(null, {success:true, msg: text});
+        })
     }
 };
 
