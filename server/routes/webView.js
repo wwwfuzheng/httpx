@@ -23,6 +23,10 @@ module.exports = {
             rule.simpleTitle = webUtil.subString(rule.title || '', 16, true);
         });
 
+        var settings = userConfig.get('settings');
+
+        var checkUpgrade = (new Date().getTime() - settings['lastCheckTime']) >= 259200000 //大于3天升级
+
         return {
             ruleList: ruleList,
             solutions: userConfig.get('solutions'),
@@ -31,7 +35,8 @@ module.exports = {
             settings: userConfig.get('settings'),
             context: {
                 from: ctx.get('from')
-            }
+            },
+            checkUpgrade: checkUpgrade
         };
     }
 };

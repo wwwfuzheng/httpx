@@ -2,6 +2,7 @@ var userCfg = require('../../lib/userConfig'),
     webUtil = require('../../lib/util/util'),
     proxy = require('../../lib/proxy'),
     url = require('url'),
+    request = require('request'),
     _ = require('underscore');
 
 var API = {
@@ -345,6 +346,33 @@ var API = {
         proxy.debugUrl(url, function(text){
             cb(null, {success:true, msg: text});
         })
+    },
+    getlastest: function(params, cb){
+        var pjson = require('../../package.json');
+        request.get('http://registry.npmjs.org/httpx', function (error, response, body) {
+            var r;
+            try {
+                r = JSON.parse(body);
+            } catch(ex) {
+                r = {};
+                cb(null, {success:false});
+                return;
+            }
+
+            cb(null, {success:true, current:pjson.version, cfg: r});
+        });
+    },
+    updatechecktime: function(params, cb){
+        var settings = userCfg.get('settings');
+        settings['lastCheckTime'] = new Date().getTime();
+        userCfg.set('settings', settings);
+        userCfg.save(function(err){
+            if(err) {
+                cb(null, {success:false,msg:err});
+            } else {
+                cb(null, {success:true});
+            }
+        });
     }
 };
 
