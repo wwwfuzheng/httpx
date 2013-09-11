@@ -9,14 +9,21 @@ $(function(){
 
         $.post('api/loadPlugin', function(data){
             if(data.success) {
+                var tpl = [];
 
-                $.each(data.data, function(pluginName){
+                $.each(data.data, function(idx, plugin){
+                    if(idx != 0) {
+                        tpl.push('<li class="divider"></li>');
+                    }
 
+                    tpl.push('<li>' + plugin.data + '</li>');
                 });
 
+                $('.update-area .dropdown-menu').html(tpl.join(''));
+
                 $('.loading').fadeOut(function(){
-                    $('.num').html(12);
-                    $('.num-area').show();
+                    $('.num').html(data.data.length);
+                    data.data.length && $('.num-area').show();
                 });
             }
         });

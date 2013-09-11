@@ -209,6 +209,17 @@ table .title {
     color: #31DB45;
 }
 
+.update-area .dropdown-menu li {
+    text-align: left;
+    padding-left: 10px;
+}
+
+.update-area .dropdown-menu li:hover {
+    background-color: #22262A;
+    background-image: linear-gradient(to bottom,#272B30,#1C1E22);
+    background-repeat: repeat-x;
+}
+
 .stop .circle, .stop .circle1 {
     -webkit-animation-play-state:paused;
     -moz-animation-play-state:paused;

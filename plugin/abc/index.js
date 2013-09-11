@@ -12,7 +12,9 @@ module.exports = {
                 pathFilter[path.name] = path.root;
             });
         }
-        callback(pathFilter);
+
+        var returnText = '<span>ABC中有新增应用 <a href="#" data-json="'+JSON.stringify(pathFilter)+'">查看</a></span>'
+        callback(returnText);
     },
     check: function(){
         return fs.existsSync(webUtil.getUserHome() + '/.abc');
