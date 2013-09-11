@@ -22,7 +22,7 @@
                 <span class="icon-bar"></span>
             </a>
             <a class="brand" href="/">Httpx</a>
-            <div class="nav-collapse collapse">
+            <div class="nav-collapse collapse clearfix">
                 <ul class="nav">
                     <li class="active"><a href="#">首页</a></li>
                     <li><a href="https://github.com/czy88840616/httpx/wiki" target="_blank">文档</a></li>
@@ -39,6 +39,23 @@
                     </li>
                     {if context.from}<li><a href="javascript:history.go(-1)">返回{context.from}</a></li>{end}
                 </ul>
+                <div class="update-area">
+                    <div class="loading">
+                        <div class="circle"></div>
+                        <div class="circle1"></div>
+                    </div>
+                    <div class="num-area dropdown">
+                        <a data-target="#" data-toggle="dropdown" class="num">0</a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                            <li>
+                                <span>ABC中有新增应用 <a href="#">查看</a></span>
+
+                            </li>
+                            <li class="divider"></li>
+                            <li><span>httpx有新版本发布 <a href="#">查看</a></span></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -64,9 +81,6 @@
                     {end}
                 </select>　和 <span class="label label-inverse" style="font-size: 14px;">全局场景</span>
             </p>
-            <!--<p>-->
-            <!--当前规则库中共有  <span class="label J_RuleTotal">{ruleNum}</span> 个规则-->
-            <!--</p>-->
         </div>
         <div class="span6">
             <div class="input-append well J_AddNewSolution" style="float: right">
@@ -404,9 +418,6 @@
 {if settings.needHelp}
 <script type="text/javascript" src="guide.js"></script>
 {end}
-{if checkUpgrade}
-<script type="text/javascript" src="upgrade.js"></script>
-{end}
-<script type="text/javascript" src="upgrade.js"></script>
+<script type="text/javascript" src="plugin.js" data-update="{if checkUpgrade}1{else}0{end}"></script>
 </body>
 </html>

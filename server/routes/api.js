@@ -3,6 +3,7 @@ var userCfg = require('../../lib/userConfig'),
     proxy = require('../../lib/proxy'),
     url = require('url'),
     request = require('request'),
+    pluginLoader = require('../../lib/pluginLoader'),
     _ = require('underscore');
 
 var API = {
@@ -371,6 +372,15 @@ var API = {
                 cb(null, {success:false,msg:err});
             } else {
                 cb(null, {success:true});
+            }
+        });
+    },
+    loadPlugin: function(params, cb){
+        pluginLoader.load(function(err, result){
+            if(err) {
+                cb(null, {success:false});
+            } else {
+                cb(null, {success:true, data: result});
             }
         });
     }
