@@ -1,9 +1,10 @@
 ﻿var fs = require('fs'),
-    webUtil = require('../../lib/util/util'),
     _ = require('underscore'),
-    request = require('request');
+    request = require('request'),
+    userConfig = require('../../lib/userConfig');
 
 module.exports = {
+    name: 'upgrade',
     init: function(callback){
         var pjson = require('../../package.json').version;
         request.get('http://registry.npmjs.org/httpx', function (error, response, body) {
@@ -23,6 +24,14 @@ module.exports = {
         });
     },
     check: function(){
-        return fs.existsSync(webUtil.getUserHome() + '/.abc');
-    }
+        var plugins = userConfig.get('plugins'),
+            pluginCfg = plugins[this.name];
+
+        if(pluginCfg && pluginCfg['lastCheckTime']) {
+            return (new Date().getTime() - pluginCfg['lastCheckTime']) >= this.checkInterval //大于3天升级;
+        }
+
+        return true;
+    },
+    checkInterval: 259200000 //大于3天升级
 };

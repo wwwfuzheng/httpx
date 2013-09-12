@@ -17,6 +17,7 @@ var express = require('express')
     , route = require('./routes/index')
     , userCfg = require('../lib/userConfig')
     , Api = require('./routes/api')
+    , PluginRoute = require('./routes/plugin')
     , WebView = require('./routes/webView')
     , ctx = require('../lib/runtime/context');
 
@@ -44,6 +45,8 @@ app.configure('production', function(){
 });
 
 app.post('/api/:api', Api.route);
+
+app.post('/plugin/:api', PluginRoute.route);
 
 app.get('/*', function(req, res, next){
     var remoteIp = req.connection.remoteAddress;
