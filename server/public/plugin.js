@@ -9,7 +9,9 @@ var pluginPopTpl = [
             '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>',
             '<h3 id="myModalLabel">${title}</h3>',
             '</div>',
-            '<div class="modal-body">${content}</div>',
+            '<div class="modal-body">',
+            '$${content}',
+            '</div>',
             '<div class="modal-footer">',
             '<button class="btn" data-dismiss="modal" aria-hidden="true">取消</button>',
             '<button class="btn btn-primary">保存</button>',
@@ -18,7 +20,7 @@ var pluginPopTpl = [
 
 var abcImportTpl = [
     '<p>当前检测到的应用有：</p>',
-    '<table><thead><th>应用</th><th>路径</th></thead><tbody>',
+    '<table class="table"><thead><th>应用</th><th>路径</th></thead><tbody>',
     '{@each data as value, key}',
     '<tr><td>${key}</td><td>${value}</td></tr>',
     '{@/each}',

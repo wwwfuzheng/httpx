@@ -22,7 +22,7 @@ module.exports = {
         plugins[this.name] = pluginCfg;
         userConfig.set('plugins', plugins);
 
-        var returnText = '<span>ABC中有新增应用 <a href="#" data-json="'+JSON.stringify(pathFilter)+'">查看</a></span>'
+        var returnText = '<span>ABC中有新增应用 <a href="#" data-json=\''+JSON.stringify(pathFilter)+'\'>查看</a></span>';
         callback(returnText);
     },
     check: function(){
