@@ -19,10 +19,10 @@ var pluginPopTpl = [
     '</div>'].join('');
 
 var abcImportTpl = [
-    '<p>当前检测到的应用有：</p>',
-    '<table class="table"><thead><th>应用</th><th>路径</th></thead><tbody>',
+    '<p>当前检测到ABC中有新应用变化，可以自动导入并生成规则的有：</p>',
+    '<table class="table"><thead><th></th><th>应用</th><th>路径</th></thead><tbody>',
     '{@each data as value, key}',
-    '<tr><td>${key}</td><td>${value}</td></tr>',
+    '<tr><td><input type="checkbox"></td><td>${key}</td><td>${value}</td></tr>',
     '{@/each}',
     '</tbody></table>'
 ].join('');
