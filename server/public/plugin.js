@@ -14,7 +14,7 @@ var pluginPopTpl = [
             '</div>',
             '<div class="modal-footer">',
             '<button class="btn" data-dismiss="modal" aria-hidden="true">取消</button>',
-            '<button class="btn btn-primary">保存</button>',
+            '<button class="btn btn-primary J_Sure">确定</button>',
         '</div>',
     '</div>'].join('');
 
@@ -22,7 +22,7 @@ var abcImportTpl = [
     '<p>当前检测到ABC中有新应用变化，可以自动导入并生成规则的有：</p>',
     '<table class="table"><thead><th></th><th>应用</th><th>路径</th></thead><tbody>',
     '{@each data as value, key}',
-    '<tr><td><input type="checkbox"></td><td>${key}</td><td>${value}</td></tr>',
+    '<tr><td><input type="checkbox" value="${value}" data-app="${key}"></td><td>${key}</td><td>${value}</td></tr>',
     '{@/each}',
     '</tbody></table>'
 ].join('');
@@ -71,13 +71,39 @@ $(function(){
                         .delegate('a', 'click', function(ev){
                             if($(this).attr('href') == '#') {
                                 ev.preventDefault();
-                                $(juicer(pluginPopTpl, {
-                                    title: $(this).parents('li').attr('data-plugin'),
-                                    content: juicer(abcImportTpl, {
-                                        data: $.parseJSON($(this).attr('data-json'))
-                                    })
-                                })).appendTo(document.body);
-                                $('#pluginPop').modal();
+                                if($('#pluginPop')) {
+                                    $('#pluginPop').remove();
+                                }
+
+                                if($(this).parents('li').attr('data-plugin') == 'abc') {
+                                    $(juicer(pluginPopTpl, {
+                                        title: $(this).parents('li').attr('data-plugin'),
+                                        content: juicer(abcImportTpl, {
+                                            data: $.parseJSON($(this).attr('data-json'))
+                                        })
+                                    })).appendTo(document.body);
+                                    $('#pluginPop').modal();
+
+                                    $('#pluginPop .J_Sure').click(function(ev){
+
+                                        var postData = {};
+
+                                        $('#pluginPop td input:checked').each(function(el){
+                                            postData[$(el).attr('data-app')] = $(el).val();
+                                        });
+
+                                        $.post('plugin/importAbcPath', {
+                                            importApp: JSON.stringify(postData)
+                                        }, function(data){
+                                            if(data.success) {
+                                                location.reload();
+                                            } else {
+                                                alert(data.msg);
+                                            }
+                                        });
+                                    });
+                                }
+
                             }
                         });
 

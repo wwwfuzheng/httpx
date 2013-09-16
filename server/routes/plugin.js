@@ -34,6 +34,25 @@ var Plugin = {
                 cb(null, {success:true});
             }
         });
+    },
+    importAbcPath: function(params, cb){
+        var importApp = JSON.parse(params.importApp);
+
+        var plugins = userConfig.get('plugins');
+        if(!plugins['abc']) {
+            plugins['abc'] = {};
+        }
+
+        plugins['abc']['importCache'] = _.keys(importApp);
+        userConfig.set('plugins', plugins);
+
+        userConfig.save(function(err){
+            if(err) {
+                cb(null, {success:false,msg:err});
+            } else {
+                cb(null, {success:true});
+            }
+        });
     }
 };
 
