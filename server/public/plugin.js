@@ -13,7 +13,7 @@ var pluginPopTpl = [
             '$${content}',
             '</div>',
             '<div class="modal-footer">',
-            '<button class="btn" data-dismiss="modal" aria-hidden="true">取消</button>',
+            '<button class="btn J_Cancel" data-dismiss="modal" aria-hidden="true">取消</button>',
             '<button class="btn btn-primary J_Sure">确定</button>',
         '</div>',
     '</div>'].join('');
@@ -25,6 +25,20 @@ var abcImportTpl = [
     '<tr><td><input type="checkbox" value="${value}" data-app="${key}"></td><td>${key}</td><td>${value}</td></tr>',
     '{@/each}',
     '</tbody></table>'
+].join('');
+
+var abcDirImportTpl = [
+    '<form class="form-horizontal">',
+    '<div class="control-group">',
+        '<label class="control-label" for="inputEmail" style="width: 100px;color: #fff;">选择应用目录</label>',
+        '<div class="controls" style="margin-left: 120px">',
+            '<input type="file" class="J_AbcFile">',
+            '<div class="alert alert-info">',
+                '请找到使用abc打包的目录，并选中其中的abc.json文件',
+            '</div>',
+        '</div>',
+    '</div>',
+    '</form>'
 ].join('');
 
 $(function(){
@@ -39,7 +53,6 @@ $(function(){
                     $.each(data.data, function(idx, plugin){
                         tpl.push('<li data-plugin="' +plugin.name+ '">');
                         tpl.push(plugin.data);
-                        tpl.push('<i class="icon-remove icon-white"></i>');
                         tpl.push('</li>');
                     });
 
@@ -86,21 +99,31 @@ $(function(){
 
                                     $('#pluginPop .J_Sure').click(function(ev){
 
-                                        var postData = {};
+                                        var postData = [];
 
                                         $('#pluginPop td input:checked').each(function(el){
                                             postData[$(el).attr('data-app')] = $(el).val();
                                         });
 
+                                        if($.isEmptyObject(postData)) {
+                                            alert('未选择任何应用');
+                                            return;
+                                        }
+
                                         $.post('plugin/importAbcPath', {
                                             importApp: JSON.stringify(postData)
                                         }, function(data){
                                             if(data.success) {
+                                                alert('导入成功，确定后将刷新页面');
                                                 location.reload();
                                             } else {
                                                 alert(data.msg);
                                             }
                                         });
+                                    });
+
+                                    $('#pluginPop .J_Cancel').click(function(ev) {
+                                        $.post('plugin/importAbcPath');
                                     });
                                 }
 
@@ -114,4 +137,33 @@ $(function(){
         });
 
     }, 200);
+
+    $('.J_PluginLists a').click(function(ev) {
+        ev.preventDefault();
+
+        if($('#pluginPop')) {
+            $('#pluginPop').remove();
+        }
+
+        $(juicer(pluginPopTpl, {
+            title: $(this).parents('li').attr('data-plugin'),
+            content: juicer(abcDirImportTpl, {})
+        })).appendTo(document.body);
+
+        $('#pluginPop .J_Sure').click(function(ev){
+            var path = $('.J_AbcFile').val();
+            if(/abc\.json/.test(path)) {
+                $('/plugin/importOneAbcPath', {
+                    path: path
+                },function(){
+
+                });
+            } else {
+                alert('请选择一个abc.json文件');
+            }
+        });
+
+
+        $('#pluginPop').modal();
+    });
 });
