@@ -139,31 +139,33 @@ $(function(){
     }, 200);
 
     $('.J_PluginLists a').click(function(ev) {
-        ev.preventDefault();
+        if($(this).parents('li').attr('data-plugin')) {
+            ev.preventDefault();
 
-        if($('#pluginPop')) {
-            $('#pluginPop').remove();
-        }
-
-        $(juicer(pluginPopTpl, {
-            title: $(this).parents('li').attr('data-plugin'),
-            content: juicer(abcDirImportTpl, {})
-        })).appendTo(document.body);
-
-        $('#pluginPop .J_Sure').click(function(ev){
-            var path = $('.J_AbcFile').val();
-            if(/abc\.json/.test(path)) {
-                $('/plugin/importOneAbcPath', {
-                    path: path
-                },function(){
-
-                });
-            } else {
-                alert('请选择一个abc.json文件');
+            if($('#pluginPop')) {
+                $('#pluginPop').remove();
             }
-        });
+
+            $(juicer(pluginPopTpl, {
+                title: $(this).parents('li').attr('data-plugin'),
+                content: juicer(abcDirImportTpl, {})
+            })).appendTo(document.body);
+
+            $('#pluginPop .J_Sure').click(function(ev){
+                var path = $('.J_AbcFile').val();
+                if(/abc\.json/.test(path)) {
+                    $('/plugin/importOneAbcPath', {
+                        path: path
+                    },function(){
+
+                    });
+                } else {
+                    alert('请选择一个abc.json文件');
+                }
+            });
 
 
-        $('#pluginPop').modal();
+            $('#pluginPop').modal();
+        }
     });
 });
