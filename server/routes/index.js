@@ -13,7 +13,7 @@ exports.prepare = function(req, res, next){
     if(req.url.indexOf('??') != -1) {
         paths = comboParser(p.path);
     } else {
-        paths = [p.path.replace(/\?.*/, '')];
+        paths = [p.path.replace(/\/\//g, '/').replace(/\?.*/, '')];
     }
 
     req.params['paths'] = paths;
