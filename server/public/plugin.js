@@ -122,9 +122,6 @@ $(function(){
                                         });
                                     });
 
-                                    $('#pluginPop .J_Cancel').click(function(ev) {
-                                        $.post('plugin/importAbcPath');
-                                    });
                                 }
 
                             }
