@@ -6,6 +6,7 @@ var url = require('url'),
     request = require('request'),
     pluginLoader = require('../../lib/pluginLoader'),
     userConfig = require('../../lib/userConfig'),
+    ruleGenerator = require('../../plugin/abc/ruleGenerator'),
     _ = require('underscore');
 
 var Plugin = {
@@ -51,6 +52,8 @@ var Plugin = {
 
         //TODO abc规则生成
 
+
+
         userConfig.save(function(err){
             if(err) {
                 cb(null, {success:false,msg:err});
@@ -79,7 +82,23 @@ var Plugin = {
     importOneAbcPath: function(params, cb){
         var path = params.path;
 
+        var rules= ruleGenerator.generator(path);
 
+        var rulePool = userConfig.get('rulePool');
+
+        _.each(rules, function(rule) {
+            rulePool[webUtil.newGuid()] = rule;
+        });
+
+        userConfig.set('rulePool', rulePool);
+
+        userConfig.save(function(err){
+            if(err) {
+                cb(null, {success:false,msg:err});
+            } else {
+                cb(null, {success:true});
+            }
+        });
     }
 };
 

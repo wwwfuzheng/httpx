@@ -30,11 +30,11 @@ var abcImportTpl = [
 var abcDirImportTpl = [
     '<form class="form-horizontal">',
     '<div class="control-group">',
-        '<label class="control-label" for="inputEmail" style="width: 100px;color: #fff;">选择应用目录</label>',
+        '<label class="control-label" for="inputEmail" style="width: 100px;color: #fff;">填写应用目录</label>',
         '<div class="controls" style="margin-left: 120px">',
-            '<input type="file" class="J_AbcFile">',
+            '<input type="text" class="J_AbcFile" style="margin-bottom: 10px;">',
             '<div class="alert alert-info">',
-                '请找到使用abc打包的目录，并选中其中的abc.json文件',
+                '请填写使用abc打包并且包含abc.json文件的目录',
             '</div>',
         '</div>',
     '</div>',
@@ -150,14 +150,19 @@ $(function(){
 
             $('#pluginPop .J_Sure').click(function(ev){
                 var path = $('.J_AbcFile').val();
-                if(/abc\.json/.test(path)) {
-                    $('/plugin/importOneAbcPath', {
+                if(/\S/.test(path)) {
+                    $.post('/plugin/importOneAbcPath', {
                         path: path
-                    },function(){
-
+                    },function(data){
+                        if(data.success) {
+                            alert('导入成功，创建的规则已经加到规则库，确定后将刷新页面');
+                            location.reload();
+                        } else {
+                            alert(data.msg);
+                        }
                     });
                 } else {
-                    alert('请选择一个abc.json文件');
+                    alert('请填写一个使用abc打包并且包含abc.json文件的目录');
                 }
             });
 
