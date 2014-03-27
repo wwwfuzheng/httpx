@@ -85,6 +85,13 @@
                     {end}
                 </select>　和 <span class="label label-inverse" style="font-size: 14px;">全局场景</span>
             </p>
+            <p>
+            	默认代理的环境为：
+            	<select id="J_ProxyEnvTypeSwitch">
+                    <option value="online" {if not settings.dailyFirst}selected{end} >线上环境</option>
+                    <option value="daily" {if settings.dailyFirst}selected{end} >日常环境</option>
+                </select>
+            </p>
         </div>
         <div class="span6">
             <div class="input-append well J_AddNewSolution" style="float: right">

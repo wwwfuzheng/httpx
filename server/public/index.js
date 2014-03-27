@@ -278,6 +278,26 @@ $(function(){
 
     });
 
+    // 切换代理环境 - 桐人
+    $('#J_ProxyEnvTypeSwitch').change(function(ev){
+        $.post('api/switchProxyEvnType', {
+            t: new Date().getTime(),
+            guid: $('#J_ProxyEnvTypeSwitch').find('option:selected').val()
+        }, function(data){
+            if(data.success) {
+                $.globalMessenger().post({
+                    message: "默认代理的环境切换成功",
+                    type: 'success'
+                });
+            } else {
+                $.globalMessenger().post({
+                    message: "默认代理的环境切换失败",
+                    type: 'error'
+                });
+            }
+        });
+    });
+
     //规则启用取消
     $('#J_SolutionList .J_RuleEnable').iCheck({
         checkboxClass: 'icheckbox_polaris',

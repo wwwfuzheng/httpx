@@ -346,6 +346,25 @@ var API = {
         proxy.debugUrl(url, function(text){
             cb(null, {success:true, msg: text});
         })
+    },
+    // 切换代理环境的类型，线上or日常 - 桐人
+    switchProxyEvnType: function(params, cb){
+        var guid = params.guid || '',
+            settings = userCfg.get('settings');
+
+		if(guid === 'daily'){
+			settings['dailyFirst'] = true;
+		}else{
+			settings['dailyFirst'] = false;
+		}
+		userCfg.set('settings', settings);
+		userCfg.save(function(err){
+			if(err) {
+				cb(null, {success:false});
+			} else {
+				cb(null, {success:true});
+			}
+		});
     }
 };
 
