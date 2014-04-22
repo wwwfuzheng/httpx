@@ -365,6 +365,22 @@ var API = {
 				cb(null, {success:true});
 			}
 		});
+    },
+    // 切换输出编码，default/utf8/gbk - 桐人
+    switchProxyCharset: function(params, cb){
+        var guid = params.guid || '',
+            settings = userCfg.get('settings');
+		
+		settings['charset'] = guid;
+
+		userCfg.set('settings', settings);
+		userCfg.save(function(err){
+			if(err) {
+				cb(null, {success:false});
+			} else {
+				cb(null, {success:true});
+			}
+		});
     }
 };
 

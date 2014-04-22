@@ -91,6 +91,16 @@
                     <option value="online" {if not settings.dailyFirst}selected{end} >线上环境</option>
                     <option value="daily" {if settings.dailyFirst}selected{end} >日常环境</option>
                 </select>
+                　<span class="label label-inverse" style="font-size: 14px;" title="当没有匹配到任何规则或匹配到了规则但是本地没有对应文件时，会代理到该环境">?</span>
+            </p>
+            <p>
+            	默认输出的编码为：
+            	<select id="J_ProxyCharsetSwitch">
+                    <option value="default" {if settings.charset eq 'default'}selected{end}>默认编码</option>
+                    <option value="utf8" {if settings.charset eq 'utf8'}selected{end}>UTF-8</option>
+                    <option value="gbk" {if settings.charset eq 'gbk'}selected{end}>GBK</option>
+                </select>
+                　<span class="label label-inverse" style="font-size: 14px;" title="只有代理本地文件时，该配置才生效">?</span>
             </p>
         </div>
         <div class="span6">

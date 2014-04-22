@@ -297,6 +297,25 @@ $(function(){
             }
         });
     });
+    // 切换输出编码 - 桐人
+    $('#J_ProxyCharsetSwitch').change(function(ev){
+        $.post('api/switchProxyCharset', {
+            t: new Date().getTime(),
+            guid: $('#J_ProxyCharsetSwitch').find('option:selected').val()
+        }, function(data){
+            if(data.success) {
+                $.globalMessenger().post({
+                    message: "默认输出编码切换成功",
+                    type: 'success'
+                });
+            } else {
+                $.globalMessenger().post({
+                    message: "默认输出编码切换失败",
+                    type: 'error'
+                });
+            }
+        });
+    });
 
     //规则启用取消
     $('#J_SolutionList .J_RuleEnable').iCheck({
